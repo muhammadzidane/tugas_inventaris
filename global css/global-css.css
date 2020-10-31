@@ -1,0 +1,39 @@
+// Global CSS \\
+.font-neue {
+	font-family: 'Bebas Neue';
+}
+
+// Halaman Login \\
+.logo {
+	width: 120px;
+	height: 120px;
+	border-radius: 60px;
+	background-color: black;
+	margin: 10px auto;
+}
+.login-form {
+	width: 320px;
+	height: 450px;
+	background-color: #F8F8F8;
+	box-shadow: 0px 0px 4px black;
+	margin: 20px auto;
+	border-radius: 20px;
+}
+
+//
+body {
+	background-color: #F8F8F8;
+}
+.container-manual {
+	width: 94%;
+}
+.judul{
+	font-size: 32px;
+}
+.judul-tanggal{
+	font-size: 20px;
+}
+.bg-tomato {
+	background-color: tomato;
+
+ 
