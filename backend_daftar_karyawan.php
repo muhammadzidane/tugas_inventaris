@@ -41,7 +41,7 @@ if (isset($_POST['totalKaryawan'])) {
 if (isset($_POST['validasiDuplikatKey'])) {
 	$sess_kode_karyawan	= $_SESSION['kode_karyawan'];
 	$kode_karyawan 		= $_POST['validasiDuplikatKey'];
-	$query 				= mysqli_query($conn, "SELECT * FROM tb_karyawan WHERE kode_karyawan='$kode_karyawan';");
+	$query 					= mysqli_query($conn, "SELECT * FROM tb_karyawan WHERE kode_karyawan='$kode_karyawan';");
 	
 	if ($sess_kode_karyawan == $kode_karyawan){
 		echo "berhasil";
@@ -58,8 +58,6 @@ if (isset($_POST['validasiDuplikatKey'])) {
 // Validasi duplikat key Tambah Karyawan
 echo validasi_duplikat_key("validasiDuplikatKeyTambahKaryawan", "tb_karyawan", "kode_karyawan");
 
-// Validasi duplikat key tambah barang inventaris untuk karyawan
-echo validasi_duplikat_key("validasiDuplikatKeyTambahInv", "tb_barang", "kode_barang");
 
 // Edit karyawan
 if (isset($_POST['acceptEdit'])) {
@@ -108,7 +106,7 @@ if (isset($_POST['tambahKaryawan'])) {
 }
 
 // Search karyawan	
-searchTabel("searchKaryawan", "tb_karyawan", "nama_karyawan", "tabel_karyawan", "User Tidak Ditemukan");
+echo searchTabel("searchKaryawan", "tb_karyawan", "nama_karyawan", "tabel_karyawan", "User Tidak Ditemukan");
 
 // Pagination tabel karyawan
 echo pagination_links("paginationTabelKaryawan","tb_karyawan");
@@ -116,5 +114,15 @@ echo page_click("pageListTabelKaryawan", "tb_karyawan", "nama_karyawan", "tabel_
 echo page_next("pageNext", "tb_karyawan", "nama_karyawan", "tabel_karyawan");
 
 
+// barang_inventaris_karyawan.php
+// Validasi duplikat key tambah barang inventaris untuk karyawan
+echo validasi_duplikat_key("validasiDuplikatKeyTambahInv", "tb_barang", "kode_barang");
+
+// Jumlah barang barang
+echo jumlah_barang("totalSemuaBarang" ,"tb_barang_inventaris_karyawan", "semua");
+echo jumlah_barang("totalBarangElektronik" ,"tb_barang_inventaris_karyawan", "Elektronik");
+echo jumlah_barang("totalBarangAlatTulis" ,"tb_barang_inventaris_karyawan", "Alat Tulis");
+echo jumlah_barang("totalBarangKendaraan" ,"tb_barang_inventaris_karyawan", "Kendaraan");
+echo jumlah_barang("totalBarangLainnya" ,"tb_barang_inventaris_karyawan", "Lainnya");
 
 ?>

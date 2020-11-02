@@ -309,7 +309,6 @@ if ($sess_username === "") {
 					});
 				}
 			});
-			console.log(dataKodeBarang);
 		}
 	}		
 

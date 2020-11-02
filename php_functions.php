@@ -3,7 +3,6 @@ $conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
 
 function tabel_barang($result, $tabelDB) {
 	global $conn;
-	// if ($tabelDB == "tb_barang") {
 	echo "<table  class='table shadow shadow-sm'>";
 	echo "<tr class='tableFirstChild'>";
 	echo "<th>Kode Barang</th>";
@@ -19,7 +18,7 @@ function tabel_barang($result, $tabelDB) {
 		echo "<th>Tanggal Masuk</th>";
 	}
 
-	if ($tabelDB == "tb_barang") {
+	if ($tabelDB == "tb_barang" OR $tabelDB == "tb_barang_inventaris_karyawan") {
 		echo "<th id='action' colspan='3' class='text-center'>Action</th>";
 	}
 	
@@ -45,11 +44,20 @@ function tabel_barang($result, $tabelDB) {
 		if ($tabelDB == "tb_barang") {
 			echo "<td><button class ='btn btn-success' onclick='buttonTambahBarang(event, this);'
 			data-kode='{$data['kode_barang']}' data-jumlah='{$data['jumlah_barang']}' data-total='{$data['total_harga']}'>Tambah</button</td>";
-			echo "<td class='edit'><button onclick='buttonEditBarang(event, this);' 
+			echo "<td class='buttonEdit'><button onclick='buttonEditBarang(event, this);' 
 			data-kode='{$data['kode_barang']}' data-nama='{$data['nama_barang']}' class='btn btn-warning text-white'>Edit</td>";
+			echo "<td class='buttonHapus'><button onclick='buttonHapusBarang(event, this);' 
+			data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
+			echo "</tr>";
+		}
+
+		if ($tabelDB == "tb_barang_inventaris_karyawan") {
+			echo "<td class='buttonTambah'><button class='btn btn-success' onclick='buttonTambahBarang(event, this);'
+			data-kode='{$data['kode_barang']}' data-jumlah='{$data['jumlah_barang']}' data-total='{$data['total_harga']}'>Tambah</button</td>";
 			echo "<td class='hapus'><button onclick='buttonHapusBarang(event, this);' 
 			data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
 			echo "</tr>";
+
 		}
 
 		if ($tabelDB == "tb_barang_masuk") {
@@ -132,12 +140,18 @@ function searchTabel($post, $nama_tabel, $kondisi, $tabel, $pesan) {
 	global $conn;	
 	if (isset($_POST[$post])) {
 		$val_search 	= mysqli_real_escape_string($conn, $_POST[$post]);
-		$result 		= "SELECT * FROM $nama_tabel WHERE $kondisi LIKE '%$val_search%';";
+		$result 			= "SELECT * FROM $nama_tabel WHERE $kondisi LIKE '%$val_search%';";
 		$query 			= mysqli_query($conn, $result);
 
 		if (mysqli_affected_rows($conn) >= 1) {
-			$tabel = $tabel($result);
-			return $tabel;
+			if ($tabel == "tabel_barang") {
+				$tabel = $tabel($result, $nama_tabel);
+				return $tabel;
+			}
+			else {
+				$tabel = $tabel($result);
+				return $tabel;	
+			}
 		}
 		else {
 			return $pesan;
@@ -145,20 +159,37 @@ function searchTabel($post, $nama_tabel, $kondisi, $tabel, $pesan) {
 	}
 }
 
-function jumlah_barang($jenis_barang) {
+function jumlah_barang($post, $tabelDB, $jenis_barang) {
 	global $conn;
-	if ($jenis_barang === "semua") {
-		$result 	= "SELECT jumlah_barang FROM tb_barang;";
+	if (isset($_POST[$post])) {
+		$jumlah_barang = (int) "";
+
+		if ($tabelDB == "tb_barang") {
+			if ($jenis_barang === "semua") {
+				$result 	= "SELECT jumlah_barang FROM $tabelDB;";
+			}
+			else {
+				$result 	= "SELECT jumlah_barang FROM $tabelDB WHERE jenis_barang = '$jenis_barang';";
+			}
+		}
+		else { // Else untuk ( $tabelDB == "tb_barang_inventaris_karyawan" )
+		$kode_karyawan = $_POST[$post]; 
+
+		if ($jenis_barang === "semua") {
+			$result 	= "SELECT jumlah_barang FROM $tabelDB WHERE kode_karyawan='$kode_karyawan';";
+		}
+		else {
+			$result 	= "SELECT jumlah_barang FROM $tabelDB WHERE jenis_barang = '$jenis_barang' AND kode_karyawan='$kode_karyawan';";
+		}	
 	}
-	else {
-		$result 	= "SELECT jumlah_barang FROM tb_barang WHERE jenis_barang = '$jenis_barang';";
-	}
+
 	$query 		= mysqli_query($conn, $result);
-	$jumlah_barang = (int) "";
+
 	while ($data = mysqli_fetch_assoc($query)) {
 		$jumlah_barang += $data['jumlah_barang'];
 	}
 	return $jumlah_barang;
+}
 }
 
 // Validasi duplikat key 
@@ -202,15 +233,15 @@ function validasi_duplikat_key_get($post, $get_url, $nama_tabel, $kondisi){
 function query_hapus($post, $nama_tabel, $kondisi, $nama){
 	global $conn;
 	if (isset($_POST[$post])) {
-		$kode 			= $_POST[$post];
+		$kode 		= $_POST[$post];
 		$result 		= "SELECT * FROM $nama_tabel WHERE $kondisi ='$kode';";
-		$query 			= mysqli_query($conn, $result);
-		$data 			= mysqli_fetch_assoc($query);
-		$nama 			= $data[$nama];
+		$query 		= mysqli_query($conn, $result);
+		$data 		= mysqli_fetch_assoc($query);
+		$nama 		= $data[$nama];
 
 		$result 	 	= "";
 		$result 		= "DELETE FROM $nama_tabel WHERE $kondisi = '$kode';";
-		$query 			= mysqli_query($conn, $result);
+		$query 		= mysqli_query($conn, $result);
 		if ($query) {
 			return "$nama berhasil di hapus";
 		}

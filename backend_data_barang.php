@@ -1,7 +1,6 @@
 <?php 
 
 $conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
-
 require_once 'php_functions.php';
 
 // Ambil values dari <input>
@@ -23,18 +22,12 @@ if (isset($_POST['tabelBarang'])) {
 	tabel_barang($result, "tb_barang");	
 }
 
-// Total barang barang
-$jumlah_semua_barang 		= (isset($_POST['totalSemuaBarang'])) ? jumlah_barang("semua") : '';
-$jumlah_barang_elektronik 	= (isset($_POST['totalBarangElektronik'])) ? jumlah_barang("Elektronik") : '';
-$jumlah_barang_alat_tulis 	= (isset($_POST['totalBarangAlatTulis'])) ? jumlah_barang("Alat Tulis") : '';
-$jumlah_barang_kendaraan 	= (isset($_POST['totalBarangKendaraan'])) ? jumlah_barang("Kendaraan") : '';
-$jumlah_barang_lainnya 		= (isset($_POST['totalBarangLainnya'])) ? jumlah_barang("Lainnya") : '';
-
-echo $jumlah_semua_barang;
-echo $jumlah_barang_elektronik;
-echo $jumlah_barang_alat_tulis;
-echo $jumlah_barang_kendaraan;
-echo $jumlah_barang_lainnya;
+// Total barang barang 
+echo jumlah_barang("totalSemuaBarang" ,"tb_barang", "semua");
+echo jumlah_barang("totalBarangElektronik" ,"tb_barang", "Elektronik");
+echo jumlah_barang("totalBarangAlatTulis" ,"tb_barang", "Alat Tulis");
+echo jumlah_barang("totalBarangKendaraan" ,"tb_barang", "Kendaraan");
+echo jumlah_barang("totalBarangLainnya" ,"tb_barang", "Lainnya");
 
 if (isset($_POST["totalPengeluaran"])) {
 	$result 			= "SELECT * FROM tb_barang;";
@@ -161,9 +154,10 @@ if (isset($_POST['updateBarang'])) {
 echo searchTabel("searchBarang", "tb_barang", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan");
 
 // Hapus barang
-if (isset($_POST['hapusBarang'])) {
-	echo query_hapus("hapusBarang", "tb_barang", "kode_barang", "nama_barang");
-}
+echo query_hapus("hapusBarang", "tb_barang", "kode_barang", "nama_barang");
+
+// Hapus Barang ( barang_inventaris_karyawan.php )
+echo query_hapus("hapusBarangInvKaryawan", "tb_barang_inventaris_karyawan", "kode_barang", "nama_barang");
 
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarang","tb_barang");
