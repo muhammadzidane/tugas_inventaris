@@ -28,7 +28,7 @@ if (isset($_POST["insertTBUsers"])) {
 	$val_username 	 = $_POST["valUsername"];
 	$val_password 	 = sha1($_POST["valPassword"]);
 	$val_email 		 = $_POST["valEmail"];
-	$val_jenis_role = $_POST["valJenisRole"];
+	$val_jenis_role  = $_POST["valJenisRole"];
 
 	$result 	 	 = "";
 	$result 		.= "INSERT INTO tb_users VALUES(";
@@ -46,7 +46,7 @@ if (isset($_POST["insertTBUsers"])) {
 
 // Update Role
 if (isset($_POST["updateJenisRole"])) {
-	$data_username 	 		= $_POST["val_username"];
+	$data_username 	 		= $_POST["valUsername"];
 	$val_select_jenis_role  = $_POST["valSelectJenisRole"];
 
 	$result 	 	 = "";
@@ -56,7 +56,7 @@ if (isset($_POST["updateJenisRole"])) {
 
 	$query 			 = mysqli_query($conn, $result);
 	if ($query) {
-		echo "Jenis Role $data_username berhasil diubah, menjadi $val_select_jenis_role";
+		echo "Jenis role $data_username berhasil diubah, menjadi $val_select_jenis_role";
 	}
 }
 

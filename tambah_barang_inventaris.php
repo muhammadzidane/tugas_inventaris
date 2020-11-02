@@ -1,7 +1,7 @@
 <?php  
 
-	$kode_karyawan = (isset($_GET['kode_karyawan'])) ? $_GET['kode_karyawan'] : "";
-	$nama_karyawan = (isset($_GET['nama_karyawan'])) ? $_GET['nama_karyawan'] : "";
+	$url_kode_karyawan = (isset($_GET['kode_karyawan'])) ? $_GET['kode_karyawan'] : "";
+	$url_nama_karyawan = (isset($_GET['nama_karyawan'])) ? $_GET['nama_karyawan'] : "";
 
 ?>
 <!DOCTYPE html>
@@ -22,7 +22,7 @@
 			background-color: #FFFFFF;
 			box-shadow: 0 0 4px black;
 			width: 550px;
-			height: 1090px;
+			height: 1075px;
 			margin: 55px auto;
 		}
 		.header-form {
@@ -31,13 +31,6 @@
 			background-color: #24305E;
 			padding: 28px;
 		}
-		.header-form:nth-child(2) {
-
-		}
-		#pesanTambahBarang {
-			position: absolute;
-		}
-
 		.form-group{
 			margin: 10px;
 		}
@@ -59,6 +52,7 @@
 		}
 		.font-neue { font-family: 'Bebas Neue'; }
 		.pesanValidasi {
+			position: absolute;
 			font-size: 13px;
 			color: tomato;
 		}
@@ -67,17 +61,24 @@
 <body>
 	<div id='form-tambah-barang'>
 		<div class='header-form font-neue'>
-			<h3>Tambahkan Barang Inventaris Pada</h3>
-			<h4><?= $nama_karyawan; ?></h4>
+			<h3>Tambahkan Barang Inventaris</h3>
 		</div>
 		<div id="closeForm">&times;</div>
 		<div class='form-group'>
-			<label for='kode_barang'>Kode Barang</label>
-			<input id='kode_barang' class='form-control' type='text'>
-			<div id='pesanTambahBarang'></div>
+			<label for='kode_karyawan'>Kode Karyawan</label>
+			<input id='kode_karyawan' class='form-control' type='text' value="<?= $url_kode_karyawan ?>" readonly>
 		</div>
 		<div class='form-group'>
-			<label for='jenis_barang'>Jenis Barang</label>n
+			<label for='nama_karyawan'>Nama Karyawan</label>
+			<input id='nama_karyawan' class='form-control' type='text' value="<?= $url_nama_karyawan ?>" readonly>
+		</div>
+		<div class='form-group'>
+			<label for='kode_barang'>Kode Barang</label>
+			<input id='kode_barang' class='form-control' type='text'>
+			<div class='pesanValidasi'></div>
+		</div>
+		<div class='form-group'>
+			<label for='jenis_barang'>Jenis Barang</label>
 			<select id='jenis_barang' class='form-control'>
 				<option disabled>-Jenis Barang-</option>
 				<option>Elektronik</option>
@@ -89,12 +90,7 @@
 		<div class='form-group'>
 			<label for='nama_barang'>Nama Barang</label>
 			<input id='nama_barang' class='form-control' type='text'>
-			<div id='pesanTambahBarang'></div>
-		</div>
-		<div class='form-group'>
-			<label for='merk_barang'>Merk Barang</label>
-			<input id='merk_barang' class='form-control' type='text'>
-			<div id='pesanTambahBarang'></div>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='kondisi_barang'>Kondisi Barang</label>
@@ -107,22 +103,17 @@
 		<div class='form-group'>
 			<label for='harga_satuan'>Harga Satuan</label>
 			<input id='harga_satuan' class='form-control' type='text'>
-			<div id='pesanTambahBarang'></div>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='jumlah_barang'>Jumlah Barang</label>
 			<input id='jumlah_barang' class='form-control' type='text'>
-			<div id='pesanTambahBarang'></div>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='foto_barang'>Foto Barang</label>
 			<input id='foto_barang' class='form-control' type='text'>
-			<div id='pesanTambahBarang'></div>
-		</div>
-		<div class='form-group'>
-			<label for='tanggal_masuk'>Tanggal Masuk</label>
-			<input id='tanggal_masuk' class='form-control' type='date'>
-			<div id='pesanTambahBarang'></div>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group float-right'>
 			<button id='acceptTambahBarang' class='btn btn-primary'>Tambah</button>
@@ -136,66 +127,42 @@
 				let valKodeBarang 		= $("#kode_barang").val();
 				let valJenisBarang 		= $("#jenis_barang").val();
 				let valNamaBarang 		= $("#nama_barang").val();
-				let valMerkBarang		= $("#merk_barang").val();
+				let valMerkBarang			= $("#merk_barang").val();
 				let valKondisiBarang 	= $("#kondisi_barang").val();
 				let valHargaSatuan 		= $("#harga_satuan").val();
-				let valJumlahBarang 	= $("#jumlah_barang").val();
+				let valJumlahBarang 		= $("#jumlah_barang").val();
 				let valFotoBarang 		= $("#foto_barang").val();
-				let valTanggalMasuk 	= $("#tanggal_masuk").val();
-				let pesanTambahBarang 	= "";	
+				let valTanggalMasuk 		= $("#tanggal_masuk").val();	
 
-				function validasiTambahBarang(variabel, value) {
-					if (variabel === "") {
-						e.preventDefault();
-						$(value).next().html("<small>Tidak boleh kosong</small>").addClass('pesanValidasi');
-						$(value).focus(function() {
-							$(value).next().html("");
-						});
-						pesanTambahBarang += "ada";
-					}
-				}
-				
-				function validasiNomerTambahBarang(variabel, value, jumlah) {
-					let pola = /\D/;
-					if (pola.test(variabel)) {
-						$(value).next().html("<small>Harus Menggunakan Angka</small>").addClass('pesanValidasi');
-						pesanTambahBarang += "ada";
-f					}
-					else if (variabel.length < jumlah || variabel.length > jumlah ) {
-						$(value).next().html(`<small>Harus Memiliki ${jumlah} Angka</small>`).addClass('pesanValidasi');
-						pesanTambahBarang += "ada";
-					}
-				}
-				validasiNomerTambahBarang(valKodeBarang, "#kode_barang", 8);
-				validasiNomerTambahBarang(valHargaSatuan, "#harga_satuan", undefined);
-				validasiNomerTambahBarang(valJumlahBarang, "#jumlah_barang", undefined);
-				validasiTambahBarang(valKodeBarang,"#kode_barang");
-				validasiTambahBarang(valJenisBarang, "#jenis_barang");
-				validasiTambahBarang(valNamaBarang, "#nama_barang");
-				validasiTambahBarang(valMerkBarang, "#merk_barang");
-				validasiTambahBarang(valKondisiBarang, "#kondisi_barang");
-				validasiTambahBarang(valHargaSatuan, "#harga_satuan");
-				validasiTambahBarang(valJumlahBarang, "#jumlah_barang");
-				validasiTambahBarang(valFotoBarang, "#foto_barang");
-				validasiTambahBarang(valTanggalMasuk, "#tanggal_masuk");
+				validasiNomer(valKodeBarang, "#kode_barang", 8);
+				validasiNomer(valHargaSatuan, "#harga_satuan", undefined);
+				validasiNomer(valJumlahBarang, "#jumlah_barang", undefined);
 
-				if (pesanTambahBarang == "") {
+				validasiKosong(valKodeBarang,"#kode_barang");
+				validasiKosong(valJenisBarang, "#jenis_barang");
+				validasiKosong(valNamaBarang, "#nama_barang");
+				validasiKosong(valKondisiBarang, "#kondisi_barang");
+				validasiKosong(valJumlahBarang, "#jumlah_barang");
+				validasiKosong(valHargaSatuan, "#harga_satuan");
+				validasiKosong(valFotoBarang, "#foto_barang");
+
+				if ($(".pesanValidasi").text() == "") {
 					$.ajax({
 						url 	: "backend_tambah_barang_inventaris.php",
 						type 	: "POST",
-						data 	: { validasiDuplikatKey : valKodeBarang },
+						data 	: { validasiDuplikatKeyTambahInv : valKodeBarang },
 						success : function(responseText) {
 							if (responseText === "berhasil") {
-								$.post('backend_tambah_barang_inventaris.php',{ 
-									acceptTambahBarang 		: true,
-									urlKodeKaryawan			: "<?= $kode_karyawan; ?>",
-									urlNamaKaryawan			: "<?= $nama_karyawan;?>",
+								$.post('backend_daftar_karyawan.php',{ 
+									acceptTambahBarang 	: true,
+									urlKodeKaryawan		: "<?= $url_kode_karyawan; ?>",
+									urlNamaKaryawan		: "<?= $url_nama_karyawan;?>",
 									valKodeBarang 			: valKodeBarang,
-									valJenisBarang 			: valJenisBarang,
+									valJenisBarang 		: valJenisBarang,
 									valNamaBarang 			: valNamaBarang,
 									valMerkBarang 			: valMerkBarang,
 									valKondisiBarang 		: valKondisiBarang,
-									valHargaSatuan 			: valHargaSatuan,
+									valHargaSatuan 		: valHargaSatuan,
 									valJumlahBarang 		: valJumlahBarang,
 									valFotoBarang 			: valFotoBarang,
 									valTanggalMasuk 		: valTanggalMasuk }, 
@@ -207,12 +174,13 @@ f					}
 							}
 							else {
 								$("#kode_barang").next().html(`<small>${ responseText }</small>`).addClass('pesanValidasi');
-								pesanTambahBarang += "ada";
 							}
 						}
 					});
 				}
-			console.log(pesanTambahBarang);
+				else {
+					e.preventDefault();
+				}
 			}
 
 		});
@@ -228,5 +196,6 @@ f					}
 			$("#batalTambahBarang").click();
 		});
 	</script>
+	<script src="jquery_functions/js_functions.js"></script>
 </body>
 </html>

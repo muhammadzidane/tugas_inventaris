@@ -252,12 +252,6 @@ if ($sess_username == "") {
 			location.assign("edit_karyawan.php" + getUrlValue);
 		};
 
-		// function test(button) {
-		// 	let kodeKaryawan 	= $(button).data("kode");
-		// 	let namaKaryawan 	= $(button).data("nama");
-		// 	location.assign(`barang_karyawan.php?kode_karyawan=${kodeKaryawan}&nama_karyawan=${namaKaryawan}`);
-		// }
-
 	// Button Hapus Karyawan
 	function buttonHapusKaryawan(event, button) {
 		event.stopPropagation();

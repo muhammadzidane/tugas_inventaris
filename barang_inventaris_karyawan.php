@@ -4,6 +4,8 @@ $conn 				= mysqli_connect("localhost","root","","daftar_inventaris");
 
 $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 $sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
+$url_kode_karyawan 	= (isset($_GET["kode_karyawan"])) ? $_GET["kode_karyawan"] : "";
+$url_nama_karyawan 	= (isset($_GET["nama_karyawan"])) ? $_GET["nama_karyawan"] : "";
 
 
 if ($sess_username === "") {
@@ -29,6 +31,10 @@ if ($sess_username === "") {
 		}
 		.judul{
 			font-size: 32px;
+			margin: 55px auto;
+			text-align: center;
+			border-bottom: 3px solid black;
+			width: 370px;
 		}
 		.logo {
 			width: 140px;
@@ -79,12 +85,6 @@ if ($sess_username === "") {
 		.bg-tomato {
 			background-color: tomato;
 		}
-		.daftar-pegawai {
-			margin: 55px auto;
-			text-align: center;
-			border-bottom: 3px solid black;
-			width: 300px;
-		}
 		.columns:hover {
 			cursor: pointer;
 			box-shadow: 0px 0px 10px 2px black;
@@ -124,7 +124,7 @@ if ($sess_username === "") {
 			background-color: #ffffff;
 		}
 		.h-user {
-			padding-top: 64px;
+			padding-top: 56px;
 		}
 		#page-list {
 			display: inline-flex;
@@ -205,7 +205,7 @@ if ($sess_username === "") {
 		</button>
 	</nav>
 	<div id="daftarPegawai" class="container">
-		<h1 class="judul font-neue daftar-pegawai">Setting Akun</h1>
+		<h1 class="judul font-neue">Barang Inventaris Karyawan</h1>
 		<div id="pesan" class="my-5">
 			<?php 
 			if (isset($_GET['berhasil-ubah-password'])) {
@@ -216,7 +216,8 @@ if ($sess_username === "") {
 		<div class="d-flex columns mx-auto">
 			<div class="column-pink-1"><i class="fas fa-id-card fa-5x pt-2"></i></div>
 			<div class="column-pink-2 text-center">
-				<h4 class="font-neue h-user"><?php echo $sess_username; ?></h4>
+				<h4 class="font-neue h-user"><?= $url_nama_karyawan; ?></h4>
+				<h5 class="font-neue"><?= $url_kode_karyawan; ?></h5>
 			</div>
 		</div>
 		<div class="d-flex justify-content-between">
@@ -258,10 +259,11 @@ if ($sess_username === "") {
 				</div>
 			</div>
 		</div>
+		<button id="tambahBarangInv" class="btn btn-primary"><i class="fas fa-box-open"></i>+ Tambahkan Barang Inventaris</button>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
 				<input id="searchUsername" type="text" name="searchBarang" autocomplete="off"
-				placeholder="Cari Username">
+				placeholder="Cari Nama Barang">
 				<i class="fas fa-search"></i>
 			</div>
 			<div id="pesanSearch"></div>
@@ -272,7 +274,7 @@ if ($sess_username === "") {
 				</li>
 			</ul>
 		</div>
-		<div id="tabelUsers"></div>
+		<div id="tabelBarangInvKaryawan"></div>
 	</div>
 	<footer>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
@@ -285,23 +287,23 @@ if ($sess_username === "") {
 			let dataUsername  		= $(button).data("username");
 
 			$.ajax({
-				url 	: "backend_setting_akun.php",
+				url 	: "backend_daftar_karyawan.php",
 				type 	: "POST",
 				data 	: { dataUsername : dataUsername },
 				success : function(responseText) {
-					$("#tabelUsers").html(responseText);
+					$("#tabelBarangInvKaryawan").html(responseText);
 				}
 			});
 		}
 
 		function buttonBatalUbahRole(event, button) {
 			$.ajax({
-				url 		:"backend_setting_akun.php",
+				url 		:"backend_daftar_karyawan.php",
 				type 		: "POST",
-				data 		: { tabelUsers : true },
+				data 		: { tabelBarangInvKaryawan : true },
 				success		:function(responseText) {	
 					$("#pesan").hide();
-					$("#tabelUsers").html(responseText);
+					$("#tabelBarangInvKaryawan").html(responseText);
 				}	
 			});
 		}
@@ -312,7 +314,7 @@ if ($sess_username === "") {
 			let valSelectJenisRole 	= $("#selectJenisRole").val();
 			if (confirmUpdate) {
 				$.ajax({
-					url 	: "backend_setting_akun.php",
+					url 	: "backend_daftar_karyawan.php",
 					type 	: "POST",
 					data 	: { 
 						updateJenisRole 	: true,
@@ -332,7 +334,7 @@ if ($sess_username === "") {
 
 			if (confirmHapusUser) {
 				$.ajax({
-					url 		:"backend_setting_akun.php",
+					url 		:"backend_daftar_karyawan.php",
 					type 		: "POST",
 					data 		: { hapusUser : dataUsername },
 					success		:function(responseText) {	
@@ -341,6 +343,7 @@ if ($sess_username === "") {
 				});		
 			} 
 		}
+
 	// Load Event =========================================>>
 	$(document).ready(function() {
 		$("#pesan").hide();
@@ -348,27 +351,27 @@ if ($sess_username === "") {
 
 		// Muncul tabel saat pertama load
 		$.ajax({
-			url 		:"backend_setting_akun.php",
+			url 		:"backend_daftar_karyawan.php",
 			type 		: "POST",
-			data 		: { tabelUsers : true },
+			data 		: { tabelBarangInvKaryawan : true },
 			success		:function(responseText) {	
-				$("#tabelUsers").html(responseText);
+				$("#tabelBarangInvKaryawan").html(responseText);
 			}	
 		});
 
 		<?php if (isset($_GET["berhasil-ubah-password"])) { ?>
 			$("#pesan").show();
-			$("#pesan").html("<?php echo $_GET["berhasil-ubah-password"]; ?>");
+			$("#pesan").html("<?= $_GET["berhasil-ubah-password"]; ?>");
 		<?php } ?> // END IF PHP
 
 		<?php if (isset($_GET["berhasil-tambah-akun"])) { ?>
 			$("#pesan").show();
-			$("#pesan").html("<?php echo $_GET["berhasil-tambah-akun"]; ?>");
+			$("#pesan").html("<?= $_GET["berhasil-tambah-akun"]; ?>");
 		<?php } ?> // END IF PHP
 
 		<?php if (isset($_GET["hapus"])) { ?>
 			$("#pesan").show();
-			$("#pesan").html("<?php echo $_GET["hapus"]; ?>");
+			$("#pesan").html("<?= $_GET["hapus"]; ?>");
 		<?php } ?> // END IF PHP
 
 
@@ -383,7 +386,7 @@ if ($sess_username === "") {
 		// Search nama barang
 		$("#searchUsername").keyup(function() {
 			let inputVal = $("#searchUsername").val().trim()
-			$.post("backend_setting_akun.php",{
+			$.post("backend_daftar_karyawan.php",{
 				searchUsername 	: inputVal
 			},function(responseText) {
 				if (responseText == "Username tidak ditemukan") {
@@ -392,10 +395,19 @@ if ($sess_username === "") {
 				}
 				else {
 					$("#pesanSearch").hide();
-					$("#tabelUsers").html(responseText);
+					$("#tabelBarangInvKaryawan").html(responseText);
 				}
 				console.log(responseText);
 			});
+		});
+
+		// Tambah barang inventaris untuk karyawan
+		$("#tambahBarangInv").click(function() {
+			<?php 	
+				$url_kode_karyawan = "?kode_karyawan=$url_kode_karyawan";
+				$url_nama_karyawan = "&nama_karyawan=$url_nama_karyawan";
+			?>
+			location.assign("tambah_barang_inventaris.php" + "<?= $url_kode_karyawan;?>" + "<?= $url_nama_karyawan; ?>");
 		});
 
 		// Logout

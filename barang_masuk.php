@@ -230,7 +230,6 @@ if ($sess_username === "") {
 				</div>
 			</div>
 		</div>
-		<button id="tambahBarang" class="btn btn-primary"><i class="fas fa-box-open"></i>+</i> Tambahkan Barang</button>
 		<div id="formTambahBarang"></div>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
@@ -380,12 +379,6 @@ if ($sess_username === "") {
 			});
 		});
 
-		// Tambah Barang
-		// Jika role moderator maka hapus button tambah barang
-		// <?php if ($_SESSION['role'] == "moderator") { ?>
-		// 	$("#tambahBarang").remove();
-		// <?php } ?> // End IF
-
 		$("#tambahBarang").click(function() {
 			location.assign("tambah_barang.php");
 		});
@@ -407,7 +400,7 @@ if ($sess_username === "") {
 		});
 
 		$("#page-next").click(function() {
-			let dataPage 				= $(".page-actived").data("page") + 1;
+			let dataPage 						= $(".page-actived").data("page") + 1;
 			let pageListChildrenLength 	= $("#page-list").children().length;
 			$.ajax({
 				url 	: "backend_barang_masuk.php",
@@ -423,15 +416,13 @@ if ($sess_username === "") {
 					}
 				}
 			});
-			console.log(dataPage);
 		});
 
 		// Logout
 		$("#logout").click(function() {
 			location.replace("index.php");
 		});
-
-	}); // END EVENT LOAD
+	});// END LOAD EVENT
 </script>
 </body>
 </html>

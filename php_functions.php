@@ -3,110 +3,76 @@ $conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
 
 function tabel_barang($result, $tabelDB) {
 	global $conn;
-	if ($tabelDB == "tb_barang") {
-		$arr_tabel_barang = array(
-			"<table  class='table shadow shadow-sm'>",
-			"<tr class='tableFirstChild'>",
-			"<th>Kode Barang</th>",
-			"<th>Jenis Barang</th>",
-			"<th>Nama Barang</th>",
-			"<th>Kondisi Barang</th>",
-			"<th>Jumlah Barang</th>",
-			"<th>Harga Satuan</th>",
-			"<th>Total Harga</th>",
-			"<th>Foto Barang</th>",
-			"<th id='action' colspan='3' class='text-center'>Action</th>",
-			"</tr>"
-		);
-		$query 			= mysqli_query($conn, $result);
+	// if ($tabelDB == "tb_barang") {
+	echo "<table  class='table shadow shadow-sm'>";
+	echo "<tr class='tableFirstChild'>";
+	echo "<th>Kode Barang</th>";
+	echo "<th>Jenis Barang</th>";
+	echo "<th>Nama Barang</th>";
+	echo "<th>Kondisi Barang</th>";
+	echo "<th>Jumlah Barang</th>";
+	echo "<th>Harga Satuan</th>";
+	echo "<th>Total Harga</th>";
+	echo "<th>Foto Barang</th>";
 
-		for ($i=0; $i < count($arr_tabel_barang) ; $i++) { 
-			echo $arr_tabel_barang[$i];
-		}
-
-		while ($data = mysqli_fetch_assoc($query)) {
-			$harga_satuan 	= number_format($data['harga_satuan'],0,".",".");
-			$total_harga 	= number_format($data['total_harga'],0,".",".");
-			echo "<tr>";
-			echo "<td>{$data['kode_barang']}</td>";
-			echo "<td>{$data['jenis_barang']}</td>";
-			echo "<td>{$data['nama_barang']}</td>";
-			echo "<td>{$data['kondisi_barang']}</td>";
-			echo "<td>{$data['jumlah_barang']}</td>";
-			echo "<td>Rp$harga_satuan,-</td>";
-			echo "<td>Rp$total_harga,-</td>";
-			echo "<td>{$data['foto_barang']}</td>";
-			echo "<td><button class ='btn btn-success' onclick='buttonTambahBarang(event, this);'
-				data-kode='{$data['kode_barang']}'>Tambah</button</td>";
-			echo "<td class='edit'><button onclick='buttonEditBarang(event, this);' 
-					data-kode='{$data['kode_barang']}' data-nama='{$data['nama_barang']}' class='btn btn-warning text-white'>Edit</td>";
-			echo "<td class='hapus'><button onclick='buttonHapusBarang(event, this);' 
-					data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
-			echo "</tr>";
-		}
-		echo "</table>";
+	if ($tabelDB == "tb_barang_masuk") {
+		echo "<th>Tanggal Masuk</th>";
 	}
 
-	if($tabelDB == "tb_barang_masuk") {
-		$arr_tabel_barang_masuk = array(
-			"<table  class='table shadow shadow-sm'>",
-			"<tr class='tableFirstChild'>",
-			"<th>Kode Barang</th>",
-			"<th>Jenis Barang</th>",
-			"<th>Nama Barang</th>",
-			"<th>Kondisi Barang</th>",
-			"<th>Jumlah Barang</th>",
-			"<th>Harga Satuan</th>",
-			"<th>Total Harga</th>",
-			"<th>Foto Barang</th>",
-			"<th>Tanggal Masuk</th>",
-			"</tr>"
-		);
-		$query 			= mysqli_query($conn, $result);
-
-		foreach ($arr_tabel_barang_masuk as $key => $value) {
-			echo $value;
-		}
-
-		while ($data = mysqli_fetch_assoc($query)) {
-			$harga_satuan 	= number_format($data['harga_satuan'],0,".",".");
-			$total_harga 	= number_format($data['total_harga'],0,".",".");
-			echo "<tr>";
-			echo "<td>{$data['kode_barang']}</td>";
-			echo "<td>{$data['jenis_barang']}</td>";
-			echo "<td>{$data['nama_barang']}</td>";
-			echo "<td>{$data['kondisi_barang']}</td>";
-			echo "<td>{$data['jumlah_barang']}</td>";
-			echo "<td>Rp$harga_satuan,-</td>";
-			echo "<td>Rp$total_harga,-</td>";
-			echo "<td>{$data['foto_barang']}</td>";
-			echo "<td>{$data['tanggal_masuk']}</td>";
-		}
-		echo "</table>";
+	if ($tabelDB == "tb_barang") {
+		echo "<th id='action' colspan='3' class='text-center'>Action</th>";
 	}
 	
+	echo "</tr>";
+
+	$query 			= mysqli_query($conn, $result);
+
+	while ($data = mysqli_fetch_assoc($query)) {
+
+		$harga_satuan 	= number_format($data['harga_satuan'],0,".",".");
+		$total_harga 	= number_format($data['total_harga'],0,".",".");
+
+		echo "<tr>";
+		echo "<td>{$data['kode_barang']}</td>";
+		echo "<td>{$data['jenis_barang']}</td>";
+		echo "<td>{$data['nama_barang']}</td>";
+		echo "<td>{$data['kondisi_barang']}</td>";
+		echo "<td>{$data['jumlah_barang']}</td>";
+		echo "<td>Rp$harga_satuan,-</td>";
+		echo "<td>Rp$total_harga,-</td>";
+		echo "<td>{$data['foto_barang']}</td>";
+
+		if ($tabelDB == "tb_barang") {
+			echo "<td><button class ='btn btn-success' onclick='buttonTambahBarang(event, this);'
+			data-kode='{$data['kode_barang']}' data-jumlah='{$data['jumlah_barang']}' data-total='{$data['total_harga']}'>Tambah</button</td>";
+			echo "<td class='edit'><button onclick='buttonEditBarang(event, this);' 
+			data-kode='{$data['kode_barang']}' data-nama='{$data['nama_barang']}' class='btn btn-warning text-white'>Edit</td>";
+			echo "<td class='hapus'><button onclick='buttonHapusBarang(event, this);' 
+			data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
+			echo "</tr>";
+		}
+
+		if ($tabelDB == "tb_barang_masuk") {
+			echo "<td>{$data['tanggal_masuk']}</td>";
+		}
+	}
+	echo "</table>";
 }
 
 function tabel_karyawan($result) {
 	global $conn;
-	$arr_tabel_karyawan = array(
-		"<table  class='table shadow shadow-sm'>",
-		"<tr class='tableFirstChild'>",
-		"<th>Kode Karyawan</th>",
-		"<th>Nama Karyawan</th>",
-		"<th>Posisi</th>",
-		"<th>Email</th>",
-		"<th>Pendidikan Terakhir</th>",
-		"<th>Alamat Lengkap</th>",
-		"<th>Foto</th>",
-		"<th colspan='2' class='text-center'>Action</th>",
-		"</tr>"
-	);
+	echo "<table  class='table shadow shadow-sm'>";
+	echo "<tr class='tableFirstChild'>";
+	echo "<th>Kode Karyawan</th>";
+	echo "<th>Nama Karyawan</th>";
+	echo "<th>Posisi</th>";
+	echo "<th>Email</th>";
+	echo "<th>Pendidikan Terakhir</th>";
+	echo "<th>Alamat Lengkap</th>";
+	echo "<th>Foto</th>";
+	echo "<th colspan='2' class='text-center'>Action</th>";
+	echo "</tr>";
 	$query 			= mysqli_query($conn, $result);
-
-	foreach ($arr_tabel_karyawan as $key => $value) {
-		echo $value;
-	}
 
 	while ($data = mysqli_fetch_assoc($query)) {
 		echo "<tr class='TRKaryawan' data-kode='{$data['kode_karyawan']}' data-nama='{$data['nama_karyawan']}'>";

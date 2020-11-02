@@ -87,6 +87,41 @@ if (isset($_POST['acceptTambahBarang'])) {
 	}
 }
 
+// Tambah barang yang sama
+if (isset($_POST["tambahBarangYangSama"])) {
+	$val_url_jumlah_barang 	 = $_POST["valUrlJumlahBarang"];
+	$val_url_total_harga 	 = $_POST["valUrlTotalHarga"];
+	
+	$val_jumlah_barang_baru  = $val_url_jumlah_barang + $val_jumlah_barang;
+	$val_total_harga_baru 	 = $val_url_total_harga + $val_total_harga;
+
+	$result 		 = "";
+	$result 		.= "UPDATE tb_barang SET ";
+	$result 		.= "jumlah_barang = '$val_jumlah_barang_baru',";
+	$result 		.= "total_harga = '$val_total_harga_baru'";
+	$result 		.= "WHERE kode_barang = '$val_kode_barang';";
+
+	$result 		.= "INSERT INTO tb_barang_masuk VALUES(";
+	$result 		.= "'$val_kode_barang',";
+	$result 		.= "'$val_jenis_barang',";
+	$result 		.= "'$val_nama_barang',";
+	$result 		.= "'$val_kondisi_barang',";
+	$result 		.= "'$val_jumlah_barang',";
+	$result 		.= "'$val_harga_satuan',";
+	$result 		.= "'$val_total_harga',";
+	$result 		.= "'$val_foto_barang',";
+	$result 		.= "'$val_tanggal_masuk'";
+	$result 		.= ");";
+
+	$query 			 = mysqli_multi_query($conn, $result);
+	if ($query) {
+		echo "$val_nama_barang berhasil di tambah";
+	}
+	else {
+		echo mysqli_error($conn);
+	}
+}
+
 // Update barang
 if (isset($_POST['updateBarang'])) {
 	$result 		 = "";

@@ -274,8 +274,15 @@ if ($sess_username === "") {
 	// Non Load Event ====================================================================== >>
 	// Tambah barang
 	function buttonTambahBarang(event, button) {
-		let dataKodeBarang = $(button).data("kode");
-		
+		let dataKodeBarang 		= $(button).data("kode");
+		let dataJumlahBarang 	= $(button).data("jumlah");
+		let dataTotalHarga 		= $(button).data("total");
+
+		location.assign(
+			"tambah_barang_yang_sama.php?kode_barang=" + dataKodeBarang +
+			"&jumlah_barang=" + dataJumlahBarang +
+			"&total_harga=" + dataTotalHarga
+		);
 	}
 
 	// Edit Barang
@@ -346,10 +353,17 @@ if ($sess_username === "") {
 				} 
 
 				let getUrlEdit = location.search.substr(1,4);
-				if (getUrlEdit == "edit") { // Edit
+				if (getUrlEdit == "edit") { 
 					let getUrlEdit 	= '<?php if (isset($_GET['edit'])) { echo $_GET['edit']; } ?>';
 					$("#pesan").show();
 					$("#pesan").html(getUrlEdit);
+				}
+
+				let getUrlTambahBarangSama = location.search.substr(1,23);
+				if (getUrlTambahBarangSama == "tambah_barang_yang_sama") { 
+					let getUrlTambahBarangSama 	= '<?php if (isset($_GET['tambah_barang_yang_sama'])) { echo $_GET['tambah_barang_yang_sama']; } ?>';
+					$("#pesan").show();
+					$("#pesan").html(getUrlTambahBarangSama);
 				}
 			}
 		});

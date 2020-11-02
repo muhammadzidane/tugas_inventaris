@@ -211,6 +211,8 @@ if ($sess_username === "") {
 			if (isset($_GET['berhasil-ubah-password'])) {
 				echo $_GET['berhasil-ubah-password'];
 			}
+
+
 			?>
 		</div>
 		<div class="d-flex columns mx-auto">
@@ -337,10 +339,6 @@ if ($sess_username === "") {
 			}	
 		});
 
-		<?php if (isset($_GET["berhasil-ubah-password"])) { ?>
-			$("#pesan").show();
-			$("#pesan").html("<?php echo $_GET["berhasil-ubah-password"]; ?>");
-		<?php } ?> // END IF PHP
 
 		<?php if (isset($_GET["berhasil-tambah-akun"])) { ?>
 			$("#pesan").show();
@@ -350,6 +348,11 @@ if ($sess_username === "") {
 		<?php if (isset($_GET["hapus"])) { ?>
 			$("#pesan").show();
 			$("#pesan").html("<?php echo $_GET["hapus"]; ?>");
+		<?php } ?> // END IF PHP
+
+		<?php if (isset($_GET["ubah-role"])) { ?>
+			$("#pesan").show();
+			$("#pesan").html("<?php echo $_GET["ubah-role"]; ?>");
 		<?php } ?> // END IF PHP
 
 

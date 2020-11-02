@@ -58,6 +58,9 @@ if (isset($_POST['validasiDuplikatKey'])) {
 // Validasi duplikat key Tambah Karyawan
 echo validasi_duplikat_key("validasiDuplikatKeyTambahKaryawan", "tb_karyawan", "kode_karyawan");
 
+// Validasi duplikat key tambah barang inventaris untuk karyawan
+echo validasi_duplikat_key("validasiDuplikatKeyTambahInv", "tb_barang", "kode_barang");
+
 // Edit karyawan
 if (isset($_POST['acceptEdit'])) {
 	$result 	 	 	 = "";
