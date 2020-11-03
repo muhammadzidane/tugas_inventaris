@@ -16,6 +16,22 @@ if (isset($_POST["tabelBarangInvKaryawan"])) {
 
 // Search karyawan	
 echo searchTabel("searchBarang", "tb_barang_inventaris_karyawan", "nama_barang", "tabel_barang", "User Tidak Ditemukan");
+if (isset($_POST["queryTambahBarang"])) {
+	$kode_barang 	 	 	 = $_POST["queryTambahBarang"];
+	$val_jumlah_barang 	 = $_POST["valJumlahBarang"];
+	$jumlah_awal_barang 	 =	$_POST["jumlahAwalBarang"];
+	// $hasil_jumlah_barang  = $jumlah_awal_barang - $val_jumlah_barang;
+	echo $jumlah_awal_barang; 
+
+
+	// $result 			 	 	 = "";
+	// $result	 				.= "UPDATE tb_barang SET ";
+	// $result 					.= "jumlah_barang = '',";
+	// $result 					.= "harga_satuan = '',";
+	// $result 					.= "total_harga = ''";
+	// $result 					.= "WHERE kode_barang = '$kode_barang'";
+
+}
 
 
 ?>

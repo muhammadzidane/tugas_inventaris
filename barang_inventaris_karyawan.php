@@ -283,37 +283,84 @@ if ($sess_username === "") {
 	<script>
 		"use strict";
 
-	// Edit Barang
+
+	// Batal tambah barang
+	function buttonBatal(event, button){
+		$("#tambahBarangInv").click();
+	}
+
+	// Tambah barang
 	function buttonTambahBarang(event, button) {
+		let jumlahBarang 		 = $(button).parent().prev().prev().prev().prev();
+		let dataKodeBarang 	 = $(button).data("kode");
 		let valJumlahBarang 	 = $(button).parent().prev().prev().prev().prev().text();
-		let dataKodeBarang  	 = $(button).data('kode');
 		let removeTRNextAll   = $(button).parent().parent().nextAll();
 		let removeTRPrevUntil = $(button).parent().parent().prevUntil(".tableFirstChild");
-		let tableAppend 		 = "" 
+		let tableAppend 		 = "";
 		tableAppend 			+= "<tr>";
 		tableAppend				+= "<td></td>";
 		tableAppend				+= "<td></td>";
 		tableAppend				+=	"<td></td>";
 		tableAppend				+=	"<td></td>";
 		tableAppend				+=	"<td colspan='8' class='d-flex'>";
-		tableAppend				+=	"<input id='jumlahTambahBarang' placeholder='Jumlah' class='form-control form-control-sm' type='number'>";
+		tableAppend				+=	"<input id='jumlahTambahBarang' placeholder='Jumlah'";
+		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'>";
 		tableAppend				+=	"</td>";
 		tableAppend				+=	"<td></td>";
 		tableAppend				+=	"<td></td>";
-		tableAppend				+=	"<td><button class='btn btn-primary'>Tambah</button></td>";
-		tableAppend				+=	"<td><button class='btn btn-warning'>Batal</button></td>";
+		tableAppend				+=	"<td><button onclick='buttonQueryTambah(event, this);'";
+		tableAppend				+=	`class='btn btn-primary' data-kode='${dataKodeBarang}' data-jumlah-awal=''>Tambah</button></td>`;
+		tableAppend				+=	"<td><button onclick='buttonBatal(event, this);' class='btn btn-warning text-white'>Batal</button></td>";
 		tableAppend 			+= "</tr>";
 		removeTRNextAll.remove();
 		removeTRPrevUntil.remove();
-
 		$("table").append(tableAppend);
+
 		$("#jumlahTambahBarang").keyup(function() {
 			let valKUJumlahTambahBarang = $(this).val();
-			
-			if (valKUJumlahTambahBarang == 1) {
-				$(button).parent().prev().prev().prev().prev().html(valJumlahBarang - 1);
+
+			for (let i = 1; i <= valJumlahBarang; i++) {
+				if (valKUJumlahTambahBarang == i) {
+					jumlahBarang.html(valJumlahBarang - i);
+				}
 			}
+			for (let i = valJumlahBarang; i <= 0; i--) {
+				if (valKUJumlahTambahBarang == i) {
+					jumlahBarang.html(valJumlahBarang + i);
+				}
+			}
+			
+			if (valKUJumlahTambahBarang == 0) {
+				jumlahBarang.html(valJumlahBarang);
+			}
+			$(this).attr("max", valJumlahBarang);
 		});
+
+		$("#jumlahTambahBarang").click(function() {
+			$(this).keyup();
+		});
+	}
+	
+	// Ajax tambah barang
+	function buttonQueryTambah(event, button) {
+		let jumlahAwalBarang  = $("table tr:nth-child(2) td:nth-child(5)").text();
+		let valJumlahBarang  = $("#jumlahTambahBarang").val();
+		let dataKodeBarang 	= $(button).data("kode");
+		let confirmTambah 	= confirm("Apakah anda yakin ingin menambahkan barang?");
+		if (confirmTambah) {
+			$.ajax({
+				url 		: "backend_barang_inventaris_karyawan.php",
+				type 		: "POST",
+				data 		: {
+					queryTambahBarang	: dataKodeBarang,
+					valJumlahBarang 	: valJumlahBarang,
+					jumlahAwalBarang 	: jumlahAwalBarang
+				},
+				success 	: function(responseText) {
+					console.log(responseText);
+				}
+			});
+		}
 	}
 
 	// Hapus barang
