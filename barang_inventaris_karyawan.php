@@ -309,13 +309,12 @@ if ($sess_username === "") {
 		tableAppend				+=	"<td></td>";
 		tableAppend				+=	"<td></td>";
 		tableAppend				+=	"<td><button onclick='buttonQueryTambah(event, this);'";
-		tableAppend				+=	`class='btn btn-primary' data-kode='${dataKodeBarang}' data-jumlah-awal=''>Tambah</button></td>`;
+		tableAppend				+=	`class='btn btn-primary' data-kode='${dataKodeBarang}' data-jumlah-awal='${valJumlahBarang}'>Tambah</button></td>`;
 		tableAppend				+=	"<td><button onclick='buttonBatal(event, this);' class='btn btn-warning text-white'>Batal</button></td>";
 		tableAppend 			+= "</tr>";
 		removeTRNextAll.remove();
 		removeTRPrevUntil.remove();
 		$("table").append(tableAppend);
-
 		$("#jumlahTambahBarang").keyup(function() {
 			let valKUJumlahTambahBarang = $(this).val();
 
@@ -324,7 +323,7 @@ if ($sess_username === "") {
 					jumlahBarang.html(valJumlahBarang - i);
 				}
 			}
-			for (let i = valJumlahBarang; i <= 0; i--) {
+			for (let i = valJumlahBarang; i <= 0; i--) {	
 				if (valKUJumlahTambahBarang == i) {
 					jumlahBarang.html(valJumlahBarang + i);
 				}
@@ -343,23 +342,30 @@ if ($sess_username === "") {
 	
 	// Ajax tambah barang
 	function buttonQueryTambah(event, button) {
-		let jumlahAwalBarang  = $("table tr:nth-child(2) td:nth-child(5)").text();
-		let valJumlahBarang  = $("#jumlahTambahBarang").val();
-		let dataKodeBarang 	= $(button).data("kode");
-		let confirmTambah 	= confirm("Apakah anda yakin ingin menambahkan barang?");
+		let jumlahAwalBarang 	= $(button).data("jumlah-awal");
+		let valJumlahBarang  	= $("#jumlahTambahBarang").val();
+		let dataKodeBarang 		= $(button).data("kode");
+		let confirmTambah 		= confirm("Apakah anda yakin ingin menambahkan barang?");
 		if (confirmTambah) {
-			$.ajax({
-				url 		: "backend_barang_inventaris_karyawan.php",
-				type 		: "POST",
-				data 		: {
-					queryTambahBarang	: dataKodeBarang,
-					valJumlahBarang 	: valJumlahBarang,
-					jumlahAwalBarang 	: jumlahAwalBarang
-				},
-				success 	: function(responseText) {
-					console.log(responseText);
-				}
-			});
+			if (valJumlahBarang == 0 || "") {
+				event.preventDefault();	
+			}
+			else {
+				$.ajax({
+					url 		: "backend_barang_inventaris_karyawan.php",
+					type 		: "POST",
+					data 		: {
+						queryTambahBarang	: dataKodeBarang,
+						valJumlahBarang 	: valJumlahBarang,
+						jumlahAwalBarang 	: jumlahAwalBarang,
+						kodeKaryawan 		: "<?= $url_kode_karyawan; ?>",
+						namaKaryawan 		: "<?= $url_nama_karyawan; ?>"
+					},
+					success 	: function(responseText) {
+						console.log(responseText);
+					}
+				});
+			}
 		}
 	}
 
