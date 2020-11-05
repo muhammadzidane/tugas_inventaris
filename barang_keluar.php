@@ -191,50 +191,9 @@ if ($sess_username === "") {
 	</nav>
 	<div class="container">
 		<h1 class="judul font-neue judul-border">Barang Keluar</h1>
-		<div class="d-flex justify-content-between">
-			<div class="d-flex columns">
-				<div class="column-pink-1"><i class="fas fa-boxes fa-5x pt-2"></i></div>
-				<div class="columnt-pink-2 text-center">
-					<h2 id="totalSemuaBarang" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Total Semua Barang</h4>
-				</div>
-			</div>
-			<div class="d-flex columns">
-				<div class="column1"><i class="fas fa-laptop fa-5x pt-2"></i></div>
-				<div class="column2 text-center">
-					<h2 id="totalBarangElektronik" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Elektronik</h4>
-				</div>
-			</div>
-			<div class="d-flex columns">
-				<div class="column-pink-1"><i class="fas fa-pencil-ruler fa-5x pt-2"></i></div>
-				<div class="columnt-pink-2 text-center">
-					<h2 id="totalBarangAlatTulis" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Alat Tulis</h4>
-				</div>
-			</div>
-		</div>
-		<div class="d-flex justify-content-around">
-			<div class="d-flex columns mb-5">
-				<div class="column1"><i class="fas fa-motorcycle fa-5x pt-2"></i></div>
-				<div class="column2 text-center">
-					<h2 id="totalBarangKendaraan" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Kendaraan</h4>
-				</div>
-			</div>
-			<div class="d-flex columns mb-5">
-				<div class="column1"><i class="fas fa-box-open fa-5x pt-2"></i></div>
-				<div class="column2 text-center">
-					<h2 id="totalBarangLainnya" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Lainnya</h4>
-				</div>
-			</div>
-		</div>
-		<button id="tambahBarang" class="btn btn-primary"><i class="fas fa-box-open"></i>+</i> Tambahkan Barang</button>
-		<div id="formTambahBarang"></div>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
-				<input id="searchBarang" type="text" name="searchBarang" autocomplete="off"
+				<input id="searchBarang" type="text" autocomplete="off"
 				placeholder="Cari Nama Barang">
 				<i class="fas fa-search"></i>
 			</div>
@@ -255,7 +214,7 @@ if ($sess_username === "") {
 				<option>Kendaraan</option>
 				<option>Lainnya</option>
 			</select>
-			<div id="tabelBarang"></div>
+			<div id="tabelBarangKeluar"></div>
 		</div>
 	</div>
 	<footer>
@@ -277,14 +236,14 @@ if ($sess_username === "") {
 		if (confirmHapusBarang) {
 			let dataKodeBarang = $(button).data("kode");
 			$.ajax({
-				url 		: "backend_data_barang.php",
+				url 		: "backend_barang_keluar.php",
 				type 		: "POST",
 				data 		: { hapusBarang : dataKodeBarang },
 				success	: function(responseText) {
 					$("#pesan").show();
 					$("#pesan").html(responseText);
 					// Tampilkan tabel saat berhasil menghapus barang
-					$.post('backend_data_barang.php',{ tabelBarang : true },function(responseText){
+					$.post('backend_barang_keluar.php',{ tabelBarang : true },function(responseText){
 						$("#tabelBarang").html(responseText);
 					});
 				}
@@ -297,7 +256,7 @@ if ($sess_username === "") {
 		let dataPage 				= $(button).data("page");
 		let pageListChildrenLength 	= $("#page-list").children().length;
 		$.ajax({
-			url 		: "backend_data_barang.php",
+			url 		: "backend_barang_keluar.php",
 			type 		: "POST",
 			data 		: { pageListTabelBarang : dataPage, pageListChildrenLength : pageListChildrenLength },
 			success	: function(responseText) {
@@ -317,12 +276,12 @@ if ($sess_username === "") {
 	$(document).ready(function() {
 		// Muncul Tabel Saat Load Pertama Kali
 		$.ajax({
-			url 		:"backend_data_barang.php",
+			url 		:"backend_barang_keluar.php",
 			type 		: "POST",
-			data 		: { tabelBarang : true },
+			data 		: { tabelBarangKeluar : true },
 			success		:function(responseText) {	
 				$("#pesan").hide();
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangKeluar").html(responseText);
 				// Pesan edit/tampah barang jika berhasil mengubah/metambah data barang 
 				
 				let getUrlTambahOrEdit = location.search.substr(1,6);
@@ -342,7 +301,7 @@ if ($sess_username === "") {
 		});
 
 		function totalBarang(post, selector) {
-			$.post("backend_data_barang.php",{
+			$.post("backend_barang_keluar.php",{
 				post 	: true
 			},function(responseText) {	
 				$(selector).html(responseText);
@@ -350,27 +309,27 @@ if ($sess_username === "") {
 		}
 		
 		// Jumlah Semua Barang
-		$.post("backend_data_barang.php",{ totalSemuaBarang : true },function(responseText) {	
+		$.post("backend_barang_keluar.php",{ totalSemuaBarang : true },function(responseText) {	
 			$("#totalSemuaBarang").html(responseText);
 		});
 		
 		// Jumlah Barang Elektronik
-		$.post("backend_data_barang.php",{ totalBarangElektronik : true },function(responseText) {	
+		$.post("backend_barang_keluar.php",{ totalBarangElektronik : true },function(responseText) {	
 			$("#totalBarangElektronik").html(responseText);
 		});
 		
 		// Jumlah Barang Alat Tulis
-		$.post("backend_data_barang.php",{	totalBarangAlatTulis : true },function(responseText) {	
+		$.post("backend_barang_keluar.php",{	totalBarangAlatTulis : true },function(responseText) {	
 			$("#totalBarangAlatTulis").html(responseText);
 		});
 		
 		// Jumlah Barang Kendaraan
-		$.post("backend_data_barang.php",{ totalBarangKendaraan : true },function(responseText) {
+		$.post("backend_barang_keluar.php",{ totalBarangKendaraan : true },function(responseText) {
 			$("#totalBarangKendaraan").html(responseText);
 		});
 		
 		// Jumlah Barang Lainnya
-		$.post("backend_data_barang.php",{	totalBarangLainnya 	: true },function(responseText) {
+		$.post("backend_barang_keluar.php",{	totalBarangLainnya 	: true },function(responseText) {
 			$("#totalBarangLainnya").html(responseText);
 		});
 
@@ -379,28 +338,28 @@ if ($sess_username === "") {
 			let valFilterJenisBarang = $("#filterJenisBarang").val();
 			switch(valFilterJenisBarang) {
 				case "Filter Semua" : 
-				$.post("backend_data_barang.php",{ filterSemua : true }, function(responseText) {
-					$("#tabelBarang").html(responseText);
+				$.post("backend_barang_keluar.php",{ filterSemua : true }, function(responseText) {
+					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Elektronik" : 
-				$.post("backend_data_barang.php",{ filterElektronik : true }, function(responseText) {
-					$("#tabelBarang").html(responseText);
+				$.post("backend_barang_keluar.php",{ filterElektronik : true }, function(responseText) {
+					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Alat Tulis" : 
-				$.post("backend_data_barang.php",{ filterAlatTulis : true }, function(responseText) {
-					$("#tabelBarang").html(responseText);
+				$.post("backend_barang_keluar.php",{ filterAlatTulis : true }, function(responseText) {
+					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Kendaraan" : 
-				$.post("backend_data_barang.php",{ filterKendaraan : true }, function(responseText) {
-					$("#tabelBarang").html(responseText);
+				$.post("backend_barang_keluar.php",{ filterKendaraan : true }, function(responseText) {
+					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Lainnya" : 
-				$.post("backend_data_barang.php",{ filterLainnya : true }, function(responseText) {
-					$("#tabelBarang").html(responseText);
+				$.post("backend_barang_keluar.php",{ filterLainnya : true }, function(responseText) {
+					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;			
 			}
@@ -409,7 +368,7 @@ if ($sess_username === "") {
 		// Search nama barang
 		$("#searchBarang").keyup(function() {
 			let inputVal = $("#searchBarang").val().trim()
-			$.post("backend_data_barang.php",{
+			$.post("backend_barang_keluar.php",{
 				searchBarang 	: inputVal
 			},function(responseText) {
 				if (responseText === "Nama Barang Tidak Ditemukan") {
@@ -418,7 +377,7 @@ if ($sess_username === "") {
 				}
 				else {
 					$("#pesan").hide();
-					$("#tabelBarang").html(responseText);
+					$("#tabelBarangKeluar").html(responseText);
 				}
 			});
 		});
@@ -429,10 +388,6 @@ if ($sess_username === "") {
 		// 	$("#tambahBarang").remove();
 		// <?php } ?> // End IF
 
-		$("#tambahBarang").click(function() {
-			location.assign("tambah_barang.php");
-		});
-
 		// Jam 
 		setInterval(function(){
 			let waktu = new Date();	
@@ -441,7 +396,7 @@ if ($sess_username === "") {
 
 		// Pagination Tabel Barang
 		$.ajax({
-			url 	: "backend_data_barang.php",
+			url 	: "backend_barang_keluar.php",
 			type 	: "POST",
 			data 	: { paginationTabelBarang : true },
 			success : function(responseText) {
@@ -451,7 +406,7 @@ if ($sess_username === "") {
 
 		$("#page-next").click(function() {
 			$.ajax({
-				url 	: "backend_data_barang.php",
+				url 	: "backend_barang_keluar.php",
 				type 	: "POST",
 				data 	: { pageNext : true },
 				success : function(responseText) {

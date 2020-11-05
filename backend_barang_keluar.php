@@ -18,13 +18,13 @@ $val_tanggal_masuk 		= (isset($_POST['valTanggalMasuk'])) ? sql_protect($_POST['
 $val_total_harga 		= (int) $val_harga_satuan * (int) $val_jumlah_barang;
 
 // Muncul tabel saat Load pertama kali  
-if (isset($_POST['tabelBarangMasuk'])) {
-	$result 	= "SELECT * FROM tb_barang_masuk ORDER BY tanggal_masuk DESC LIMIT 5;"; 
-	tabel_barang($result,"tb_barang_masuk");	
+if (isset($_POST['tabelBarangKeluar'])) {
+	$result 	= "SELECT * FROM tb_barang_keluar ORDER BY tanggal_keluar DESC LIMIT 5;"; 
+	tabel_barang($result,"tb_barang_keluar");	
 }
 
 // Search tabel barang
-echo searchTabel("searchBarang", "tb_barang_masuk", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
+echo searchTabel("searchBarang", "tb_barang_keluar", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
 
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarangMasuk","tb_barang_masuk");
@@ -32,9 +32,11 @@ echo page_click("pageListTabelBarangMasuk", "tb_barang_masuk", "nama_barang", "t
 echo page_next("pageNext", "tb_barang_masuk", "nama_barang", "tabel_barang");
 
 // Filter barang barang
-echo filter_barang('filterSemua',"tb_barang_masuk" ,"Semua");
-echo filter_barang('filterElektronik',"tb_barang_masuk" ,"Elektronik");
-echo filter_barang('filterKendaraan',"tb_barang_masuk" ,"Kendaraan");
-echo filter_barang('filterAlatTulis',"tb_barang_masuk" ,"Alat Tulis");
-echo filter_barang('filterLainnya',"tb_barang_masuk" ,"Lainnya");
+echo filter_barang('filterSemua',"tb_barang_keluar" ,"Semua");
+echo filter_barang('filterElektronik',"tb_barang_keluar" ,"Elektronik");
+echo filter_barang('filterKendaraan',"tb_barang_keluar" ,"Kendaraan");
+echo filter_barang('filterAlatTulis',"tb_barang_keluar" ,"Alat Tulis");
+echo filter_barang('filterLainnya',"tb_barang_keluar" ,"Lainnya");
+
+
 ?>

@@ -5,6 +5,12 @@ function tabel_barang($result, $tabelDB) {
 	global $conn;
 	echo "<table  class='table shadow shadow-sm'>";
 	echo "<tr class='tableFirstChild'>";
+	
+	if ($tabelDB == "tb_barang_keluar") {
+		echo "<th>Kode Karyawan</th>";
+		echo "<th>Nama Karyawan</th>";			
+	}
+
 	echo "<th>Kode Barang</th>";
 	echo "<th>Jenis Barang</th>";
 	echo "<th>Nama Barang</th>";
@@ -16,6 +22,10 @@ function tabel_barang($result, $tabelDB) {
 
 	if ($tabelDB == "tb_barang_masuk") {
 		echo "<th>Tanggal Masuk</th>";
+	}
+
+	if ($tabelDB == "tb_barang_keluar") {
+		echo "<th>Tanggal Keluar</th>";
 	}
 
 	if ($tabelDB == "tb_barang" OR $tabelDB == "tb_barang_inventaris_karyawan") {
@@ -32,6 +42,12 @@ function tabel_barang($result, $tabelDB) {
 		$total_harga 	= number_format($data['total_harga'],0,".",".");
 
 		echo "<tr>";
+
+		if ($tabelDB == "tb_barang_keluar") {
+			echo "<td>{$data['kode_karyawan']}</td>";
+			echo "<td>{$data['nama_karyawan']}</td>";			
+		}
+
 		echo "<td>{$data['kode_barang']}</td>";
 		echo "<td>{$data['jenis_barang']}</td>";
 		echo "<td>{$data['nama_barang']}</td>";
@@ -62,6 +78,10 @@ function tabel_barang($result, $tabelDB) {
 
 		if ($tabelDB == "tb_barang_masuk") {
 			echo "<td>{$data['tanggal_masuk']}</td>";
+		}
+
+		if ($tabelDB == "tb_barang_keluar") {
+			echo "<td>{$data['tanggal_keluar']}</td>";
 		}
 	}
 	echo "</table>";
@@ -136,7 +156,7 @@ function sql_protect($string) {
 	return $values;
 }
 
-function searchTabel($post, $nama_tabel, $kondisi, $tabel, $pesan, $kode_karyawan) {
+function searchTabel($post, $nama_tabel, $kondisi, $function_tabel, $pesan, $kode_karyawan) {
 	global $conn;	
 	if (isset($_POST[$post])) {
 		$val_search 	= mysqli_real_escape_string($conn, $_POST[$post]);
@@ -150,9 +170,9 @@ function searchTabel($post, $nama_tabel, $kondisi, $tabel, $pesan, $kode_karyawa
 		$query 			= mysqli_query($conn, $result);
 
 		if (mysqli_affected_rows($conn) >= 1) {
-			if ($tabel == "tabel_barang") {
-				$tabel = $tabel($result, $nama_tabel);
-				return $tabel;
+			if ($function_tabel == "tabel_barang") {
+				$function_tabel = $function_tabel($result, $nama_tabel);
+				return $function_tabel;
 			}
 			else {
 				$tabel = $tabel($result);
