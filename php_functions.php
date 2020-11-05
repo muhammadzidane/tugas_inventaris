@@ -136,11 +136,17 @@ function sql_protect($string) {
 	return $values;
 }
 
-function searchTabel($post, $nama_tabel, $kondisi, $tabel, $pesan) {
+function searchTabel($post, $nama_tabel, $kondisi, $tabel, $pesan, $kode_karyawan) {
 	global $conn;	
 	if (isset($_POST[$post])) {
 		$val_search 	= mysqli_real_escape_string($conn, $_POST[$post]);
-		$result 			= "SELECT * FROM $nama_tabel WHERE $kondisi LIKE '%$val_search%';";
+
+		if ($nama_tabel == "tb_barang_inventaris_karyawan") {
+			$result 		= "SELECT * FROM $nama_tabel WHERE $kondisi LIKE '%$val_search%' AND kode_karyawan LIKE '%$kode_karyawan%';";
+		}
+		else {
+			$result 		= "SELECT * FROM $nama_tabel WHERE $kondisi LIKE '%$val_search%';";	
+		}
 		$query 			= mysqli_query($conn, $result);
 
 		if (mysqli_affected_rows($conn) >= 1) {
@@ -266,7 +272,15 @@ function filter_barang($post, $nama_tabel, $jenis_barang) {
 function pagination_links($post, $nama_tabel){
 	global $conn;
 	if (isset($_POST[$post])) {
-		$result 	= "SELECT * FROM $nama_tabel;";
+
+		if ($nama_tabel == "tb_barang_inventaris_karyawan") {
+			$kode_karyawan 	= $_POST[$post];  
+			$result 				= "SELECT * FROM $nama_tabel WHERE kode_karyawan = '$kode_karyawan';";
+		}
+		else {
+			$result 	= "SELECT * FROM $nama_tabel;";
+		}
+
 		$query 	= mysqli_query($conn, $result);
 
 		if (mysqli_affected_rows($conn)) {
@@ -287,17 +301,27 @@ function pagination_links($post, $nama_tabel){
 function page_click($post, $nama_tabel, $order_by, $nama_function) {
 	global $conn;
 	if (isset($_POST[$post])) {
+		$kode_karyawan 		= (isset($_POST["kodeKaryawan"])) ? $_POST["kodeKaryawan"] : "";
 		$data_page 				= $_POST[$post];
 		$page_list_length 	= $_POST['pageListChildrenLength'];
 
 		$result 					= "SELECT * FROM $nama_tabel;";
 		$query 					= mysqli_query($conn, $result);
+		$counter 			   = 0;
 
-		$counter = 0;
 		for ($i=0; $i <= mysqli_affected_rows($conn); $i+=5) { 
 			$counter++;
 			if ($data_page == $counter) {
-				$result 		= "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i, 5;";
+				if ($nama_tabel == "tb_barang_inventaris_karyawan") {
+					$result 		 = "";
+					$result 		.= "SELECT * FROM $nama_tabel WHERE kode_karyawan LIKE '$kode_karyawan'";
+					$result 		.= "ORDER BY $order_by ASC LIMIT $i, 5;";
+					$query 		 = mysqli_query($conn, $result);
+				}
+				else {
+					$result 		 = "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i, 5;";
+				}
+
 				$nama_function 	= $nama_function($result, $nama_tabel);
 				return $nama_function;
 			}

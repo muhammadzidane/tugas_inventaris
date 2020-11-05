@@ -30,9 +30,6 @@ if ($sess_username === "") {
 			background-color: navy;
 			color: #FFFFFF;
 		}
-		.judul{
-			font-size: 32px;
-		}
 		li a:hover {
 			background-color: #ff3333;
 			border-top: 3px solid #DEDBC1;
@@ -96,11 +93,12 @@ if ($sess_username === "") {
 		.bg-tomato {
 			background-color: tomato;
 		}
-		.judul-border {
+		.judul {
+			font-size: 32px;
 			margin: 55px auto;
 			text-align: center;
 			border-bottom: 3px solid black;
-			width: 200px;
+			width: 270px;
 		}
 		.filsearch { margin: 11px 0px; }
 		.c-pointer { cursor: pointer; }
@@ -190,46 +188,7 @@ if ($sess_username === "") {
 		</button>
 	</nav>
 	<div class="container">
-		<h1 class="judul font-neue judul-border">Barang Masuk</h1>
-		<div class="d-flex justify-content-between">
-			<div class="d-flex columns">
-				<div class="column-pink-1"><i class="fas fa-boxes fa-5x pt-2"></i></div>
-				<div class="column-pink-2 text-center">
-					<h2 id="totalSemuaBarang" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Total Semua Barang</h4>
-				</div>
-			</div>
-			<div class="d-flex columns">
-				<div class="column1"><i class="fas fa-laptop fa-5x pt-2"></i></div>
-				<div class="column2 text-center">
-					<h2 id="totalBarangElektronik" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Elektronik</h4>
-				</div>
-			</div>
-			<div class="d-flex columns">
-				<div class="column-pink-1"><i class="fas fa-pencil-ruler fa-5x pt-2"></i></div>
-				<div class="column-pink-2 text-center">
-					<h2 id="totalBarangAlatTulis" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Alat Tulis</h4>
-				</div>
-			</div>
-		</div>
-		<div class="d-flex justify-content-around">
-			<div class="d-flex columns mb-5">
-				<div class="column1"><i class="fas fa-motorcycle fa-5x pt-2"></i></div>
-				<div class="column2 text-center">
-					<h2 id="totalBarangKendaraan" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Kendaraan</h4>
-				</div>
-			</div>
-			<div class="d-flex columns mb-5">
-				<div class="column1"><i class="fas fa-box-open fa-5x pt-2"></i></div>
-				<div class="column2 text-center">
-					<h2 id="totalBarangLainnya" class="font-neue pt-5"></h2>
-					<h4 class="font-neue pt-2">Lainnya</h4>
-				</div>
-			</div>
-		</div>
+		<h1 class="judul font-neue judul">History Barang Masuk</h1>
 		<div id="formTambahBarang"></div>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
@@ -304,31 +263,6 @@ if ($sess_username === "") {
 				$(selector).html(responseText);
 			});	
 		}
-		
-		// Jumlah Semua Barang
-		$.post("backend_barang_masuk.php",{ totalSemuaBarang : true },function(responseText) {	
-			$("#totalSemuaBarang").html(responseText);
-		});
-		
-		// Jumlah Barang Elektronik
-		$.post("backend_barang_masuk.php",{ totalBarangElektronik : true },function(responseText) {	
-			$("#totalBarangElektronik").html(responseText);
-		});
-		
-		// Jumlah Barang Alat Tulis
-		$.post("backend_barang_masuk.php",{	totalBarangAlatTulis : true },function(responseText) {	
-			$("#totalBarangAlatTulis").html(responseText);
-		});
-		
-		// Jumlah Barang Kendaraan
-		$.post("backend_barang_masuk.php",{ totalBarangKendaraan : true },function(responseText) {
-			$("#totalBarangKendaraan").html(responseText);
-		});
-		
-		// Jumlah Barang Lainnya
-		$.post("backend_barang_masuk.php",{	totalBarangLainnya 	: true },function(responseText) {
-			$("#totalBarangLainnya").html(responseText);
-		});
 
 		// Filter Jenis Barang
 		$("#filterJenisBarang").change(function() {

@@ -298,8 +298,8 @@ if ($sess_username == "") {
 
 	// Load Event =========================================>>
 	$(document).ready(function() {
-
 		// Muncul Tabel Saat Load Pertama Kali
+		$("#pesan").hide();	
 		$.post("backend_daftar_karyawan.php",{
 			tabelKaryawan 	: true
 		},function(responseText) {
@@ -315,7 +315,6 @@ if ($sess_username == "") {
 				$("#pesan").show();
 				$("#pesan").html("<?php echo $berhasil_ditambah; ?>");
 			<?php } ?> // End IF 
-			$("#pesan").hide();	
 
 			$(".TRKaryawan").click(function() {
 				let dataKodeKaryawan 	= $(this).data("kode");

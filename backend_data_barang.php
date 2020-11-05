@@ -151,7 +151,7 @@ if (isset($_POST['updateBarang'])) {
 }
 
 // Search tabel barang
-echo searchTabel("searchBarang", "tb_barang", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan");
+echo searchTabel("searchBarang", "tb_barang", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
 
 // Hapus barang
 echo query_hapus("hapusBarang", "tb_barang", "kode_barang", "nama_barang");

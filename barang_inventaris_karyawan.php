@@ -263,7 +263,7 @@ if ($sess_username === "") {
 		<h4 id="dataBarang" class="text-center font-neue m-3"></h4>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
-				<input id="searchUsername" type="text" name="searchBarang" autocomplete="off"
+				<input id="searchBarang" type="text" name="searchBarang" autocomplete="off"
 				placeholder="Cari Nama Barang">
 				<i class="fas fa-search"></i>
 			</div>
@@ -283,6 +283,31 @@ if ($sess_username === "") {
 	<script>
 		"use strict";
 
+
+	function pageLink(button) {
+		let dataPage 					= $(button).data("page");
+		let pageListChildrenLength = $("#page-list").children().length;
+		$.ajax({
+			url 	: "backend_barang_inventaris_karyawan.php",
+			type 	: "POST",
+			data 	: { 
+				pageListTabelBarang 		: dataPage,
+				kodeKaryawan				: "<?= $url_kode_karyawan ?>", 
+				pageListChildrenLength 	: pageListChildrenLength 
+			},
+			success : function(responseText) {
+				console.log(responseText);
+				$("#tabelBarangInvKaryawan").html(responseText);
+			}
+		});
+
+		for (let i = 1; i <= pageListChildrenLength; i++) {
+			if (dataPage == i) {
+				$(".page-circle").removeClass("page-actived");	
+				$(button).addClass("page-actived");
+			}
+		}
+	}
 
 	// Batal tambah barang
 	function buttonBatal(event, button){
@@ -408,43 +433,51 @@ if ($sess_username === "") {
 			}	
 		});
 
-		<?php if (isset($_GET["berhasil-ubah-password"])) { ?>
-			$("#pesan").show();
-			$("#pesan").html("<?= $_GET["berhasil-ubah-password"]; ?>");
-		<?php } ?> // END IF PHP
-
-		<?php if (isset($_GET["berhasil-tambah-akun"])) { ?>
-			$("#pesan").show();
-			$("#pesan").html("<?= $_GET["berhasil-tambah-akun"]; ?>");
-		<?php } ?> // END IF PHP
-
-		<?php if (isset($_GET["hapus"])) { ?>
-			$("#pesan").show();
-			$("#pesan").html("<?= $_GET["hapus"]; ?>");
-		<?php } ?> // END IF PHP
-
-
-		$("#tambahAkun").click(function() {
-			location.assign("tambah_akun.php");
-		});
-
-		$("#ubahPassword").click(function() {
-			location.assign("ubah_password.php?username=" + "<?php echo $sess_username; ?>");
-		});
 
 		// Search nama barang
-		$("#searchUsername").keyup(function() {
-			let inputVal = $("#searchUsername").val().trim()
+		$("#searchBarang").keyup(function() {
+			let inputVal = $("#searchBarang").val().trim()
 			$.post("backend_barang_inventaris_karyawan.php",{
-				searchBarang 	: inputVal
+				searchBarang 	: inputVal, kodeKaryawan : "<?= $url_kode_karyawan; ?>"
 			},function(responseText) {
-				if (responseText == "Username tidak ditemukan") {
+				if (responseText == "Barang Tidak Ditemukan") {
 					$("#pesanSearch").html(responseText);
 					$("#pesanSearch").show();
 				}
 				else {
 					$("#pesanSearch").hide();
 					$("#tabelBarangInvKaryawan").html(responseText);
+					$(".buttonTambah").hide();
+				}
+			});
+		});
+
+		// Pagination Tabel Barang
+		$.ajax({
+			url 	: "backend_barang_inventaris_karyawan.php",
+			type 	: "POST",
+			data 	: { paginationTabelBarang : "<?= $url_kode_karyawan; ?>" },
+			success : function(responseText) {
+				$("#page-list").html(responseText);
+			}
+		});
+
+		// Page Next
+		$("#page-next").click(function() {
+			let dataPage 						= $(".page-actived").data("page") + 1;
+			let pageListChildrenLength 	= $("#page-list").children().length;
+			$.ajax({
+				url 	: "backend_barang_inventaris_karyawan.php",
+				type 	: "POST",
+				data 	: { pageNext : dataPage },
+				success : function(responseText) {
+					$("#tabelKaryawan").html(responseText);
+					for (let i = 1; i <= pageListChildrenLength; i++) {
+						if (dataPage == i) {
+							$(".page-circle").removeClass("page-actived");
+							$(`#page-${i}.page-circle`).addClass("page-actived");
+						}
+					}
 				}
 			});
 		});
@@ -507,8 +540,7 @@ if ($sess_username === "") {
 				}	
 			});
 		});
-
-
+		
 		// Logout
 		$("#logout").click(function() {
 			location.replace("index.php");

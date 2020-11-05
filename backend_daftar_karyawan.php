@@ -72,9 +72,19 @@ if (isset($_POST['acceptEdit'])) {
 	$result 			.= "foto = '$foto'";
 	$result 			.= "WHERE kode_karyawan = '$url_kode_karyawan';";
 
-	$query 				 = mysqli_query($conn, $result);
+	$result 			.= "UPDATE tb_barang_inventaris_karyawan SET ";
+	$result 			.= "kode_karyawan = '$kode_karyawan',";
+	$result 			.= "nama_karyawan = '$nama_karyawan'";
+	$result 			.= "WHERE kode_karyawan = '$url_kode_karyawan';";
+
+	$result 			.= "UPDATE tb_barang_keluar SET ";
+	$result 			.= "kode_karyawan = '$kode_karyawan',";
+	$result 			.= "nama_karyawan = '$nama_karyawan'";
+	$result 			.= "WHERE kode_karyawan = '$url_kode_karyawan';";
+
+	$query 			 = mysqli_multi_query($conn, $result);
 	if ($query) {
-		echo "$nama_karyawan berhasil di ubah";
+		echo "$url_nama_karyawan berhasil di ubah";
 	}
 	else {
 		echo mysqli_connect($conn);
@@ -106,7 +116,7 @@ if (isset($_POST['tambahKaryawan'])) {
 }
 
 // Search karyawan	
-echo searchTabel("searchKaryawan", "tb_karyawan", "nama_karyawan", "tabel_karyawan", "User Tidak Ditemukan");
+echo searchTabel("searchKaryawan", "tb_karyawan", "nama_karyawan", "tabel_karyawan", "User Tidak Ditemukan", null);
 
 // Pagination tabel karyawan
 echo pagination_links("paginationTabelKaryawan","tb_karyawan");

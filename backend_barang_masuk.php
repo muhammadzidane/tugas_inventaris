@@ -23,22 +23,8 @@ if (isset($_POST['tabelBarangMasuk'])) {
 	tabel_barang($result,"tb_barang_masuk");	
 }
 
-// Total barang barang
-$jumlah_semua_barang 		= (isset($_POST['totalSemuaBarang'])) ? jumlah_barang("semua") : '';
-$jumlah_barang_elektronik 	= (isset($_POST['totalBarangElektronik'])) ? jumlah_barang("Elektronik") : '';
-$jumlah_barang_alat_tulis 	= (isset($_POST['totalBarangAlatTulis'])) ? jumlah_barang("Alat Tulis") : '';
-$jumlah_barang_kendaraan 	= (isset($_POST['totalBarangKendaraan'])) ? jumlah_barang("Kendaraan") : '';
-$jumlah_barang_lainnya 		= (isset($_POST['totalBarangLainnya'])) ? jumlah_barang("Lainnya") : '';
-
-echo $jumlah_semua_barang;
-echo $jumlah_barang_elektronik;
-echo $jumlah_barang_alat_tulis;
-echo $jumlah_barang_kendaraan;
-echo $jumlah_barang_lainnya;
-
-
 // Search tabel barang
-echo searchTabel("searchBarang", "tb_barang_masuk", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan");
+echo searchTabel("searchBarang", "tb_barang_masuk", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
 
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarangMasuk","tb_barang_masuk");
