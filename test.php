@@ -1,33 +1,24 @@
 <?php 
 
-$conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
+$conn 	 			 = mysqli_connect("localhost","root","","tugas_inventaris");
 $result 				 = "";
-$result	 				.= "UPDATE tb_barang SET ";
-$result 					.= "jumlah_barang = 'hasil_jumlah_barang',";
-$result 					.= "total_harga = 'total_harga_tb_barang'";
-$result 					.= "WHERE kode_barang = 'kode_barang';";
+$result 				.= "SELECT * FROM tb_barang_inventaris_karyawan WHERE kode_barang = '00003801';";
+$query 				 = mysqli_query($conn, $result);
 
-$result 					.= "INSERT INTO tb_barang_keluar VALUES(";
-$result 					.= "'kode_karyawan',";
-$result 					.= "'nama_karyawan',";
-$result 					.= "'kode_barang',";
-$result 					.= "'jenis_barang',";
-$result 					.= "'nama_barang',";
-$result 					.= "'kondisi_barang',";
-$result 					.= "'val_jumlah_barang',";
-$result 					.= "'harga_satuan',";
-$result 					.= "'total_harga_tb_b_keluar',";
-$result 					.= "'foto_barang',";
-$result 					.= "'2020-11-04'";
-$result 					.= ");";
-$queryTambahBarang 	 		 = $result;
+$result 		 = "";
+while ($data = mysqli_fetch_assoc($query)) {
+	$result 		.= "UPDATE tb_barang_inventaris_karyawan SET ";
+	$result 		.= "kode_barang = 'val_kode_barang',";
+	$result 		.= "jenis_barang = 'val_jenis_barang',";
+	$result 		.= "nama_barang = 'val_nama_barang',";
+	$result 		.= "kondisi_barang = 'val_kondisi_barang',";
+	$result 		.= "harga_satuan = 'val_harga_satuan',";
+	$result 		.= "total_harga = 'total_harga',";
+	$result 		.= "foto_barang = 'val_foto_barang'";
+	$result 		.= "WHERE kode_karyawan = 'kode_karyawan' AND kode_barang = 'val_url_kode_barang';";
+}
 
-$result 				 = "";
-$result	 				.= "UPDATE tb_barang_inventaris_karyawan SET ";
-$result 					.= "jumlah_barang = 'jumlah_barang',";
-$result 					.= "total_harga = 'total_harga'";
-$result 					.= "WHERE kode_barang = 'kode_barang';";
-$result 					.= $queryTambahBarang;
-
+echo "<pre>";
 var_dump($result);
+echo "</pre>";
 ?>

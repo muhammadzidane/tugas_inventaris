@@ -117,7 +117,29 @@ if (isset($_POST["tambahBarangYangSama"])) {
 
 // Update barang
 if (isset($_POST['updateBarang'])) {
+	// $result 		 = "";
+
+	$result 			 = "SELECT * FROM tb_barang_inventaris_karyawan WHERE kode_barang = '$val_url_kode_barang';";
+	$query 			 = mysqli_query($conn, $result);
+
 	$result 		 = "";
+	while($data = mysqli_fetch_assoc($query)) {
+		$kode_karyawan 	= $data["kode_karyawan"];
+		$nama_karyawan 	= $data["nama_karyawan"];
+		$jumlah_barang 	= $data["jumlah_barang"];
+		$total_harga 		= $val_harga_satuan * $jumlah_barang;
+
+		$result 		.= "UPDATE tb_barang_inventaris_karyawan SET ";
+		$result 		.= "kode_barang = '$val_kode_barang',";
+		$result 		.= "jenis_barang = '$val_jenis_barang',";
+		$result 		.= "nama_barang = '$val_nama_barang',";
+		$result 		.= "kondisi_barang = '$val_kondisi_barang',";
+		$result 		.= "harga_satuan = '$val_harga_satuan',";
+		$result 		.= "total_harga = '$total_harga',";
+		$result 		.= "foto_barang = '$val_foto_barang'";
+		$result 		.= "WHERE kode_karyawan = '$kode_karyawan' AND kode_barang = '$val_url_kode_barang';";
+	}
+	
 	$result 		.= "UPDATE tb_barang SET ";
 	$result 		.= "kode_barang = '$val_kode_barang',";
 	$result 		.= "jenis_barang = '$val_jenis_barang',";
@@ -141,13 +163,25 @@ if (isset($_POST['updateBarang'])) {
 	$result 		.= "tanggal_masuk = '$val_tanggal_masuk'";
 	$result 		.= "WHERE kode_barang = '$val_url_kode_barang';";
 
-	$query 			 = mysqli_multi_query($conn, $result);
+	$result 		.= "UPDATE tb_barang_keluar SET ";
+	$result 		.= "kode_barang = '$val_kode_barang',";
+	$result 		.= "jenis_barang = '$val_jenis_barang',";
+	$result 		.= "nama_barang = '$val_nama_barang',";
+	$result 		.= "kondisi_barang = '$val_kondisi_barang',";
+	$result 		.= "jumlah_barang = '$val_jumlah_barang',";
+	$result 		.= "harga_satuan = '$val_harga_satuan',";
+	$result 		.= "total_harga = '$val_total_harga',";
+	$result 		.= "foto_barang = '$val_foto_barang'";
+	$result 		.= "WHERE kode_barang = '$val_url_kode_barang';";
+
+	$query 		 = mysqli_multi_query($conn, $result);
 	if ($query) {
-		echo "$val_url_nama_barang berhasil di ubah";
+		echo "berhasil";
 	}
 	else {
 		echo mysqli_error($conn);
 	}
+
 }
 
 // Search tabel barang

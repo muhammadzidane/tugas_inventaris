@@ -10,7 +10,7 @@ if (isset($_POST['showTabelDataBarang'])) {
 
 if (isset($_POST["tabelBarangInvKaryawan"])) {
 	$kode_karyawan 	=  $_POST["tabelBarangInvKaryawan"];
-	$result 				= "SELECT * FROM tb_barang_inventaris_karyawan WHERE kode_karyawan='$kode_karyawan' LIMIT 5;";
+	$result 				= "SELECT * FROM tb_barang_inventaris_karyawan WHERE kode_karyawan='$kode_karyawan' ORDER BY nama_barang ASC LIMIT 5;";
 	tabel_barang($result, "tb_barang_inventaris_karyawan");
 }
 

@@ -347,12 +347,6 @@ if ($sess_username === "") {
 			});
 		});
 
-		// Tambah Barang
-		// Jika role moderator maka hapus button tambah barang
-		// <?php if ($_SESSION['role'] == "moderator") { ?>
-		// 	$("#tambahBarang").remove();
-		// <?php } ?> // End IF
-
 		// Jam 
 		setInterval(function(){
 			let waktu = new Date();	
