@@ -27,9 +27,9 @@ if (isset($_POST['tabelBarangKeluar'])) {
 echo searchTabel("searchBarang", "tb_barang_keluar", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
 
 // Pagination tabel barang
-echo pagination_links("paginationTabelBarangMasuk","tb_barang_masuk");
-echo page_click("pageListTabelBarangMasuk", "tb_barang_masuk", "nama_barang", "tabel_barang");
-echo page_next("pageNext", "tb_barang_masuk", "nama_barang", "tabel_barang");
+echo pagination_links("paginationTabelBarangKeluar","tb_barang_keluar");
+echo page_click("pageListTabelBarangKeluar", "tb_barang_keluar", "nama_barang", "tabel_barang");
+echo page_next("pageNext", "tb_barang_keluar", "nama_barang", "tabel_barang");
 
 // Filter barang barang
 echo filter_barang('filterSemua',"tb_barang_keluar" ,"Semua");

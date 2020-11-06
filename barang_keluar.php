@@ -224,33 +224,6 @@ if ($sess_username === "") {
 		"use strict";
 
 	// Non Load Event ====================================================================== >>
-	// Edit Barang
-	function buttonEditBarang(event, button) {
-		let dataKodeBarang  = $(button).data('kode');
-		let dataNamaBarang 	= $(button).data('nama');
-		location.assign(`edit_barang.php?kode-barang=${dataKodeBarang}&nama-barang=${dataNamaBarang}`);
-	}
-
-	function buttonHapusBarang(event, button) {
-		let confirmHapusBarang = confirm("Apakah anda yakin ingin menghapus data barang?");
-		if (confirmHapusBarang) {
-			let dataKodeBarang = $(button).data("kode");
-			$.ajax({
-				url 		: "backend_barang_keluar.php",
-				type 		: "POST",
-				data 		: { hapusBarang : dataKodeBarang },
-				success	: function(responseText) {
-					$("#pesan").show();
-					$("#pesan").html(responseText);
-					// Tampilkan tabel saat berhasil menghapus barang
-					$.post('backend_barang_keluar.php',{ tabelBarang : true },function(responseText){
-						$("#tabelBarang").html(responseText);
-					});
-				}
-			});
-			console.log(dataKodeBarang);
-		}
-	}		
 
 	function pageLink(button) {
 		let dataPage 				= $(button).data("page");
@@ -258,9 +231,9 @@ if ($sess_username === "") {
 		$.ajax({
 			url 		: "backend_barang_keluar.php",
 			type 		: "POST",
-			data 		: { pageListTabelBarang : dataPage, pageListChildrenLength : pageListChildrenLength },
+			data 		: { pageListTabelBarangKeluar : dataPage, pageListChildrenLength : pageListChildrenLength },
 			success	: function(responseText) {
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangKeluar").html(responseText);
 			}
 		});
 
@@ -299,14 +272,6 @@ if ($sess_username === "") {
 				}
 			}
 		});
-
-		function totalBarang(post, selector) {
-			$.post("backend_barang_keluar.php",{
-				post 	: true
-			},function(responseText) {	
-				$(selector).html(responseText);
-			});	
-		}
 		
 		// Jumlah Semua Barang
 		$.post("backend_barang_keluar.php",{ totalSemuaBarang : true },function(responseText) {	
@@ -398,7 +363,7 @@ if ($sess_username === "") {
 		$.ajax({
 			url 	: "backend_barang_keluar.php",
 			type 	: "POST",
-			data 	: { paginationTabelBarang : true },
+			data 	: { paginationTabelBarangKeluar : true },
 			success : function(responseText) {
 				$("#page-list").html(responseText);
 			}
@@ -412,7 +377,7 @@ if ($sess_username === "") {
 				success : function(responseText) {
 					let pageListChildrenLength 	= $("#page-list").children().length;
 					let dataPage 				= $(".page-actived").data("page") + 1;
-					$("#tabelBarang").html(responseText);
+					$("#tabelBarangKeluar").html(responseText);
 					for (let i = 1; i <= pageListChildrenLength; i++) {
 						if (dataPage == i) {
 							$(".page-circle").removeClass("page-actived");
