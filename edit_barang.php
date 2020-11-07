@@ -6,8 +6,8 @@ require_once 'php_functions.php';
 // Mengambil value dari database untuk mengisi tag <input> value 
 $url_kode_barang 	= (isset($_GET['kode-barang'])) ? $_GET['kode-barang'] : "";
 $url_nama_barang 	= (isset($_GET['nama-barang'])) ? $_GET['nama-barang'] : "";
-$result 			= "SELECT * FROM tb_barang WHERE kode_barang='$url_kode_barang';";
-$query 			= mysqli_query($conn, $result);
+$result 				= "SELECT * FROM tb_barang WHERE kode_barang='$url_kode_barang';";
+$query 				= mysqli_query($conn, $result);
 
 while ($data = mysqli_fetch_assoc($query)) {
 	$jenis_barang 		= $data['jenis_barang'];
@@ -190,8 +190,7 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 										valFotoBarang 			: valFotoBarang,
 										valTanggalMasuk 		: valTanggalMasuk }, 
 										function(responseText) {
-											location.assign(`data_barang.php?edit=${encodeURIComponent(responseText)}`);	
-											console.log(responseText);	
+											location.assign(`data_barang.php?berhasil-edit=${encodeURIComponent(responseText)}`);
 										}
 									);
 								}

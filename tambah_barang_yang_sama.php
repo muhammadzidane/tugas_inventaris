@@ -99,7 +99,7 @@ $harga_satuan 	= $data["harga_satuan"];
 		</div>
 		<div class='form-group'>
 			<label for='kondisi_barang'>Kondisi Barang</label>
-			<select id="kondisi_barang" class="form-control">
+			<select id="kondisi_barang" class="form-control" readonly>
 				<option>Baru</option>
 				<option>Bekas</option>
 			</select>

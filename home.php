@@ -1,14 +1,10 @@
 <?php 
 session_start();
-$conn 				= mysqli_connect("localhost","root","","tugas_inventaris");
+require_once 'php_functions.php';
+cek_session();
 
-$sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 $sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 
-if ($sess_username == "") {
-	header("Location: index.php");
-}
-var_dump($_SESSION);
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,13 +25,15 @@ var_dump($_SESSION);
 		.judul{
 			font-size: 32px;
 		}
-		.logo {
-			width: 140px;
-			display: block;
-			margin: 50px auto;
+		.header-modul-location, .header-modul-location:hover{
+			text-decoration: none;
+			color: black;
 		}
 		.judul-tanggal{
-			font-size: 20px;
+			font-size: 24px;
+			border-bottom: 3px solid black;
+			margin: 0 auto;
+			width: 50%;
 		}
 		.actived {
 			background-color: #ff3333;
@@ -121,7 +119,7 @@ var_dump($_SESSION);
 		<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link text-white actived" href="">Home</a>
+					<a class="nav-link text-white actived" href="home.php">Home</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-white" href="daftar_pegawai.php">Daftar Pegawai</a>
@@ -130,20 +128,22 @@ var_dump($_SESSION);
 					<a class="nav-link text-white" href="data_barang.php">Data Barang</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white" href="">Barang Masuk</a>
+					<a class="nav-link text-white" href="barang_masuk.php">Barang Masuk</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white" href="">Barang Keluar</a>
+					<a class="nav-link text-white" href="barang_keluar.php">Barang Keluar</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white" href="">Setting Akun</a>
+					<a class="nav-link text-white" href="setting_akun.php">Setting Akun</a>
 				</li>
 			</ul>
 			<div class="navbar-text text-white ml-auto" id="waktu"></div>
-			<button id="logout" class=" btn btn-info ml-3">
-				Logout
-				<i class="fas fa-sign-out-alt"></i>
-			</button>
+			<a href="index.php">
+				<button id="logout" class=" btn btn-info ml-3">
+					Logout
+					<i class="fas fa-sign-out-alt"></i>
+				</button>
+			</a>
 		</nav>
 	</header>
 	<main>
@@ -153,65 +153,53 @@ var_dump($_SESSION);
 				<div class="judul-tanggal mb-1 text-center font-neue">Tahun 2020</div>
 			</header>
 			<div id class="justify-content-between d-flex">
-				<div id="daftarPegawai" class="d-flex columns my-5">
-					<div class="column-yellow-1"><i class="fas fa-users fa-5x"></i></div>
-					<div class="column-yellow-2 text-center">
-						<h3 class="font-neue link-nav">Daftar Pegawai</h3>
+				<a class="header-modul-location" href="daftar_pegawai.php">
+					<div id="daftarPegawai" class="d-flex columns my-5">
+						<div class="column-yellow-1"><i class="fas fa-users fa-5x"></i></div>
+						<div class="column-yellow-2 text-center">
+							<h3 class="font-neue link-nav">Daftar Pegawai</h3>
+						</div>
 					</div>
-				</div>
-				<div id="dataBarang" class="d-flex columns my-5">
-					<div class="column-orange-1"><i class="fas fa-boxes fa-5x"></i></div>
-					<div class="column-orang-2 text-center">
-						<h3 class="font-neue link-nav">Data Barang</h3>
+				</a>
+				<a class="header-modul-location" href="data_barang.php">
+					<div id="dataBarang" class="d-flex columns my-5">
+						<div class="column-orange-1"><i class="fas fa-boxes fa-5x"></i></div>
+						<div class="column-orang-2 text-center">
+							<h3 class="font-neue link-nav">Data Barang</h3>
+						</div>
 					</div>
-				</div>
-				<div id="barangMasuk" class="d-flex columns my-5">
-					<div class="column-yellow-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-plus"></i></div>
-					<div class="column-yellow-2 text-center">
-						<h3 class="font-neue link-nav">Barang Masuk</h3>
+				</a>
+				<a class="header-modul-location" href="barang_masuk.php">
+					<div id="barangMasuk" class="d-flex columns my-5">
+						<div class="column-yellow-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-plus"></i></div>
+						<div class="column-yellow-2 text-center">
+							<h3 class="font-neue link-nav">Barang Masuk</h3>
+						</div>
 					</div>
-				</div>
-			</div>
+				</a>
+			</div>		
 			<div class="justify-content-around d-flex">
-				<div id="barangKeluar" class="d-flex columns my-5">
-					<div class="column-orange-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-minus"></i></div>
-					<div class="column-orang-2 text-center">
-						<h3 class="font-neue link-nav">Barang Keluar</h3>
+				<a class="header-modul-location" href="barang_keluar.php">
+					<div id="barangKeluar" class="d-flex columns my-5">
+						<div class="column-orange-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-minus"></i></div>
+						<div class="column-orang-2 text-center">
+							<h3 class="font-neue link-nav">Barang Keluar</h3>
+						</div>
 					</div>
-				</div>
-				<div id="settingAkun" class="d-flex columns my-5">
-					<div class="column-orange-1"><i class="fas fa-user-cog fa-5x"></i></div>
-					<div class="column-orang-2 text-center">
-						<h3 class="font-neue link-nav">Setting Akun</h3>
+				</a>
+				<a class="header-modul-location" href="setting_akun.php">
+					<div id="settingAkun" class="d-flex columns my-5">
+						<div class="column-orange-1"><i class="fas fa-user-cog fa-5x"></i></div>
+						<div class="column-orang-2 text-center">
+							<h3 class="font-neue link-nav">Setting Akun</h3>
+						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 		</div>
 	</main>
 	<footer>
-		<div id="test"></div>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
 	</footer>
-	<script>
-		"use strict";
-		$(document).ready(function() {
-			// Logout
-			$("#logout").click(function() {
-				location.replace("index.php");
-			});
-			
-			function headerLocation(selector, targetLocation) {
-				$(selector).click(function() {
-					location.assign(targetLocation);
-				});
-			}
-
-			headerLocation("#daftarPegawai", "daftar_pegawai.php");
-			headerLocation("#dataBarang", "data_barang.php");
-			headerLocation("#barangMasuk", "barang_masuk.php");
-			headerLocation("#barangKeluar", "barang_keluar.php");
-			headerLocation("#settingAkun", "setting_akun.php");
-			});
-	</script>
 </body>
 </html>

@@ -1,12 +1,10 @@
 <?php 
 session_start();
-$conn 				= mysqli_connect("localhost","root","","daftar_inventaris");
-$sess_username 		= (isset($_SESSION['username']) ? $_SESSION['username'] : "");
-$sess_role 			= (isset($_SESSION['role']) ? $_SESSION['role'] : "");
+require_once 'php_functions.php';
+cek_session();
 
-if ($sess_username === "") {
-	header("Location: index.php");
-}
+$sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -92,6 +90,16 @@ if ($sess_username === "") {
 			height: 35px;
 			text-align: center;
 			padding-top: 3px;
+		}
+		#pesanLoad {
+			background-color: tomato;
+			box-shadow: 1px 1px 4px black;
+			color: #FFFFFF;
+			width: 50%;
+			height: 35px;
+			text-align: center;
+			padding-top: 3px;
+			margin: 30px auto;
 		}
 		.bg-tomato {
 			background-color: tomato;
@@ -191,6 +199,7 @@ if ($sess_username === "") {
 	</nav>
 	<div class="container">
 		<h1 class="judul font-neue judul-border">Data Barang</h1>
+		<div id="pesanLoad"></div>
 		<div class="d-flex justify-content-between">
 			<div class="d-flex columns">
 				<div class="column-pink-1"><i class="fas fa-boxes fa-5x pt-2"></i></div>
@@ -334,36 +343,49 @@ if ($sess_username === "") {
 
 	// Load event ========================================================================== >>
 	$(document).ready(function() {
+		$("#pesanLoad").hide();
+		$("#pesan").hide();
+
+
 		// Muncul Tabel Saat Load Pertama Kali
 		$.ajax({
 			url 		:"backend_data_barang.php",
 			type 		: "POST",
 			data 		: { tabelBarang : true },
 			success		:function(responseText) {	
-				$("#pesan").hide();
 				$("#tabelBarang").html(responseText);
 				// Pesan edit/tampah barang jika berhasil mengubah/metambah data barang 
 				
-				let getUrlTambahOrEdit = location.search.substr(1,6);
-				if (getUrlTambahOrEdit == "tambah"){
-					let getUrlTambah 	= '<?php if (isset($_GET['tambah'])) { echo $_GET['tambah']; } ?>';
-					$("#pesan").show();
-					$("#pesan").html(getUrlTambah);
+				let getUrlTambahOrEdit = location.search.substr(1,15);
+				if (getUrlTambahOrEdit == "berhasil-tambah"){
+					let getUrlTambah 	= "<?php if (isset($_GET['berhasil-tambah'])) { echo $_GET['berhasil-tambah']; } ?>";
+					$("#pesanLoad").show();
+					$("#pesanLoad").html(getUrlTambah);
 				} 
 
-				let getUrlEdit = location.search.substr(1,4);
-				if (getUrlEdit == "edit") { 
-					let getUrlEdit 	= '<?php if (isset($_GET['edit'])) { echo $_GET['edit']; } ?>';
-					$("#pesan").show();
-					$("#pesan").html(getUrlEdit);
+				let getUrlEdit = location.search.substr(1,13);
+				if (getUrlEdit == "berhasil-edit") { 
+					let getUrlEdit 	= "<?php if (isset($_GET['berhasil-edit'])) { echo $_GET['berhasil-edit']; } ?>";
+					$("#pesanLoad").show();
+					$("#pesanLoad").html(getUrlEdit);
 				}
 
 				let getUrlTambahBarangSama = location.search.substr(1,23);
 				if (getUrlTambahBarangSama == "tambah_barang_yang_sama") { 
-					let getUrlTambahBarangSama 	= '<?php if (isset($_GET['tambah_barang_yang_sama'])) { echo $_GET['tambah_barang_yang_sama']; } ?>';
-					$("#pesan").show();
-					$("#pesan").html(getUrlTambahBarangSama);
+					let getUrlTambahBarangSama 	= "<?php if (isset($_GET['tambah_barang_yang_sama'])) { echo $_GET['tambah_barang_yang_sama']; } ?>";
+					$("#pesanLoad").show();
+					$("#pesanLoad").html(getUrlTambahBarangSama);
 				}
+				
+				// Jika role moderator, maka remove beberapa modul
+				<?php if ($sess_role == "moderator") { ?>
+					$("#tambahBarang").remove();
+					$("#THActions").remove();
+					$(".buttonTambah").remove();
+					$(".buttonEdit").remove();
+					$(".buttonHapus").remove();
+					console.log($("buttonEdit"));
+				<?php } ?>
 			}
 		});
 
@@ -455,12 +477,6 @@ if ($sess_username === "") {
 			});
 		});
 
-		// Tambah Barang
-		// Jika role moderator maka hapus button tambah barang
-		// <?php if ($_SESSION['role'] == "moderator") { ?>
-		// 	$("#tambahBarang").remove();
-		// <?php } ?> // End IF
-
 		$("#tambahBarang").click(function() {
 			location.assign("tambah_barang.php");
 		});
@@ -499,6 +515,7 @@ if ($sess_username === "") {
 				}
 			});
 		});
+
 
 		// Logout
 		$("#logout").click(function() {

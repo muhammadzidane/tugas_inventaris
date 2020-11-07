@@ -1,12 +1,10 @@
 <?php 
 session_start();
-$conn 				= mysqli_connect("localhost","root","","daftar_inventaris");
-$sess_username 		= (isset($_SESSION['username']) ? $_SESSION['username'] : "");
-$sess_role 			= (isset($_SESSION['role']) ? $_SESSION['role'] : "");
+require_once 'php_functions.php';
+cek_session();
 
-if ($sess_username === "") {
-	header("Location: index.php");
-}
+$sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
+
 ?>
 <!DOCTYPE html>
 <html>

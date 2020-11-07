@@ -6,15 +6,15 @@ require_once 'php_functions.php';
 // Ambil values dari <input>
 $val_url_kode_barang 	= (isset($_POST['valUrlKodeBarang'])) ? sql_protect($_POST['valUrlKodeBarang']) : '';
 $val_url_nama_barang 	= (isset($_POST['valUrlNamaBarang'])) ? sql_protect($_POST['valUrlNamaBarang']) : '';
-$val_kode_barang 		= (isset($_POST['valKodeBarang'])) ? sql_protect($_POST['valKodeBarang']) : '';
+$val_kode_barang 			= (isset($_POST['valKodeBarang'])) ? sql_protect($_POST['valKodeBarang']) : '';
 $val_jenis_barang 		= (isset($_POST['valJenisBarang'])) ? sql_protect($_POST['valJenisBarang']) : '';
-$val_nama_barang	 	= (isset($_POST['valNamaBarang'])) ? sql_protect(ucwords($_POST['valNamaBarang'])) : '';
-$val_kondisi_barang 	= (isset($_POST['valKondisiBarang'])) ? sql_protect($_POST['valKondisiBarang']) : '';
+$val_nama_barang	 		= (isset($_POST['valNamaBarang'])) ? sql_protect(ucwords($_POST['valNamaBarang'])) : '';
+$val_kondisi_barang 		= (isset($_POST['valKondisiBarang'])) ? sql_protect($_POST['valKondisiBarang']) : '';
 $val_jumlah_barang 		= (isset($_POST['valJumlahBarang'])) ? sql_protect($_POST['valJumlahBarang']) : '';
 $val_harga_satuan 		= (isset($_POST['valHargaSatuan'])) ? sql_protect($_POST['valHargaSatuan']) : '';
-$val_foto_barang 		= (isset($_POST['valFotoBarang'])) ? sql_protect(strtolower($_POST['valFotoBarang'])) : '';
+$val_foto_barang 			= (isset($_POST['valFotoBarang'])) ? sql_protect(strtolower($_POST['valFotoBarang'])) : '';
 $val_tanggal_masuk 		= (isset($_POST['valTanggalMasuk'])) ? sql_protect($_POST['valTanggalMasuk']) : '';
-$val_total_harga 		= (int) $val_harga_satuan * (int) $val_jumlah_barang;
+$val_total_harga 			= (int) $val_harga_satuan * (int) $val_jumlah_barang;
 
 // Muncul tabel saat Load pertama kali  
 if (isset($_POST['tabelBarang'])) {
@@ -117,12 +117,12 @@ if (isset($_POST["tambahBarangYangSama"])) {
 
 // Update barang
 if (isset($_POST['updateBarang'])) {
-	// $result 		 = "";
 
 	$result 			 = "SELECT * FROM tb_barang_inventaris_karyawan WHERE kode_barang = '$val_url_kode_barang';";
 	$query 			 = mysqli_query($conn, $result);
 
 	$result 		 = "";
+
 	while($data = mysqli_fetch_assoc($query)) {
 		$kode_karyawan 	= $data["kode_karyawan"];
 		$nama_karyawan 	= $data["nama_karyawan"];
@@ -176,12 +176,11 @@ if (isset($_POST['updateBarang'])) {
 
 	$query 		 = mysqli_multi_query($conn, $result);
 	if ($query) {
-		echo "berhasil";
+		echo "$val_url_nama_barang berhasil di ubah";
 	}
 	else {
 		echo mysqli_error($conn);
 	}
-
 }
 
 // Search tabel barang

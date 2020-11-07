@@ -8,10 +8,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href='https://fonts.googleapis.com/css?family=Krona One' rel='stylesheet'>
-	<link rel="stylesheet" type="text/css" href="belajar_javascript/tugas_inventaris/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
-	<script type="text/javascript" src="tugas_inventaris/bootstrap/js/jquery.js"></script>
-	<script type="text/javascript" src="tugas_inventaris/bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 	<title>Login</title>
 	<style>
 		.bg-login {

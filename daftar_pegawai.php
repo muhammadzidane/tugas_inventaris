@@ -1,15 +1,9 @@
 <?php 
 session_start();
-$conn 				= mysqli_connect("localhost","root","","tugas_inventaris");
+require_once 'php_functions.php';
+cek_session();
 
-$sess_username 	= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
-
-
-if ($sess_username == "") {
-	header("Location: index.php");
-}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,9 +24,6 @@ if ($sess_username == "") {
 		.tableFirstChild {
 			background-color: navy;
 			color: #FFFFFF;
-		}
-		.judul{
-			font-size: 32px;
 		}
 		.logo {
 			width: 140px;
@@ -115,11 +106,12 @@ if ($sess_username == "") {
 		.form-group{
 			margin: 10px;
 		}
-		.daftar-pegawai {
+		.judul {
 			margin: 55px auto;
 			text-align: center;
 			border-bottom: 3px solid black;
 			width: 300px;
+			font-size: 32px;
 		}
 		#tambahKaryawan {
 			color: #FFFFFF;
@@ -211,7 +203,7 @@ if ($sess_username == "") {
 		</button>
 	</nav>
 	<div id="daftarPegawai" class="container">
-		<h1 class="judul font-neue daftar-pegawai">Daftar Pegawai</h1>
+		<h1 class="judul font-neue">Daftar Pegawai</h1>
 		<div>
 			<div class="d-flex columns my-5">
 				<div class="column1"><i class="fas fa-users fa-5x"></i></div>
@@ -321,6 +313,16 @@ if ($sess_username == "") {
 				let dataNamaKaryawan 	= $(this).data("nama");
 				location.assign("barang_inventaris_karyawan.php?kode_karyawan=" + dataKodeKaryawan + "&nama_karyawan=" + dataNamaKaryawan);
 			});
+
+			// Jika role moderator, maka remove beberapa modul
+			<?php if ($sess_role == "moderator") { ?>
+				$("#tambahKaryawan").remove();
+				$("#THActions").remove();
+				$(".TDEdit").remove();
+				$(".TDHapus").remove();
+				$(".buttonHapus").remove();
+				console.log($("buttonEdit"));
+			<?php } ?>
 		});
 		
 		// Total Karyawan

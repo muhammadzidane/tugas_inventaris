@@ -134,4 +134,9 @@ if (isset($_POST["updatePassword"])) {
 
 // Search username
 echo searchTabel("searchUsername", "tb_users", "username", "tabel_users", "Username tidak ditemukan", null);
+
+// Pagination username
+echo pagination_links("paginationTabelUsername","tb_users");
+echo page_click("pageListTabelUsers", "tb_users", "username", "tabel_users");
+echo page_next("pageNext", "tb_users", "username", "tabel_users");
 ?>

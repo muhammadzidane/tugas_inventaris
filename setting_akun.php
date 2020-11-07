@@ -1,14 +1,11 @@
 <?php 
 session_start();
-$conn 				= mysqli_connect("localhost","root","","daftar_inventaris");
+require_once 'php_functions.php';
+cek_session();
 
+$sess_role 				= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
-$sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 
-
-if ($sess_username === "") {
-	header("Location: index.php");
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -60,7 +57,7 @@ if ($sess_username === "") {
 			background-color: tomato;
 			box-shadow: 1px 1px 4px black;
 			color: #FFFFFF;
-			width: 80%;
+			width: 50%;
 			height: 35px;
 			text-align: center;
 			margin: 0 auto;
@@ -263,6 +260,25 @@ if ($sess_username === "") {
 	<script>
 		"use strict";
 
+		function pageLink(button) {
+			let dataPage 				= $(button).data("page");
+			let pageListChildrenLength 	= $("#page-list").children().length;
+			$.ajax({
+				url 	: "backend_setting_akun.php",
+				type 	: "POST",
+				data 	: { pageListTabelUsers : dataPage, pageListChildrenLength : pageListChildrenLength },
+				success : function(responseText) {
+					$("#tabelUsers").html(responseText);
+				}
+			});
+
+			for (let i = 1; i <= pageListChildrenLength; i++) {
+				if (dataPage == i) {
+					$(".page-circle").removeClass("page-actived");	
+					$(button).addClass("page-actived");
+				}
+			}
+		}
 
 		function buttonUbahRole(event, button){
 			let dataUsername  		= $(button).data("username");
@@ -329,6 +345,14 @@ if ($sess_username === "") {
 		$("#pesan").hide();
 		$("#pesanSearch").hide();
 
+		// Jika role moderator maka hide modul tambah user baru
+		<?php if ($sess_role == "moderator") { ?>
+			$("#tambahAkun").parent().addClass("justify-content-around");
+			$("#tambahAkun").remove();
+			$("#tabelUsers").prev().remove();
+			$("#tabelUsers").remove();
+		<?php } ?>
+
 		// Muncul tabel saat pertama load
 		$.ajax({
 			url 		:"backend_setting_akun.php",
@@ -343,6 +367,11 @@ if ($sess_username === "") {
 		<?php if (isset($_GET["berhasil-tambah-akun"])) { ?>
 			$("#pesan").show();
 			$("#pesan").html("<?php echo $_GET["berhasil-tambah-akun"]; ?>");
+		<?php } ?> // END IF PHP
+
+		<?php if (isset($_GET["berhasil-ubah-password"])) { ?>
+			$("#pesan").show();
+			$("#pesan").html("<?php echo $_GET["berhasil-ubah-password"]; ?>");
 		<?php } ?> // END IF PHP
 
 		<?php if (isset($_GET["hapus"])) { ?>
@@ -379,6 +408,36 @@ if ($sess_username === "") {
 					$("#tabelUsers").html(responseText);
 				}
 				console.log(responseText);
+			});
+		});
+
+		// Pagination username
+		$.ajax({
+			url 	: "backend_setting_akun.php",
+			type 	: "POST",
+			data 	: { paginationTabelUsername : true },
+			success : function(responseText) {
+				$("#page-list").html(responseText);
+			}
+		});
+
+		// Page Next
+		$("#page-next").click(function() {
+			let dataPage 						= $(".page-actived").data("page") + 1;
+			let pageListChildrenLength 			= $("#page-list").children().length;
+			$.ajax({
+				url 	: "backend_setting_akun.php",
+				type 	: "POST",
+				data 	: { pageNext : dataPage },
+				success : function(responseText) {
+					$("#tabelUsers").html(responseText);
+					for (let i = 1; i <= pageListChildrenLength; i++) {
+						if (dataPage == i) {
+							$(".page-circle").removeClass("page-actived");
+							$(`#page-${i}.page-circle`).addClass("page-actived");
+						}
+					}
+				}
 			});
 		});
 

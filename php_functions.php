@@ -18,7 +18,7 @@ function tabel_barang($result, $tabelDB) {
 	echo "<th>Jumlah Barang</th>";
 	echo "<th>Harga Satuan</th>";
 	echo "<th>Total Harga</th>";
-	echo "<th>Foto Barang</th>";
+	echo "<th colspan='2'>Foto Barang</th>";
 
 	if ($tabelDB == "tb_barang_masuk") {
 		echo "<th>Tanggal Masuk</th>";
@@ -29,7 +29,7 @@ function tabel_barang($result, $tabelDB) {
 	}
 
 	if ($tabelDB == "tb_barang" OR $tabelDB == "tb_barang_inventaris_karyawan") {
-		echo "<th id='action' colspan='3' class='text-center'>Action</th>";
+		echo "<th id='THActions' colspan='3' class='text-center'>Actions</th>";
 	}
 	
 	echo "</tr>";
@@ -58,7 +58,7 @@ function tabel_barang($result, $tabelDB) {
 		echo "<td>{$data['foto_barang']}</td>";
 
 		if ($tabelDB == "tb_barang") {
-			echo "<td><button class ='btn btn-success' onclick='buttonTambahBarang(event, this);'
+			echo "<td><button class ='buttonTambah btn btn-success' onclick='buttonTambahBarang(event, this);'
 			data-kode='{$data['kode_barang']}' data-jumlah='{$data['jumlah_barang']}' data-total='{$data['total_harga']}'>Tambah</button</td>";
 			echo "<td class='buttonEdit'><button onclick='buttonEditBarang(event, this);' 
 			data-kode='{$data['kode_barang']}' data-nama='{$data['nama_barang']}' class='btn btn-warning text-white'>Edit</td>";
@@ -98,7 +98,7 @@ function tabel_karyawan($result) {
 	echo "<th>Pendidikan Terakhir</th>";
 	echo "<th>Alamat Lengkap</th>";
 	echo "<th>Foto</th>";
-	echo "<th colspan='2' class='text-center'>Action</th>";
+	echo "<th id='THActions' colspan='2' class='text-center'>Action</th>";
 	echo "</tr>";
 	$query 			= mysqli_query($conn, $result);
 
@@ -111,10 +111,10 @@ function tabel_karyawan($result) {
 		echo "<td>{$data['pendidikan_terakhir']}</td>";
 		echo "<td>{$data['alamat']}</td>";
 		echo "<td>{$data['foto']}</td>";
-		echo "<td><button id='edit' onclick='buttonEditKaryawan(event, this);' 
-		data-kode='{$data['kode_karyawan']}' data-nama='{$data['nama_karyawan']}' class='btn btn-success'>Edit</td>";
-		echo "<td><button id='hapus' onclick='buttonHapusKaryawan(event, this);' 
-		data-kode='{$data['kode_karyawan']}' class='hapusKaryawan btn btn-danger'>Hapus</td>";
+		echo "<td class='TDEdit'><button onclick='buttonEditKaryawan(event, this);' 
+				data-kode='{$data['kode_karyawan']}' data-nama='{$data['nama_karyawan']}' class='btn btn-success'>Edit</td>";
+		echo "<td class='TDHapus'><button id='hapus' onclick='buttonHapusKaryawan(event, this);' 
+				data-kode='{$data['kode_karyawan']}' class='hapusKaryawan btn btn-danger'>Hapus</td>";
 		echo "</tr>";
 	}
 	echo "</table>";
@@ -175,8 +175,8 @@ function searchTabel($post, $nama_tabel, $kondisi, $function_tabel, $pesan, $kod
 				return $function_tabel;
 			}
 			else {
-				$tabel = $tabel($result);
-				return $tabel;	
+				$function_tabel = $function_tabel($result);
+				return $function_tabel;	
 			}
 		}
 		else {
@@ -365,6 +365,14 @@ function page_next($post, $nama_tabel, $order_by, $nama_function) {
 		}
 		$nama_function = $nama_function($result, $nama_tabel);
 		return $nama_function;
+	}
+}
+
+// Mengecek session, jika tidak ada maka header ke halaman login
+function cek_session() {
+	$sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
+	if ($sess_username == "") {
+		header("Location: index.php");
 	}
 }
 
