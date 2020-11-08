@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once 'php_functions.php';
+require_once 'files_backend_ajax/php_functions.php';
 cek_session();
 
 $sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
@@ -9,10 +9,10 @@ $sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Website Inventaris</title>
+	<title>Home</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 	<style>
@@ -22,18 +22,19 @@ $sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		nav {
 			height: 44px;
 		}
-		.judul{
+		.judul {
+			margin: 28px auto;
+			text-align: center;
+			border-bottom: 3px solid black;
+			width: 50%;
 			font-size: 32px;
+		}
+		.cards {
+			margin-top: 60px;
 		}
 		.header-modul-location, .header-modul-location:hover{
 			text-decoration: none;
 			color: black;
-		}
-		.judul-tanggal{
-			font-size: 24px;
-			border-bottom: 3px solid black;
-			margin: 0 auto;
-			width: 50%;
 		}
 		.actived {
 			background-color: #ff3333;
@@ -80,7 +81,7 @@ $sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 			height: 160px;
 			background-color: #ff9f43;
 		}
-		.column-orang-2 {
+		.column-orange-2 {
 			width: 200px;
 			height: 160px;
 			background-color: #ffffff;
@@ -137,67 +138,63 @@ $sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 					<a class="nav-link text-white" href="setting_akun.php">Setting Akun</a>
 				</li>
 			</ul>
-			<div class="navbar-text text-white ml-auto" id="waktu"></div>
-			<a href="index.php">
-				<button id="logout" class=" btn btn-info ml-3">
+			<a href="index.php" class="ml-auto">
+				<button id="logout" class="btn btn-warning btn-sm">
 					Logout
 					<i class="fas fa-sign-out-alt"></i>
 				</button>
 			</a>
 		</nav>
 	</header>
-	<main>
-		<div class="container">
-			<header>
-				<div class="judul text-center mt-3 font-neue">Daftar Inventaris Karyawan IT+</div>
-				<div class="judul-tanggal mb-1 text-center font-neue">Tahun 2020</div>
-			</header>
-			<div id class="justify-content-between d-flex">
+	<div class="container">
+		<div class="judul font-neue">Daftar Inventaris Karyawan IT+<br><small>Tahun 2020</small></div>
+		<div class="cards">
+			<div class="justify-content-between d-flex">
 				<a class="header-modul-location" href="daftar_pegawai.php">
-					<div id="daftarPegawai" class="d-flex columns my-5">
+					<div id="daftarPegawai" class="d-flex columns">
 						<div class="column-yellow-1"><i class="fas fa-users fa-5x"></i></div>
 						<div class="column-yellow-2 text-center">
-							<h3 class="font-neue link-nav">Daftar Pegawai</h3>
+							<h4 class="font-neue link-nav">Daftar Pegawai</h4>
 						</div>
 					</div>
 				</a>
 				<a class="header-modul-location" href="data_barang.php">
-					<div id="dataBarang" class="d-flex columns my-5">
+					<div id="dataBarang" class="d-flex columns">
 						<div class="column-orange-1"><i class="fas fa-boxes fa-5x"></i></div>
-						<div class="column-orang-2 text-center">
-							<h3 class="font-neue link-nav">Data Barang</h3>
+						<div class="column-orange-2 text-center">
+							<h4 class="font-neue link-nav">Data Barang</h4>
 						</div>
 					</div>
 				</a>
 				<a class="header-modul-location" href="barang_masuk.php">
-					<div id="barangMasuk" class="d-flex columns my-5">
+					<div id="barangMasuk" class="d-flex columns">
 						<div class="column-yellow-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-plus"></i></div>
 						<div class="column-yellow-2 text-center">
-							<h3 class="font-neue link-nav">Barang Masuk</h3>
+							<h4 class="font-neue link-nav">Barang Masuk</h4>
 						</div>
 					</div>
 				</a>
 			</div>		
 			<div class="justify-content-around d-flex">
 				<a class="header-modul-location" href="barang_keluar.php">
-					<div id="barangKeluar" class="d-flex columns my-5">
+					<div id="barangKeluar" class="d-flex columns">
 						<div class="column-orange-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-minus"></i></div>
-						<div class="column-orang-2 text-center">
-							<h3 class="font-neue link-nav">Barang Keluar</h3>
+						<div class="column-orange-2 text-center">
+							<h4 class="font-neue link-nav">Barang Keluar</h4>
 						</div>
 					</div>
 				</a>
 				<a class="header-modul-location" href="setting_akun.php">
-					<div id="settingAkun" class="d-flex columns my-5">
+					<div id="settingAkun" class="d-flex columns">
 						<div class="column-orange-1"><i class="fas fa-user-cog fa-5x"></i></div>
-						<div class="column-orang-2 text-center">
-							<h3 class="font-neue link-nav">Setting Akun</h3>
+						<div class="column-orange-2 text-center">
+							<h4 class="font-neue link-nav">Setting Akun</h4>
 						</div>
 					</div>
 				</a>
 			</div>
 		</div>
-	</main>
+	</div>
 	<footer>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
 	</footer>

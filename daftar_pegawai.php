@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once 'php_functions.php';
+require_once 'files_backend_ajax/php_functions.php';
 cek_session();
 
 $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
@@ -8,171 +8,15 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Website Inventaris</title>
+	<meta charset="utf-8">
+	<title>Daftar Pegawai</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<style>
-		body {
-			background-color: #F8F8F8;
-		}
-		nav {
-			height: 44px;
-		}
-		.tableFirstChild {
-			background-color: navy;
-			color: #FFFFFF;
-		}
-		.logo {
-			width: 140px;
-			display: block;
-			margin: 50px auto;
-		}
-		.judul-tanggal{
-			font-size: 20px;
-		}
-		li a:hover {
-			background-color: #ff3333;
-			border-top: 3px solid #DEDBC1;
-			opacity: 0.5;
-		}
-		table tr:hover {
-			background-color: #FFE400;
-			color: #FFFFFF;
-			cursor: pointer;
-		}
-		.actived {
-			background-color: #ff3333;
-			border-top: 3px solid #FCB913; 
-		}
-		.page-circle {
-			cursor: pointer;
-			text-align: center;
-			color: black;
-			padding: 8px 16px;
-			margin: 0 1px;
-			border-radius: 100%;
-		}
-		.page-circle:hover {
-			background-color: tomato;
-			color: #FFFFFF;
-			text-decoration: none; 
-		}
-		.page-actived {
-			background-color: #FFBB00 ;
-			color: #FFFFFF;
-		}
-		.search-icon {
-			position: relative;
-		}
-		.search-icon i{
-			color: blue;
-			position: absolute;
-			top: 10px;
-			left: 190px;
-		}
-		.search-icon input {
-			border-radius: 20px;
-			border: 1px solid green;
-			padding: 5px 25px;
-		}
-		.search-icon input:hover{
-			box-shadow: 0px 0px 8px #4772CB;
-			border: 2px solid #37A7D4;
-		}
-		.search-icon input:focus{
-			outline: none;
-		}
-		#pesan {
-			background-color: tomato;
-			box-shadow: 1px 1px 4px black;
-			color: #FFFFFF;
-			width: 480px;
-			height: 35px;
-			text-align: center;
-			padding-top: 3px;
-		}
-		.bg-tomato {
-			background-color: tomato;
-		}
-		.editKaryawan {
-			border: transparent;
-			background-color: #F8F8F8F8;
-			border-bottom: 1px solid tomato;
-			width: 100%;
-		}
-		.form-group{
-			margin: 10px;
-		}
-		.judul {
-			margin: 55px auto;
-			text-align: center;
-			border-bottom: 3px solid black;
-			width: 300px;
-			font-size: 32px;
-		}
-		#tambahKaryawan {
-			color: #FFFFFF;
-			padding: 6px 12px;
-			box-shadow: 0px 0px 4px black;
-		}
-		#form-tambah-karyawan {
-			background-color: #FFFFFF;
-			box-shadow: 0 0 4px black;
-			width: 550px;
-			height: 910px;
-			margin: 55px auto;
-		}
-		#form-tambah-karyawan .form-group {
-			margin: 25px 40px;
-		}
-		.header-form {
-			text-align: center;
-			color: #FFFFFF;
-			background-color: #24305E;
-			padding: 28px;
-		}
-		#pesanTambahKaryawan {
-			position: absolute;
-		}
-		.pesanValidasi {
-			font-size: 13px;
-			color: tomato;
-		}
-		.filsearch { margin: 11px 0px; }
-		.c-pointer { cursor: pointer; }
-		.columns {
-			width: 320px;
-			margin: 20px 0px;
-			box-shadow: 1px 1px 6px black;
-		}
-		.column1 {
-			padding-top: 32px;
-			text-align: center;
-			color: #ffffff;
-			width: 150px;
-			height: 160px;
-			background-color: #ff9f43;
-		}
-		.column2 {
-			width: 200px;
-			height: 160px;
-			background-color: #ffffff;
-			border-bottom: 3px solid #ff9f43;
-		}
-		#page-list {
-			display: inline-flex;
-		}
-		.font-neue { font-family: 'Bebas Neue'; }
-		footer {
-			background-color: #24305E;
-			width: 100%;
-			height: 50px;
-			margin-top: 100px; 
-		}
-	</style>
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
@@ -196,18 +40,19 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				<a class="nav-link text-white" href="setting_akun.php">Setting Akun</a>
 			</li>
 		</ul>
-		<div class="navbar-text text-white ml-auto" id="waktu"></div>
-		<button id="logout" class=" btn btn-info ml-3">
-			Logout
-			<i class="fas fa-sign-out-alt"></i>
-		</button>
+		<a href="index.php" class="ml-auto">
+			<button id="logout" class=" btn btn-warning btn-sm ">
+				Logout
+				<i class="fas fa-sign-out-alt"></i>
+			</button>
+		</a>
 	</nav>
-	<div id="daftarPegawai" class="container">
-		<h1 class="judul font-neue">Daftar Pegawai</h1>
-		<div>
-			<div class="d-flex columns my-5">
-				<div class="column1"><i class="fas fa-users fa-5x"></i></div>
-				<div class="column2 text-center">
+	<div class="container">
+		<div class="judul font-neue">Daftar Pegawai</div>
+		<div class="cards">
+			<div class="d-flex columns">
+				<div class="column-orange-1"><i class="fas fa-users fa-5x pt-2"></i></div>
+				<div class="column-orange-2 text-center">
 					<h2 id="totalKaryawan" class="font-neue pt-5"></h2>
 					<h4 class="font-neue pt-2">Total Karyawan</h4>
 				</div>
@@ -251,18 +96,18 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		let kodeKaryawan 			= $(button).data("kode");
 		if (confirmHapusKaryawan) {
 			// Query hapus karyawan
-			$.post("backend_daftar_karyawan.php",{ hapusKaryawan : kodeKaryawan }, function(responseText, success) {
+			$.post("files_backend_ajax/backend_daftar_karyawan.php",{ hapusKaryawan : kodeKaryawan }, function(responseText, success) {
 				$("#pesan").show();
 				$("#pesan").html(responseText);
 			});
 
 			// Load ulang tabel saat karyawan berhasil di hapus
-			$.post("backend_daftar_karyawan.php",{ tabelKaryawan : true }, function(responseText) {
+			$.post("files_backend_ajax/backend_daftar_karyawan.php",{ tabelKaryawan : true }, function(responseText) {
 				$("#tabelKaryawan").html(responseText);
 			});
 
 			// Total karyawan berubah saat di hapus
-			$.post("backend_daftar_karyawan.php", {totalKaryawan : true}, function(responseText) {	
+			$.post("files_backend_ajax/backend_daftar_karyawan.php", {totalKaryawan : true}, function(responseText) {	
 				$("#totalKaryawan").html(responseText);
 			});
 		}
@@ -272,7 +117,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		let dataPage 				= $(button).data("page");
 		let pageListChildrenLength 	= $("#page-list").children().length;
 		$.ajax({
-			url 	: "backend_daftar_karyawan.php",
+			url 	: "files_backend_ajax/backend_daftar_karyawan.php",
 			type 	: "POST",
 			data 	: { pageListTabelKaryawan : dataPage, pageListChildrenLength : pageListChildrenLength },
 			success : function(responseText) {
@@ -290,9 +135,10 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 
 	// Load Event =========================================>>
 	$(document).ready(function() {
+		$("#pesan").hide();
+
 		// Muncul Tabel Saat Load Pertama Kali
-		$("#pesan").hide();	
-		$.post("backend_daftar_karyawan.php",{
+		$.post("files_backend_ajax/backend_daftar_karyawan.php",{
 			tabelKaryawan 	: true
 		},function(responseText) {
 			$("#tabelKaryawan").html(responseText);	
@@ -326,7 +172,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		});
 		
 		// Total Karyawan
-		$.post("backend_daftar_karyawan.php",{totalKaryawan : true},function(responseText) {	
+		$.post("files_backend_ajax/backend_daftar_karyawan.php",{totalKaryawan : true},function(responseText) {	
 			$("#totalKaryawan").html(responseText);
 		});
 		
@@ -334,7 +180,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		// $("#pesan").hide(); // Hide Saat Load Pertama Kali
 		$("#search").keyup(function() {
 			let valSearch = $("#search").val().trim()
-			$.post("backend_daftar_karyawan.php",{
+			$.post("files_backend_ajax/backend_daftar_karyawan.php",{
 				searchKaryawan 	: valSearch
 			},function(responseText) {
 				if (responseText == "User Tidak Ditemukan") {
@@ -355,7 +201,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 
 		// Pagination Tabel Karyawan
 		$.ajax({
-			url 	: "backend_daftar_karyawan.php",
+			url 	: "files_backend_ajax/backend_daftar_karyawan.php",
 			type 	: "POST",
 			data 	: { paginationTabelKaryawan : true },
 			success : function(responseText) {
@@ -368,7 +214,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 			let dataPage 						= $(".page-actived").data("page") + 1;
 			let pageListChildrenLength 			= $("#page-list").children().length;
 			$.ajax({
-				url 	: "backend_daftar_karyawan.php",
+				url 	: "files_backend_ajax/backend_daftar_karyawan.php",
 				type 	: "POST",
 				data 	: { pageNext : dataPage },
 				success : function(responseText) {
@@ -382,11 +228,6 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				}
 			});
 		});
-		
-		// // Logout
-		// $("#logout").click(function() {
-		// 	location.replace("index.php");
-		// });
 	});
 </script>
 </body>

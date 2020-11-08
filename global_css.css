@@ -1,0 +1,150 @@
+body {
+	background-color: #F8F8F8;
+}
+nav {
+	height: 44px;
+}
+.tableFirstChild {
+	background-color: navy;
+	color: #FFFFFF;
+}
+li a:hover {
+	background-color: #ff3333;
+	border-top: 3px solid #DEDBC1;
+	opacity: 0.5;
+}
+table tr:hover {
+	background-color: #FFE400;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+.actived {
+	background-color: #ff3333;
+	border-top: 3px solid #FCB913; 
+}
+.page-circle {
+	cursor: pointer;
+	text-align: center;
+	color: black;
+	padding: 8px 16px;
+	margin: 0 1px;
+	border-radius: 100%;
+}
+.page-circle:hover {
+	background-color: tomato;
+	color: #FFFFFF;
+	text-decoration: none; 
+}
+.page-actived {
+	background-color: #FFBB00 ;
+	color: #FFFFFF;
+}
+.search-icon {
+	position: relative;
+}
+.search-icon i{
+	color: blue;
+	position: absolute;
+	top: 10px;
+	left: 190px;
+}
+.search-icon input {
+	border-radius: 20px;
+	border: 1px solid green;
+	padding: 5px 25px;
+}
+.search-icon input:hover{
+	box-shadow: 0px 0px 8px #4772CB;
+	border: 2px solid #37A7D4;
+}
+.search-icon input:focus{
+	outline: none;
+}
+#pesan {
+	background-color: tomato;
+	box-shadow: 1px 1px 4px black;
+	color: #FFFFFF;
+	width: 480px;
+	height: 35px;
+	text-align: center;
+	padding-top: 3px;
+}
+.bg-tomato {
+	background-color: tomato;
+}
+.form-group{
+	margin: 10px;
+}
+.judul {
+	margin: 28px auto;
+	text-align: center;
+	border-bottom: 3px solid black;
+	width: 20%;
+	font-size: 32px;
+}
+.cards {
+	margin: 60px 0 50px 0;
+}
+.pesanValidasi {
+	font-size: 13px;
+	color: tomato;
+}
+#pesanLoad {
+	background-color: tomato;
+	box-shadow: 1px 1px 4px black;
+	color: #FFFFFF;
+	width: 50%;
+	height: 35px;
+	text-align: center;
+	padding-top: 3px;
+	margin: 30px auto;
+}
+.filsearch { margin: 11px 0px; }
+.c-pointer { cursor: pointer; }
+.columns {
+	width: 320px;
+	margin: 20px 0px;
+	box-shadow: 1px 1px 6px black;
+}
+.columns:hover {
+	cursor: pointer;
+	box-shadow: 1px 1px 12px black;	
+}
+.column-orange-1 {
+	padding-top: 32px;
+	text-align: center;
+	color: #ffffff;
+	width: 150px;
+	height: 160px;
+	background-color: #ff9f43;
+}
+.column-orange-2 {
+	width: 200px;
+	height: 160px;
+	background-color: #ffffff;
+	border-bottom: 3px solid #ff9f43;
+		}
+.column-pink-1 {
+	padding-top: 32px;
+	text-align: center;
+	color: #ffffff;
+	width: 150px;
+	height: 160px;
+	background-color: #ff6464;
+}
+.column-pink-2 {
+	width: 200px;
+	height: 160px;
+	background-color: #ffffff;
+	border-top: 3px solid #ff6464;
+}
+#page-list {
+	display: inline-flex;
+}
+.font-neue { font-family: 'Bebas Neue'; }
+footer {
+	background-color: #24305E;
+	width: 100%;
+	height: 50px;
+	margin-top: 100px; 
+}

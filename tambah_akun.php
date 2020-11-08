@@ -4,8 +4,9 @@
 	<meta charset="utf-8">
 	<title>Tambah Akun Baru</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 	<style>

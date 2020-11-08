@@ -6,12 +6,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href='https://fonts.googleapis.com/css?family=Krona One' rel='stylesheet'>
-	<link rel="stylesheet" type="text/css" href="belajar_javascript/tugas_inventaris/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
-	<script type="text/javascript" src="tugas_inventaris/bootstrap/js/jquery.js"></script>
-	<script type="text/javascript" src="tugas_inventaris/bootstrap/js/bootstrap.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
+	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 	<title>Login</title>
 	<style>
 		.bg-login {
@@ -30,16 +29,16 @@
 			margin: 20px auto;
 			border-radius: 20px;
 		}
-		.text1 {
-			font-size: 24px;
+		.login {
+			font-size: 28px;
 			border-bottom: 3px solid tomato;
 			width: 120px;
 			text-align: center;
 			margin: auto;
 			padding-top: 34px;
 		}
-		.text2 {
-			font-size: 18px;
+		.judul {
+			font-size: 21px;
 			text-align: center;
 			margin-top: 31px;
 			padding: 14px;
@@ -85,18 +84,16 @@
 			width: 220px;
 		}
 		/*global*/
-		.font-krona {
-			font-family: 'Krona One';
-		}
+		.font-neue { font-family: 'Bebas Neue'; }
 	</style>
 </head>
 <body class="bg-login">
 	<div class="container">
 		<img class="logo" src="logo.png">
 		<div class="login-form">
-			<div class="text1 font-krona">Log In</div>
+			<div class="login font-neue">Login</div>
 			<div class="shadow">
-				<div class="text2 font-krona text-white">Daftar Invenstaris</div>
+				<div class="judul font-neue text-white">Daftar Invenstaris</div>
 				<div id="pesanError"></div>
 			</div>
 			<form action="home.php" method="post">
@@ -139,7 +136,7 @@
 				}
 				else {
 					e.preventDefault();
-					$.post("backend_login.php",{
+					$.post("files_backend_ajax/backend_login.php",{
 						halaman_login 	: true,
 						username 		: valUsername,
 						password 		: valPassword 

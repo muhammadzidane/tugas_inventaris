@@ -11,8 +11,6 @@ $username 		= $data['username'];
 $email 			= $data['email'];
 $jenis_role 	= $data['role'];
 
-
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -160,7 +158,7 @@ $jenis_role 	= $data['role'];
 					$("#checkAndTimesUsername").html("<i class='far fa-check-circle text-success'></i>")
 					$(this).next().html("");
 					$.ajax({
-						url 		: "backend_setting_akun.php",
+						url 		: "files_backend_ajax/backend_setting_akun.php",
 						type 		: "POST",
 						data 		: { validasiUsername : valUsername },
 						success 	: function(responseText) {
@@ -259,7 +257,7 @@ $jenis_role 	= $data['role'];
 					// Jika tidak ada pesan validasi maka update akun
 					if ($(".pesan").text() == "") {
 						$.ajax({
-							url 		: "backend_setting_akun.php",
+							url 		: "files_backend_ajax/backend_setting_akun.php",
 							type 		: "POST",
 							data 		: {
 								updateTBUsers 	: true,

@@ -18,7 +18,7 @@ function tabel_barang($result, $tabelDB) {
 	echo "<th>Jumlah Barang</th>";
 	echo "<th>Harga Satuan</th>";
 	echo "<th>Total Harga</th>";
-	echo "<th colspan='2'>Foto Barang</th>";
+	echo "<th>Foto Barang</th>";
 
 	if ($tabelDB == "tb_barang_masuk") {
 		echo "<th>Tanggal Masuk</th>";

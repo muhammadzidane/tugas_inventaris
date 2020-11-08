@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once 'php_functions.php';
+require_once 'files_backend_ajax/php_functions.php';
 cek_session();
 
 $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
@@ -9,155 +9,14 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Website Inventaris</title>
+	<meta charset="utf-8">
+	<title>Barang Keluar</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
-	<script type="text/javascript" src="bootstrap/js/popper.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript src=jquery-com-3.5.1.js"></script>
-	<style>
-		body {
-			background-color: #F8F8F8;
-		}
-		nav {
-			height: 44px;
-		}
-		.tableFirstChild {
-			background-color: navy;
-			color: #FFFFFF;
-		}
-		.judul{
-			font-size: 32px;
-		}
-		li a:hover {
-			background-color: #ff3333;
-			border-top: 3px solid #DEDBC1;
-			opacity: 0.5;
-		}
-		table tr:hover {
-			background-color: #FFE400;
-			color: #FFFFFF;
-			cursor: pointer;
-		}
-		.actived {
-			background-color: #ff3333;
-			border-top: 3px solid #FCB913; 
-		}
-		.page-circle {
-			text-align: center;
-			color: black;
-			padding: 8px 16px;
-			margin: 0 1px;
-			border-radius: 100%;
-		}
-		.page-circle:hover {
-			background-color: tomato;
-			color: #FFFFFF;
-			text-decoration: none; 
-		}
-		.page-actived {
-			background-color: #FFBB00;
-			color: #FFFFFF;
-		}
-		.search-icon {
-			position: relative;
-		}
-		.search-icon i{
-			color: blue;
-			position: absolute;
-			top: 10px;
-			left: 190px;
-		}
-		.search-icon input {
-			border-radius: 20px;
-			border: 1px solid green;
-			padding: 5px 25px;
-		}
-		.search-icon input:focus {
-			outline: none;
-		}
-		.search-icon input:hover{
-			box-shadow: 0px 0px 8px #4772CB;
-			border: 2px solid #37A7D4;
-		}
-		#pesan {
-			background-color: tomato;
-			box-shadow: 1px 1px 4px black;
-			color: #FFFFFF;
-			width: 50%;
-			height: 35px;
-			text-align: center;
-			padding-top: 3px;
-		}
-		.bg-tomato {
-			background-color: tomato;
-		}
-		.judul-border {
-			margin: 55px auto;
-			text-align: center;
-			border-bottom: 3px solid black;
-			width: 200px;
-		}
-		.filsearch { margin: 11px 0px; }
-		.c-pointer { cursor: pointer; }
-		.columns {
-			width: 350px;
-			margin: 15px 0px;
-			box-shadow: 1px 1px 6px black;
-		}
-		.column1 {
-			padding-top: 32px;
-			text-align: center;
-			color: #ffffff;
-			width: 150px;
-			height: 160px;
-			background-color: #ff9f43;
-		}
-		.column2 {
-			width: 200px;
-			height: 160px;
-			background-color: #ffffff;
-			border-bottom: 3px solid #ff9f43;
-		}
-		.column-pink-1 {
-			padding-top: 32px;
-			text-align: center;
-			color: #ffffff;
-			width: 150px;
-			height: 160px;
-			background-color: #ff6464;
-		}
-		.columnt-pink-2 {
-			width: 200px;
-			height: 160px;
-			background-color: #ffffff;
-			border-top: 3px solid #ff6464;
-		}
-		.edit-barang {
-			border: transparent;
-			background-color: #F8F8F8F8;
-			border-bottom: 1px solid tomato;
-			width: 100%;
-		}
-
-		/* Pagination */
-		#page-list {
-			cursor: pointer;
-			display: inline-flex;
-		}
-		#page-next {
-			cursor: pointer;
-		}
-		.font-neue { font-family: 'Bebas Neue'; }
-		footer {
-			background-color: #24305E;
-			width: 100%;
-			height: 50px;
-			margin-top: 100px; 
-		}
-	</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
@@ -181,38 +40,41 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				<a class="nav-link text-white" href="setting_akun.php">Setting Akun</a>
 			</li>
 		</ul>
-		<div class="navbar-text text-white ml-auto" id="waktu"></div>
-		<button id="logout" class=" btn btn-outline-warning ml-3">
-			Logout
-			<i class="fas fa-sign-out-alt"></i>
-		</button>
+		<a href="index.php" class="ml-auto">
+			<button id="logout" class=" btn btn-warning btn-sm">
+				Logout
+				<i class="fas fa-sign-out-alt"></i>
+			</button>
+		</a>
 	</nav>
 	<div class="container">
-		<h1 class="judul font-neue judul-border">Barang Keluar</h1>
-		<div class="d-flex justify-content-between filsearch">
-			<div class="search-icon">
-				<input id="searchBarang" type="text" autocomplete="off"
-				placeholder="Cari Nama Barang">
-				<i class="fas fa-search"></i>
-			</div>
+		<h1 class="judul font-neue">Barang Keluar</h1>
+		<div class="cards">
+			<div class="d-flex justify-content-between filsearch">
+				<div class="search-icon">
+					<input id="searchBarang" type="text" autocomplete="off"
+					placeholder="Cari Nama Barang">
+					<i class="fas fa-search"></i>
+				</div>
 
-			<div id="pesan"></div>
-			<ul class="pagination float-right">
-				<div id="page-list"></div>
-				<li id="page-next" class="page-item">
-					<span class="page-circle"><i class="fas fa-caret-right"></i></span>
-				</li>
-			</ul>
-		</div>
-		<div>
-			<select id="filterJenisBarang">
-				<option>Filter Semua</option>
-				<option>Elektronik</option>
-				<option>Alat Tulis</option>
-				<option>Kendaraan</option>
-				<option>Lainnya</option>
-			</select>
-			<div id="tabelBarangKeluar"></div>
+				<div id="pesan"></div>
+				<ul class="pagination float-right">
+					<div id="page-list"></div>
+					<li id="page-next" class="page-item">
+						<span class="page-circle"><i class="fas fa-caret-right"></i></span>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<select id="filterJenisBarang">
+					<option>Filter Semua</option>
+					<option>Elektronik</option>
+					<option>Alat Tulis</option>
+					<option>Kendaraan</option>
+					<option>Lainnya</option>
+				</select>
+				<div id="tabelBarangKeluar"></div>
+			</div>
 		</div>
 	</div>
 	<footer>
@@ -227,7 +89,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		let dataPage 				= $(button).data("page");
 		let pageListChildrenLength 	= $("#page-list").children().length;
 		$.ajax({
-			url 		: "backend_barang_keluar.php",
+			url 		: "files_backend_ajax/backend_barang_keluar.php",
 			type 		: "POST",
 			data 		: { pageListTabelBarangKeluar : dataPage, pageListChildrenLength : pageListChildrenLength },
 			success	: function(responseText) {
@@ -247,7 +109,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	$(document).ready(function() {
 		// Muncul Tabel Saat Load Pertama Kali
 		$.ajax({
-			url 		:"backend_barang_keluar.php",
+			url 		:"files_backend_ajax/backend_barang_keluar.php",
 			type 		: "POST",
 			data 		: { tabelBarangKeluar : true },
 			success		:function(responseText) {	
@@ -272,27 +134,27 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		});
 		
 		// Jumlah Semua Barang
-		$.post("backend_barang_keluar.php",{ totalSemuaBarang : true },function(responseText) {	
+		$.post("files_backend_ajax/backend_barang_keluar.php",{ totalSemuaBarang : true },function(responseText) {	
 			$("#totalSemuaBarang").html(responseText);
 		});
 		
 		// Jumlah Barang Elektronik
-		$.post("backend_barang_keluar.php",{ totalBarangElektronik : true },function(responseText) {	
+		$.post("files_backend_ajax/backend_barang_keluar.php",{ totalBarangElektronik : true },function(responseText) {	
 			$("#totalBarangElektronik").html(responseText);
 		});
 		
 		// Jumlah Barang Alat Tulis
-		$.post("backend_barang_keluar.php",{	totalBarangAlatTulis : true },function(responseText) {	
+		$.post("files_backend_ajax/backend_barang_keluar.php",{	totalBarangAlatTulis : true },function(responseText) {	
 			$("#totalBarangAlatTulis").html(responseText);
 		});
 		
 		// Jumlah Barang Kendaraan
-		$.post("backend_barang_keluar.php",{ totalBarangKendaraan : true },function(responseText) {
+		$.post("files_backend_ajax/backend_barang_keluar.php",{ totalBarangKendaraan : true },function(responseText) {
 			$("#totalBarangKendaraan").html(responseText);
 		});
 		
 		// Jumlah Barang Lainnya
-		$.post("backend_barang_keluar.php",{	totalBarangLainnya 	: true },function(responseText) {
+		$.post("files_backend_ajax/backend_barang_keluar.php",{	totalBarangLainnya 	: true },function(responseText) {
 			$("#totalBarangLainnya").html(responseText);
 		});
 
@@ -301,27 +163,27 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 			let valFilterJenisBarang = $("#filterJenisBarang").val();
 			switch(valFilterJenisBarang) {
 				case "Filter Semua" : 
-				$.post("backend_barang_keluar.php",{ filterSemua : true }, function(responseText) {
+				$.post("files_backend_ajax/backend_barang_keluar.php",{ filterSemua : true }, function(responseText) {
 					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Elektronik" : 
-				$.post("backend_barang_keluar.php",{ filterElektronik : true }, function(responseText) {
+				$.post("files_backend_ajax/backend_barang_keluar.php",{ filterElektronik : true }, function(responseText) {
 					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Alat Tulis" : 
-				$.post("backend_barang_keluar.php",{ filterAlatTulis : true }, function(responseText) {
+				$.post("files_backend_ajax/backend_barang_keluar.php",{ filterAlatTulis : true }, function(responseText) {
 					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Kendaraan" : 
-				$.post("backend_barang_keluar.php",{ filterKendaraan : true }, function(responseText) {
+				$.post("files_backend_ajax/backend_barang_keluar.php",{ filterKendaraan : true }, function(responseText) {
 					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;
 				case "Lainnya" : 
-				$.post("backend_barang_keluar.php",{ filterLainnya : true }, function(responseText) {
+				$.post("files_backend_ajax/backend_barang_keluar.php",{ filterLainnya : true }, function(responseText) {
 					$("#tabelBarangKeluar").html(responseText);
 				});
 				break;			
@@ -331,7 +193,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		// Search nama barang
 		$("#searchBarang").keyup(function() {
 			let inputVal = $("#searchBarang").val().trim()
-			$.post("backend_barang_keluar.php",{
+			$.post("files_backend_ajax/backend_barang_keluar.php",{
 				searchBarang 	: inputVal
 			},function(responseText) {
 				if (responseText === "Nama Barang Tidak Ditemukan") {
@@ -353,7 +215,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 
 		// Pagination Tabel Barang
 		$.ajax({
-			url 	: "backend_barang_keluar.php",
+			url 	: "files_backend_ajax/backend_barang_keluar.php",
 			type 	: "POST",
 			data 	: { paginationTabelBarangKeluar : true },
 			success : function(responseText) {
@@ -363,7 +225,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 
 		$("#page-next").click(function() {
 			$.ajax({
-				url 	: "backend_barang_keluar.php",
+				url 	: "files_backend_ajax/backend_barang_keluar.php",
 				type 	: "POST",
 				data 	: { pageNext : true },
 				success : function(responseText) {
@@ -379,12 +241,6 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				}
 			});
 		});
-
-		// Logout
-		$("#logout").click(function() {
-			location.replace("index.php");
-		});
-
 	}); // END EVENT LOAD
 </script>
 </body>
