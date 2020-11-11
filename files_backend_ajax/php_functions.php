@@ -112,9 +112,9 @@ function tabel_karyawan($result) {
 		echo "<td>{$data['alamat']}</td>";
 		echo "<td>{$data['foto']}</td>";
 		echo "<td class='TDEdit'><button onclick='buttonEditKaryawan(event, this);' 
-				data-kode='{$data['kode_karyawan']}' data-nama='{$data['nama_karyawan']}' class='btn btn-success'>Edit</td>";
+		data-kode='{$data['kode_karyawan']}' data-nama='{$data['nama_karyawan']}' class='btn btn-success'>Edit</td>";
 		echo "<td class='TDHapus'><button id='hapus' onclick='buttonHapusKaryawan(event, this);' 
-				data-kode='{$data['kode_karyawan']}' class='hapusKaryawan btn btn-danger'>Hapus</td>";
+		data-kode='{$data['kode_karyawan']}' class='hapusKaryawan btn btn-danger'>Hapus</td>";
 		echo "</tr>";
 	}
 	echo "</table>";
@@ -259,17 +259,39 @@ function validasi_duplikat_key_get($post, $get_url, $nama_tabel, $kondisi){
 function query_hapus($post, $nama_tabel, $kondisi, $nama){
 	global $conn;
 	if (isset($_POST[$post])) {
-		$kode 		= $_POST[$post];
-		$result 		= "SELECT * FROM $nama_tabel WHERE $kondisi ='$kode';";
-		$query 		= mysqli_query($conn, $result);
-		$data 		= mysqli_fetch_assoc($query);
-		$nama 		= $data[$nama];
+		$kode 		 = $_POST[$post];
+		$result 		 = "SELECT * FROM $nama_tabel WHERE $kondisi ='$kode';";
+		$query 		 = mysqli_query($conn, $result);
+		$data 		 = mysqli_fetch_assoc($query);
+		$nama 		 = $data[$nama];
+		$result 	 	 = "";
 
-		$result 	 	= "";
-		$result 		= "DELETE FROM $nama_tabel WHERE $kondisi = '$kode';";
-		$query 		= mysqli_query($conn, $result);
+		if ($nama_tabel == "tb_karyawan") {
+			$result 		.= "DELETE FROM tb_karyawan WHERE $kondisi = '$kode';";
+			$result 		.= "DELETE FROM tb_barang_inventaris_karyawan WHERE $kondisi = '$kode';";
+			$query 		 = mysqli_multi_query($conn, $result);
+		}
+		
+		if ($nama_tabel == "tb_barang") {
+			$jumlah_awal 	 = (isset($_POST["valJumlahAwalBarang"])) ? (int) $_POST["valJumlahAwalBarang"] : "";
+			$jumlah_barang	 = (isset($_POST["valJumlahHapusBarang"])) ? (int) $_POST["valJumlahHapusBarang"] : "";
+			$hasil 			 = $jumlah_awal - $jumlah_barang;
+
+			if ($hasil == 0) {
+				$result 			.= "DELETE FROM tb_barang WHERE $kondisi = '$kode';";
+			}
+			else {
+				$result 			.= "UPDATE tb_barang SET jumlah_barang = '$hasil' WHERE $kondisi = '$kode';";
+			}
+
+			$query 		 	 = mysqli_query($conn, $result);
+		}
+
 		if ($query) {
 			return "$nama berhasil di hapus";
+		}
+		else {
+			echo mysqli_error($conn);
 		}
 	}
 }
@@ -303,8 +325,10 @@ function pagination_links($post, $nama_tabel){
 
 		$query 	= mysqli_query($conn, $result);
 
-		if (mysqli_affected_rows($conn)) {
-			$hasil = "<li class='page-item'><span id='page-1' class='page-circle page-actived' onclick='pageLink(this);' data-page='1'>1</span></li>";
+		$hasil 	= "";
+
+		if (mysqli_affected_rows($conn) >= 1) {
+			$hasil .= "<li class='page-item'><span id='page-1' class='page-circle page-actived' onclick='pageLink(this);' data-page='1'>1</span></li>";
 		}
 
 		$counter = 2;

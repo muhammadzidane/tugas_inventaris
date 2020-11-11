@@ -1,7 +1,7 @@
 <?php 
 session_start();
-$conn 			= mysqli_connect("localhost","root","","tugas_inventaris");
-var_dump($_SESSION);
+require_once 'files_backend_ajax/php_functions.php';
+cek_session();
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,10 +9,11 @@ var_dump($_SESSION);
 	<meta charset="utf-8">
 	<title>Tambahkan Karyawan Baru</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
-	<script type="text/javascript" src="bootstrap/js/popper.js"></script>
-	<script type="text/javascript" src="jquery-com-3.5.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
+	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 	<style>
 		/* Form Tambah Barang */
 		#form-tambah-barang {			
@@ -136,12 +137,12 @@ var_dump($_SESSION);
 
 					if ($(".pesanValidasi").text() == "") {
 						$.ajax({
-							url 	: "backend_daftar_karyawan.php",
+							url 	: "files_backend_ajax/backend_daftar_karyawan.php",
 							type 	: "POST",
 							data 	: { validasiDuplikatKeyTambahKaryawan : valKodeKaryawan },
 							success : function(responseText) {
 								if (responseText == "berhasil") {
-									$.post('backend_daftar_karyawan.php',{
+									$.post('files_backend_ajax/backend_daftar_karyawan.php',{
 										tambahKaryawan 			: true,
 										valKodeKaryawan 		: valKodeKaryawan,
 										valNamaKaryawan 		: valNamaKaryawan,

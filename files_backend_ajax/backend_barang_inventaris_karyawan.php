@@ -30,6 +30,7 @@ if (isset($_POST["queryTambahBarang"])) {
 	$kode_karyawan 		 	 = $_POST["kodeKaryawan"];
 	$nama_karyawan 		 	 = $_POST["namaKaryawan"];
 	$val_jumlah_barang 	 	 = $_POST["valJumlahBarang"];
+	$val_tanggal_masuk 	 	 = $_POST["valTanggalMasuk"];
 	$jumlah_awal_barang 	 	 =	$_POST["jumlahAwalBarang"];
 	$hasil_jumlah_barang  	 = (int) $jumlah_awal_barang - (int) $val_jumlah_barang;
 
@@ -63,7 +64,7 @@ if (isset($_POST["queryTambahBarang"])) {
 	$result 						.= "'$harga_satuan',";
 	$result 						.= "'$total_harga_tb_b_keluar',";
 	$result 						.= "'$foto_barang',";
-	$result 						.= "'2020-11-04'";
+	$result 						.= "'$val_tanggal_masuk'";
 	$result 						.= ");";
 	$queryTambahBarang 	 	 = $result;
 
@@ -89,7 +90,7 @@ if (isset($_POST["queryTambahBarang"])) {
 
 		$query 					 = mysqli_multi_query($conn, $result); 
 		if ($query) {
-			echo "update data baru di tambahkan";
+			echo "$nama_barang Berhasil Tambahkan";
 		}
 		else {
 			echo mysqli_error($conn);
@@ -113,7 +114,7 @@ if (isset($_POST["queryTambahBarang"])) {
 		$query 					 = mysqli_multi_query($conn, $result);
 
 		if ($query) {
-			echo "data baru di tambahkan";
+			echo "$nama_barang Berhasil Tambahkan";
 		}
 		else {
 			echo mysqli_error($conn);

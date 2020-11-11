@@ -1,9 +1,9 @@
 <?php 
-
 session_start();
-$conn 			= mysqli_connect("localhost","root","","daftar_inventaris");
+require_once 'files_backend_ajax/php_functions.php';
+cek_session();
 $username 		= $_SESSION['username'];
-$result 		= "SELECT * FROM tb_users WHERE username ='$username';";
+$result 			= "SELECT * FROM tb_users WHERE username ='$username';";
 $query 			= mysqli_query($conn, $result);
 $data 			= mysqli_fetch_assoc($query);
 
@@ -138,11 +138,9 @@ $jenis_role 	= $data['role'];
 	</form>
 	<script>
 		$(document).ready(function() {
-
 			$("#username").val("<?php echo $username; ?>");
 			$("#email").val("<?php echo $email; ?>");
 			$("#role").val("<?php echo $jenis_role; ?>");
-
 
 			let pesanValidasi = [];
 

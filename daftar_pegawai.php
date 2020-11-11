@@ -49,6 +49,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	</nav>
 	<div class="container">
 		<div class="judul font-neue">Daftar Pegawai</div>
+		<div id="pesanLoad"></div>
 		<div class="cards">
 			<div class="d-flex columns">
 				<div class="column-orange-1"><i class="fas fa-users fa-5x pt-2"></i></div>
@@ -93,28 +94,17 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	function buttonHapusKaryawan(event, button) {
 		event.stopPropagation();
 		let confirmHapusKaryawan 	= confirm("Apakah Anda Yakin Ingin Menghapus Karyawan?");
-		let kodeKaryawan 			= $(button).data("kode");
+		let kodeKaryawan 				= $(button).data("kode");
 		if (confirmHapusKaryawan) {
 			// Query hapus karyawan
 			$.post("files_backend_ajax/backend_daftar_karyawan.php",{ hapusKaryawan : kodeKaryawan }, function(responseText, success) {
-				$("#pesan").show();
-				$("#pesan").html(responseText);
-			});
-
-			// Load ulang tabel saat karyawan berhasil di hapus
-			$.post("files_backend_ajax/backend_daftar_karyawan.php",{ tabelKaryawan : true }, function(responseText) {
-				$("#tabelKaryawan").html(responseText);
-			});
-
-			// Total karyawan berubah saat di hapus
-			$.post("files_backend_ajax/backend_daftar_karyawan.php", {totalKaryawan : true}, function(responseText) {	
-				$("#totalKaryawan").html(responseText);
+				location.assign("daftar_pegawai.php?berhasil_dihapus=" + encodeURIComponent(responseText));
 			});
 		}
 	}
 
 	function pageLink(button) {
-		let dataPage 				= $(button).data("page");
+		let dataPage 						= $(button).data("page");
 		let pageListChildrenLength 	= $("#page-list").children().length;
 		$.ajax({
 			url 	: "files_backend_ajax/backend_daftar_karyawan.php",
@@ -136,22 +126,33 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	// Load Event =========================================>>
 	$(document).ready(function() {
 		$("#pesan").hide();
+		$("#pesanLoad").hide();
 
 		// Muncul Tabel Saat Load Pertama Kali
 		$.post("files_backend_ajax/backend_daftar_karyawan.php",{
 			tabelKaryawan 	: true
 		},function(responseText) {
 			$("#tabelKaryawan").html(responseText);	
+			
 			<?php 
 			if (isset($_GET['berhasil_edit'])) {
 				$berhasil_edit = $_GET['berhasil_edit']; ?> // End PHP
-				$("#pesan").show();
-				$("#pesan").html("<?php echo $berhasil_edit; ?>");
-			<?php } // End IF
+				$("#pesanLoad").show();
+				$("#pesanLoad").html("<?php echo $berhasil_edit; ?>");
+			<?php } ?>// End IF
+
+			<?php
 			if (isset($_GET['berhasil_ditambah'])) {
 				$berhasil_ditambah = $_GET['berhasil_ditambah']; ?> // End PHP
-				$("#pesan").show();
-				$("#pesan").html("<?php echo $berhasil_ditambah; ?>");
+				$("#pesanLoad").show();
+				$("#pesanLoad").html("<?php echo $berhasil_ditambah; ?>");
+			<?php } ?> // End IF 
+
+			<?php
+			if (isset($_GET['berhasil_dihapus'])) {
+				$berhasil_dihapus = $_GET['berhasil_dihapus']; ?> // End PHP
+				$("#pesanLoad").show();
+				$("#pesanLoad").html("<?php echo $berhasil_dihapus; ?>");
 			<?php } ?> // End IF 
 
 			$(".TRKaryawan").click(function() {
@@ -180,6 +181,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		// $("#pesan").hide(); // Hide Saat Load Pertama Kali
 		$("#search").keyup(function() {
 			let valSearch = $("#search").val().trim()
+
 			$.post("files_backend_ajax/backend_daftar_karyawan.php",{
 				searchKaryawan 	: valSearch
 			},function(responseText) {

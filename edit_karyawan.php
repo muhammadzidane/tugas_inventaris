@@ -1,24 +1,27 @@
 <?php 
 session_start();
+require_once 'files_backend_ajax/php_functions.php';
+cek_session();
 
 $conn 			= mysqli_connect("localhost","root","","tugas_inventaris");
+
 
 // Mengambil value dari database untuk mengisi tag <input> value 
 $kode_karyawan 	= (isset($_GET['kode_karyawan'])) ? $_GET['kode_karyawan'] : "";
 $nama_karyawan 	= (isset($_GET['nama_karyawan'])) ? $_GET['nama_karyawan'] : "";
-$result 		= "SELECT * FROM tb_karyawan WHERE kode_karyawan='$kode_karyawan';";
-$query 			= mysqli_query($conn, $result);
+
+$result 				= "SELECT * FROM tb_karyawan WHERE kode_karyawan='$kode_karyawan';";
+$query 				= mysqli_query($conn, $result);
 
 while ($data = mysqli_fetch_assoc($query)) {
 	$kode_karyawan 			= $data['kode_karyawan'];
 	$nama_karyawan 			= $data['nama_karyawan'];
-	$posisi_jabatan 		= $data['posisi_jabatan'];
-	$email 					= $data['email'];
+	$posisi_jabatan 			= $data['posisi_jabatan'];
+	$email 						= $data['email'];
 	$pendidikan_terakhir 	= $data['pendidikan_terakhir'];
-	$alamat 				= $data['alamat'];
-	$foto 					= $data['foto'];
+	$alamat 						= $data['alamat'];
+	$foto 						= $data['foto'];
 }
-var_dump($nama_karyawan);
 
 ?>
 <!DOCTYPE html>
@@ -27,58 +30,16 @@ var_dump($nama_karyawan);
 	<meta charset="utf-8">
 	<title>Edit Karyawan</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
-	<style>
-		/* Form Tambah Barang */
-		#form-tambah-barang {
-			background-color: #FFFFFF;
-			box-shadow: 0 0 4px black;
-			width: 550px;
-			height: 890px;
-			margin: 55px auto;
-		}
-		.header-form {
-			text-align: center;
-			color: #FFFFFF;
-			background-color: #24305E;
-			padding: 28px;
-		}
-		#pesanEditBarang {
-			position: absolute;
-		}
-
-		.form-group{
-			margin: 10px;
-		}
-		#tambahBarang {
-			color: #FFFFFF;
-			padding: 6px 12px;
-			box-shadow: 0px 0px 4px black;
-		}
-		#form-tambah-barang .form-group {
-			margin: 25px 40px;
-		}
-		#closeForm {
-			position: absolute;
-			top: 49px;
-			color: white;
-			font-size: 25px;
-			margin-left: 528px;
-			cursor: pointer;
-		}
-		.font-neue { font-family: 'Bebas Neue'; }
-		.pesanValidasi {
-			font-size: 13px;
-			color: tomato;
-		}
-	</style>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<div id='form-tambah-barang'>
+	<div id='form'>
 		<div class='header-form font-neue'><h3>Edit Karyawan</h3></div>
-		<div id="closeForm">&times;</div>
+		<a href="daftar_pegawai.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
 			<label for='kode_karyawan'>Kode Karyawan</label>
 			<input id='kode_karyawan' class='form-control' type='text' value="<?php echo $kode_karyawan; ?>">
@@ -125,7 +86,8 @@ var_dump($nama_karyawan);
 		</div>
 		<div class='form-group float-right'>
 			<button id='acceptEdit' class='btn btn-primary'>Edit</button>
-			<button id='buttonBatalEdit' class='btn btn-danger'>Batal</button>
+
+			<a href="daftar_pegawai.php"><button id='buttonBatalEdit' class='btn btn-danger'>Batal</button></a>
 		</div>
 	</div>
 	<script>
@@ -155,16 +117,16 @@ var_dump($nama_karyawan);
 					if ($(".pesanValidasi").text() == "") {
 						
 						<?php 
-							$_SESSION['kode_karyawan'] = $kode_karyawan;
+						$_SESSION['kode_karyawan'] = $kode_karyawan;
 						?>	
 
 						$.ajax({
-							url 	: "backend_daftar_karyawan.php",
+							url 	: "files_backend_ajax/backend_daftar_karyawan.php",
 							type 	: "POST",
 							data 	: { validasiDuplikatKey : valKodeKaryawan },
 							success : function(responseText, success) {
 								if (responseText == "berhasil") {
-									$.post('backend_daftar_karyawan.php',{
+									$.post('files_backend_ajax/backend_daftar_karyawan.php',{
 										acceptEdit 				: true, 
 										urlKodeKaryawan 		: "<?php echo $kode_karyawan; ?>",
 										urlNamaKaryawan 		: "<?php echo $nama_karyawan; ?>",
@@ -191,17 +153,8 @@ var_dump($nama_karyawan);
 		// 	});
 
 	});
-		// Button Batalkan Tambah Barang
-		$("#buttonBatalEdit").click(function() {
-			location.replace("daftar_pegawai.php");
 		});
-
-		// Button Batalkan Tambah Barang (Simbol Close)
-		$("#closeForm").click(function() {
-			$("#buttonBatalEdit").click();
-		});
-	});
-</script>
+	</script>
 <script src="jquery_functions/js_functions.js"></script>
 </body>
 </html>

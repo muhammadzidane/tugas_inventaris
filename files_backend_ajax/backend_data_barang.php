@@ -82,27 +82,41 @@ if (isset($_POST['acceptTambahBarang'])) {
 
 // Tambah barang yang sama
 if (isset($_POST["tambahBarangYangSama"])) {
-	$val_url_jumlah_barang 	 = $_POST["valUrlJumlahBarang"];
-	$val_url_total_harga 	 = $_POST["valUrlTotalHarga"];
-	
-	$val_jumlah_barang_baru  = $val_url_jumlah_barang + $val_jumlah_barang;
-	$val_total_harga_baru 	 = $val_url_total_harga + $val_total_harga;
+	$kode_barang 					 = $_POST["tambahBarangYangSama"];
+	$result 					 		 = "SELECT * FROM tb_barang WHERE kode_barang ='$kode_barang';";
+	$query 						 	 = mysqli_query($conn, $result);
+	$data 						 	 = mysqli_fetch_assoc($query);
+	$jenis_barang 					 = $data["jenis_barang"];
+	$nama_barang 					 = $data["nama_barang"];
+	$kondisi_barang 				 = $data["kondisi_barang"];
+	$jumlah_barang 				 = $data["jumlah_barang"];
+	$harga_satuan 				 	 = $data["harga_satuan"];
+	$total_harga 				 	 = $data["total_harga"];
+	$foto_barang 					 = $data["foto_barang"];
+	$val_jumlah_tambah_barang 	 = $_POST['valJumlahTambahBarang'];
+	$val_tanggal_masuk 			 = $_POST['valTanggalMasuk'];
+
+	$total_harga_baru 			 = $harga_satuan * $val_jumlah_tambah_barang;
+	$total_harga_baru 			+= $total_harga;
+	$jumlah_barang_baru 		 	 = $jumlah_barang + $val_jumlah_tambah_barang;
+	$total_harga_tb_b_masuk 	 = $val_jumlah_tambah_barang * $harga_satuan;
+
 
 	$result 		 = "";
 	$result 		.= "UPDATE tb_barang SET ";
-	$result 		.= "jumlah_barang = '$val_jumlah_barang_baru',";
-	$result 		.= "total_harga = '$val_total_harga_baru'";
-	$result 		.= "WHERE kode_barang = '$val_kode_barang';";
+	$result 		.= "jumlah_barang = '$jumlah_barang_baru',";
+	$result 		.= "total_harga = '$total_harga_baru'";
+	$result 		.= "WHERE kode_barang = '$kode_barang';";
 
 	$result 		.= "INSERT INTO tb_barang_masuk VALUES(";
-	$result 		.= "'$val_kode_barang',";
-	$result 		.= "'$val_jenis_barang',";
-	$result 		.= "'$val_nama_barang',";
-	$result 		.= "'$val_kondisi_barang',";
-	$result 		.= "'$val_jumlah_barang',";
-	$result 		.= "'$val_harga_satuan',";
-	$result 		.= "'$val_total_harga',";
-	$result 		.= "'$val_foto_barang',";
+	$result 		.= "'$kode_barang',";
+	$result 		.= "'$jenis_barang',";
+	$result 		.= "'$nama_barang',";
+	$result 		.= "'$kondisi_barang',";
+	$result 		.= "'$val_jumlah_tambah_barang',";
+	$result 		.= "'$harga_satuan',";
+	$result 		.= "'$total_harga_tb_b_masuk',";
+	$result 		.= "'$foto_barang',";
 	$result 		.= "'$val_tanggal_masuk'";
 	$result 		.= ");";
 
@@ -188,9 +202,6 @@ echo searchTabel("searchBarang", "tb_barang", "nama_barang", "tabel_barang", "Na
 
 // Hapus barang
 echo query_hapus("hapusBarang", "tb_barang", "kode_barang", "nama_barang");
-
-// Hapus Barang ( barang_inventaris_karyawan.php )
-echo query_hapus("hapusBarangInvKaryawan", "tb_barang_inventaris_karyawan", "kode_barang", "nama_barang");
 
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarang","tb_barang");

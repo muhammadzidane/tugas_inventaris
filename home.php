@@ -2,9 +2,6 @@
 session_start();
 require_once 'files_backend_ajax/php_functions.php';
 cek_session();
-
-$sess_role 			= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
-
 ?>
 <!DOCTYPE html>
 <html>

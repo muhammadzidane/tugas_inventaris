@@ -135,15 +135,61 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	// Non Load Event ====================================================================== >>
 	// Tambah barang
 	function buttonTambahBarang(event, button) {
-		let dataKodeBarang 		= $(button).data("kode");
-		let dataJumlahBarang 	= $(button).data("jumlah");
-		let dataTotalHarga 		= $(button).data("total");
+		let dataKodeBarang 	 = $(button).data("kode");
+		let removeTRNextAll   = $(button).parent().parent().nextAll();
+		let removeTRPrevUntil = $(button).parent().parent().prevUntil(".tableFirstChild");
 
-		location.assign(
-			"tambah_barang_yang_sama.php?kode_barang=" + dataKodeBarang +
-			"&jumlah_barang=" + dataJumlahBarang +
-			"&total_harga=" + dataTotalHarga
-			);
+		removeTRNextAll.remove();
+		removeTRPrevUntil.remove();
+
+		let tableAppend 		 = "";
+
+		tableAppend 			+= "<tr>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+=	"<td colspan='2'>";
+		tableAppend				+=	"<input  id='jumlahTambahBarang' placeholder='Jumlah'";
+		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'>";
+		tableAppend				+=	"</td>";
+		tableAppend				+=	"<td colspan='2'><input id='tanggalMasuk' class='form-control form-control-sm' type='date'></td>";
+		tableAppend				+=	"<td></td>";
+		tableAppend				+=	"<td><button id='buttonQueryTambah' class='btn btn-success'";
+		tableAppend				+= `data-kode='${dataKodeBarang}' data-jumlah-awal=''>Tambah</button></td>`;
+		tableAppend				+=	"<td><button id='buttonBatal' class='btn btn-warning text-white'>Batal</button></td>";
+		tableAppend 			+= "</tr>";
+
+		removeTRNextAll.remove();
+		removeTRPrevUntil.remove();
+		$("table").append(tableAppend);
+		removeTRPrevUntil.remove();
+		removeTRNextAll.remove();
+
+		$("#buttonQueryTambah").click(function() {
+			let dataKodeBarang 			= $(this).data("kode");
+			let valJumlahTambahBarang 	= $("#jumlahTambahBarang").val();
+			let valTanggalMasuk 			= $("#tanggalMasuk").val();
+
+			if (valJumlahTambahBarang != "" || valTanggalMasuk != "") {
+				$.ajax({
+					url 		: "files_backend_ajax/backend_data_barang.php",
+					type 		: "POST",
+					data 		: { 
+						tambahBarangYangSama 	: dataKodeBarang,
+						valJumlahTambahBarang 	: valJumlahTambahBarang,
+						valTanggalMasuk 			: valTanggalMasuk
+					},
+					success 	: function(responseText) {
+						console.log(responseText)
+					}
+				});		
+			}
+			else {
+				console.log(false);
+			}
+
+		});
 	}
 
 	// Edit Barang
@@ -154,44 +200,133 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	}
 
 	function buttonHapusBarang(event, button) {
-		let confirmHapusBarang = confirm("Apakah anda yakin ingin menghapus data barang?");
-		if (confirmHapusBarang) {
-			let dataKodeBarang = $(button).data("kode");
+		let dataKodeBarang 		  = $(button).data("kode");
+		let jumlahAwalBarang 	  = $(button).parent().prev().prev().prev().prev().prev().prev();
+		let valJumlahAwalBarang   = $(button).parent().prev().prev().prev().prev().prev().prev().text();
+
+		let removeTRNextAll   = $(button).parent().parent().nextAll();
+		let removeTRPrevUntil = $(button).parent().parent().prevUntil(".tableFirstChild");
+		let tableAppend 		 = "";
+		
+		tableAppend 			+= "<tr>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+= "<td></td>";
+		tableAppend				+=	"<td colspan='2'>";
+		tableAppend				+=	"<input  id='jumlahHapusBarang' placeholder='Jumlah'";
+		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'><div class='pesanValidasi'></div>";
+		tableAppend				+=	"</td>";
+		tableAppend				+=	"<td colspan='2'><input id='checkSemua' type='checkbox' class='mr-2'><label for='checkSemua'>Semua</label></td>";
+		tableAppend				+=	"<td></td>";
+		tableAppend				+=	"<td><button onclick='buttonQueryHapus(event, this);' class='btn btn-danger'";
+		tableAppend				+= `data-kode='${dataKodeBarang}' data-jumlah-awal='${valJumlahAwalBarang}'>Hapus</button></td>`;
+		tableAppend				+=	"<td><button id='buttonBatal' class='btn btn-warning text-white'>Batal</button></td>";
+		tableAppend 			+= "</tr>";
+		removeTRNextAll.remove();
+		removeTRPrevUntil.remove();
+		$("table").append(tableAppend);
+		removeTRPrevUntil.remove();
+		removeTRNextAll.remove();
+
+			// Keyup tag input 
+			$("#jumlahHapusBarang").keyup(function() {
+				let valKUjumlahHapusBarang = $(this).val();
+				for (let i = 1; i <= valJumlahAwalBarang; i++) {
+					if (valKUjumlahHapusBarang == i) {
+						jumlahAwalBarang.html(valJumlahAwalBarang - i);
+					}
+				}
+
+				if (valKUjumlahHapusBarang == 0) {
+					jumlahAwalBarang.html(valJumlahAwalBarang);
+				}
+				$(this).attr("max", valJumlahAwalBarang);
+			});
+
+			$("#jumlahHapusBarang").click(function() {
+				$(this).keyup();
+				$(".pesanValidasi").html("");
+			});
+
+
+
+			// Checkbox ambil semua nilai
+			$("#checkSemua").click(function() {
+				if ($(this).is(":checked")) {
+					$("#jumlahHapusBarang").val(valJumlahAwalBarang);
+					jumlahAwalBarang.html(0);
+				}
+				else {
+					$("#jumlahHapusBarang").val(null)
+					jumlahAwalBarang.html(valJumlahAwalBarang);	
+				}
+			});
+
+			// Batal 
+			$("#buttonBatal").click(function() {
+				$.ajax({
+					url 			:"files_backend_ajax/backend_data_barang.php",
+					type 			: "POST",
+					data 			: { tabelBarang : true },
+					success		:function(responseText) {	
+						$("#tabelBarang").html(responseText); 
+					}
+				});
+			});
+		}
+
+		function buttonQueryHapus(event, button) {
+			let dataKodeBarang 	 		= $(button).data("kode");
+			let valJumlahHapusBarang 	= $("#jumlahHapusBarang").val();
+			let valJumlahAwalBarang   	= $(button).data("jumlah-awal");
+			let confirmHapusBarang 		= confirm("Apakah anda yakin ingin menghapus barang tersebut?");
+			if (confirmHapusBarang) {
+				if ($("#checkSemua").is(":checked") || valJumlahHapusBarang != 0) {
+					$.ajax({
+						url 		: "files_backend_ajax/backend_data_barang.php",
+						type 		: "POST",
+						data 		: { 
+							hapusBarang 				: dataKodeBarang, 
+							valJumlahHapusBarang 	: valJumlahHapusBarang,
+							valJumlahAwalBarang 		: valJumlahAwalBarang
+						},
+						success	: function(responseText) {
+							$("#pesan").show();
+							$("#pesan").html(responseText);
+							// Tampilkan tabel saat berhasil menghapus barang
+							$.post('files_backend_ajax/backend_data_barang.php',{ tabelBarang : true },function(responseText){
+								$("#tabelBarang").html(responseText);
+							});
+						}
+					});
+				}
+				else {
+					event.preventDefault();
+					$(".pesanValidasi").html("<small>Tidak boleh kosong</small>");
+				}
+			}
+		}
+
+		function pageLink(button) {
+			let dataPage 						= $(button).data("page");
+			let pageListChildrenLength 	= $("#page-list").children().length;
 			$.ajax({
 				url 		: "files_backend_ajax/backend_data_barang.php",
 				type 		: "POST",
-				data 		: { hapusBarang : dataKodeBarang },
+				data 		: { pageListTabelBarang : dataPage, pageListChildrenLength : pageListChildrenLength },
 				success	: function(responseText) {
-					$("#pesan").show();
-					$("#pesan").html(responseText);
-					// Tampilkan tabel saat berhasil menghapus barang
-					$.post('files_backend_ajax/backend_data_barang.php',{ tabelBarang : true },function(responseText){
-						$("#tabelBarang").html(responseText);
-					});
+					$("#tabelBarang").html(responseText);
 				}
 			});
-		}
-	}		
 
-	function pageLink(button) {
-		let dataPage 				= $(button).data("page");
-		let pageListChildrenLength 	= $("#page-list").children().length;
-		$.ajax({
-			url 		: "files_backend_ajax/backend_data_barang.php",
-			type 		: "POST",
-			data 		: { pageListTabelBarang : dataPage, pageListChildrenLength : pageListChildrenLength },
-			success	: function(responseText) {
-				$("#tabelBarang").html(responseText);
-			}
-		});
-
-		for (let i = 1; i <= pageListChildrenLength; i++) {
-			if (dataPage == i) {
-				$(".page-circle").removeClass("page-actived");	
-				$(button).addClass("page-actived");
+			for (let i = 1; i <= pageListChildrenLength; i++) {
+				if (dataPage == i) {
+					$(".page-circle").removeClass("page-actived");	
+					$(button).addClass("page-actived");
+				}
 			}
 		}
-	}
 
 	// Load event ========================================================================== >>
 	$(document).ready(function() {
@@ -241,14 +376,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 			}
 		});
 
-		function totalBarang(post, selector) {
-			$.post("files_backend_ajax/backend_data_barang.php",{
-				post 	: true
-			},function(responseText) {	
-				$(selector).html(responseText);
-			});	
-		}
-		
+
 		// Jumlah Semua Barang
 		$.post("files_backend_ajax/backend_data_barang.php",{ totalSemuaBarang : true },function(responseText) {	
 			$("#totalSemuaBarang").html(responseText);
@@ -344,7 +472,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		});
 
 		$("#page-next").click(function() {
-			let dataPage 				= $(".page-actived").data("page") + 1;
+			let dataPage 						= $(".page-actived").data("page") + 1;
 			let pageListChildrenLength 	= $("#page-list").children().length;
 			$.ajax({
 				url 	: "files_backend_ajax/backend_data_barang.php",
@@ -361,7 +489,6 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				}
 			});
 		});
-
 	}); // END EVENT LOAD
 </script>
 </body>

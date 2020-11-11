@@ -1,7 +1,7 @@
-<?php 
-$conn 			= mysqli_connect("localhost","root","","tugas_inventaris");
-
-require_once 'php_functions.php';
+<?php
+session_start();
+require_once 'files_backend_ajax/php_functions.php';
+cek_session();
 
 // Mengambil value dari database untuk mengisi tag <input> value 
 $url_kode_barang 	= (isset($_GET['kode-barang'])) ? $_GET['kode-barang'] : "";
@@ -30,12 +30,11 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 	<meta charset="utf-8">
 	<title>Edit Barang</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
-	<script type="text/javascript" src="bootstrap/js/popper.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript src=jquery-com-3.5.1.js"></script>
 	<style>
 		/* Form Tambah Barang */
 		#form-tambah-barang {
@@ -83,7 +82,7 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 <body>
 	<div id='form-tambah-barang'>
 		<div class='header-form font-neue'><h3>Edit Barang</h3></div>
-		<div id="closeForm">&times;</div>
+		<a href="data_barang.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
 			<label for='kode_barang'>Kode Barang</label>
 			<input id='kode_barang' class='form-control' type='text' value="<?php echo $url_kode_barang; ?>">
@@ -134,7 +133,7 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 		</div>
 		<div class='form-group float-right'>
 			<button id='acceptEditBarang' class='btn btn-primary'>Edit</button>
-			<button id='buttonBatalEdit' class='btn btn-danger'>Batal</button>
+			<a href="data_barang.php"><button id='buttonBatalEdit' class='btn btn-danger'>Batal</button></a>
 		</div>
 	</div>
 	<script>
@@ -171,12 +170,12 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 
 					if ($(".pesanEditBarang").text() == "") {
 						$.ajax({
-							url 	: "backend_data_barang.php",
+							url 	: "files_backend_ajax/backend_data_barang.php",
 							type 	: "POST",
 							data 	: { validasiDuplikatKeyGet : valKodeBarang, getKodeBarang : "<?php echo $url_kode_barang; ?>"},
 							success : function(responseText) {
 								if (responseText == "berhasil") {
-									$.post('backend_data_barang.php',{
+									$.post('files_backend_ajax/backend_data_barang.php',{
 										updateBarang 			: true, 
 										valUrlKodeBarang 		: "<?php echo $url_kode_barang; ?>",
 										valUrlNamaBarang 		: "<?php echo $url_nama_barang; ?>",
@@ -195,7 +194,6 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 									);
 								}
 								else {
-									console.log(responseText);
 									e.preventDefault();
 									$("#kode_barang").next().html(`<small>${ responseText }</small>`).addClass('pesanValidasi');
 								}
@@ -203,15 +201,6 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 						});
 					}
 				}
-			});
-			// Button Batalkan Tambah Barang
-			$("#buttonBatalEdit").click(function() {
-				location.replace("data_barang.php");
-			});
-
-			// Button Batalkan Tambah Barang (Simbol Close)
-			$("#closeForm").click(function() {
-				$("#buttonBatalEdit").click();
 			});
 	});
 </script>
