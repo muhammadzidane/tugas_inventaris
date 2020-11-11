@@ -151,9 +151,9 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		tableAppend				+= "<td></td>";
 		tableAppend				+=	"<td colspan='2'>";
 		tableAppend				+=	"<input  id='jumlahTambahBarang' placeholder='Jumlah'";
-		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'>";
+		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'><div class='pesanValidasi'></div>";
 		tableAppend				+=	"</td>";
-		tableAppend				+=	"<td colspan='2'><input id='tanggalMasuk' class='form-control form-control-sm' type='date'></td>";
+		tableAppend				+=	"<td colspan='2'><input id='tanggalMasuk' class='form-control form-control-sm' type='date'><div class='pesanValidasi'></div></td>";
 		tableAppend				+=	"<td></td>";
 		tableAppend				+=	"<td><button id='buttonQueryTambah' class='btn btn-success'";
 		tableAppend				+= `data-kode='${dataKodeBarang}' data-jumlah-awal=''>Tambah</button></td>`;
@@ -166,27 +166,33 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		removeTRPrevUntil.remove();
 		removeTRNextAll.remove();
 
-		$("#buttonQueryTambah").click(function() {
+		$("#buttonQueryTambah").click(function(e) {
 			let dataKodeBarang 			= $(this).data("kode");
 			let valJumlahTambahBarang 	= $("#jumlahTambahBarang").val();
 			let valTanggalMasuk 			= $("#tanggalMasuk").val();
+			let confirmTambahBarang 	= confirm("Apakah anda yakin ingin menambahkan barang ?");
 
-			if (valJumlahTambahBarang != "" || valTanggalMasuk != "") {
-				$.ajax({
-					url 		: "files_backend_ajax/backend_data_barang.php",
-					type 		: "POST",
-					data 		: { 
-						tambahBarangYangSama 	: dataKodeBarang,
-						valJumlahTambahBarang 	: valJumlahTambahBarang,
-						valTanggalMasuk 			: valTanggalMasuk
-					},
-					success 	: function(responseText) {
-						console.log(responseText)
-					}
-				});		
-			}
-			else {
-				console.log(false);
+			if (confirmTambahBarang) {
+				validasiKosong(valJumlahTambahBarang, "#jumlahTambahBarang");
+				validasiKosong(valTanggalMasuk, "#tanggalMasuk");
+
+				if ($(".pesanValidasi").text() == "") {
+					$.ajax({
+						url 		: "files_backend_ajax/backend_data_barang.php",
+						type 		: "POST",
+						data 		: { 
+							tambahBarangYangSama 	: dataKodeBarang,
+							valJumlahTambahBarang 	: valJumlahTambahBarang,
+							valTanggalMasuk 			: valTanggalMasuk
+						},
+						success 	: function(responseText) {
+							location.assign("data_barang.php?berhasil-tambah=" + encodeURIComponent(responseText));
+						}
+					});		
+				}
+				else {
+					e.preventDefault();
+				}
 			}
 
 		});
@@ -491,5 +497,6 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		});
 	}); // END EVENT LOAD
 </script>
+<script src="jquery_functions/js_functions.js"></script>
 </body>
 </html>

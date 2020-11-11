@@ -400,4 +400,7 @@ function cek_session() {
 	}
 }
 
+// Cek role session
+$sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
+
 ?>

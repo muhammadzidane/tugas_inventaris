@@ -2,8 +2,6 @@
 session_start();
 require_once 'files_backend_ajax/php_functions.php';
 cek_session();
-
-$sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,7 +57,11 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				</div>
 			</div>
 		</div>
-		<button id="tambahKaryawan" class="btn btn-primary"><i class="fas fa-user-plus"></i>Tambahkan Karyawan</button>
+		<?php 
+			if ($sess_role == "superuser") {
+				echo "<button id='tambahKaryawan' class='btn btn-primary'><i class='fas fa-user-plus'></i>Tambahkan Karyawan</button>";
+			}
+		?>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
 				<input id="search" type="text" name="search" autocomplete="off" placeholder="Cari Nama Karyawan">
@@ -79,158 +81,6 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 		<div id="test"></div>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
 	</footer>
-	<script>
-		"use strict";
-		// Button Edit Karyawan
-		function buttonEditKaryawan(event, button) {
-			event.stopPropagation();
-			let dataKodeKaryawan  	= $(button).data('kode');
-			let dataNamaKaryawan  	= $(button).data('nama');
-			let getUrlValue 		= `?kode_karyawan=${dataKodeKaryawan}&nama_karyawan=${dataNamaKaryawan}`;			
-			location.assign("edit_karyawan.php" + getUrlValue);
-		};
-
-	// Button Hapus Karyawan
-	function buttonHapusKaryawan(event, button) {
-		event.stopPropagation();
-		let confirmHapusKaryawan 	= confirm("Apakah Anda Yakin Ingin Menghapus Karyawan?");
-		let kodeKaryawan 				= $(button).data("kode");
-		if (confirmHapusKaryawan) {
-			// Query hapus karyawan
-			$.post("files_backend_ajax/backend_daftar_karyawan.php",{ hapusKaryawan : kodeKaryawan }, function(responseText, success) {
-				location.assign("daftar_pegawai.php?berhasil_dihapus=" + encodeURIComponent(responseText));
-			});
-		}
-	}
-
-	function pageLink(button) {
-		let dataPage 						= $(button).data("page");
-		let pageListChildrenLength 	= $("#page-list").children().length;
-		$.ajax({
-			url 	: "files_backend_ajax/backend_daftar_karyawan.php",
-			type 	: "POST",
-			data 	: { pageListTabelKaryawan : dataPage, pageListChildrenLength : pageListChildrenLength },
-			success : function(responseText) {
-				$("#tabelKaryawan").html(responseText);
-			}
-		});
-
-		for (let i = 1; i <= pageListChildrenLength; i++) {
-			if (dataPage == i) {
-				$(".page-circle").removeClass("page-actived");	
-				$(button).addClass("page-actived");
-			}
-		}
-	}
-
-	// Load Event =========================================>>
-	$(document).ready(function() {
-		$("#pesan").hide();
-		$("#pesanLoad").hide();
-
-		// Muncul Tabel Saat Load Pertama Kali
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{
-			tabelKaryawan 	: true
-		},function(responseText) {
-			$("#tabelKaryawan").html(responseText);	
-			
-			<?php 
-			if (isset($_GET['berhasil_edit'])) {
-				$berhasil_edit = $_GET['berhasil_edit']; ?> // End PHP
-				$("#pesanLoad").show();
-				$("#pesanLoad").html("<?php echo $berhasil_edit; ?>");
-			<?php } ?>// End IF
-
-			<?php
-			if (isset($_GET['berhasil_ditambah'])) {
-				$berhasil_ditambah = $_GET['berhasil_ditambah']; ?> // End PHP
-				$("#pesanLoad").show();
-				$("#pesanLoad").html("<?php echo $berhasil_ditambah; ?>");
-			<?php } ?> // End IF 
-
-			<?php
-			if (isset($_GET['berhasil_dihapus'])) {
-				$berhasil_dihapus = $_GET['berhasil_dihapus']; ?> // End PHP
-				$("#pesanLoad").show();
-				$("#pesanLoad").html("<?php echo $berhasil_dihapus; ?>");
-			<?php } ?> // End IF 
-
-			$(".TRKaryawan").click(function() {
-				let dataKodeKaryawan 	= $(this).data("kode");
-				let dataNamaKaryawan 	= $(this).data("nama");
-				location.assign("barang_inventaris_karyawan.php?kode_karyawan=" + dataKodeKaryawan + "&nama_karyawan=" + dataNamaKaryawan);
-			});
-
-			// Jika role moderator, maka remove beberapa modul
-			<?php if ($sess_role == "moderator") { ?>
-				$("#tambahKaryawan").remove();
-				$("#THActions").remove();
-				$(".TDEdit").remove();
-				$(".TDHapus").remove();
-				$(".buttonHapus").remove();
-				console.log($("buttonEdit"));
-			<?php } ?>
-		});
-		
-		// Total Karyawan
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{totalKaryawan : true},function(responseText) {	
-			$("#totalKaryawan").html(responseText);
-		});
-		
-		// Search Tabel
-		// $("#pesan").hide(); // Hide Saat Load Pertama Kali
-		$("#search").keyup(function() {
-			let valSearch = $("#search").val().trim()
-
-			$.post("files_backend_ajax/backend_daftar_karyawan.php",{
-				searchKaryawan 	: valSearch
-			},function(responseText) {
-				if (responseText == "User Tidak Ditemukan") {
-					$("#pesan").html(responseText);
-					$("#pesan").show();
-				}
-				else {
-					$("#pesan").hide();
-					$("#tabelKaryawan").html(responseText);
-				}
-			});
-		});
-
-		// Tambah Karyawan Baru
-		$("#tambahKaryawan").click(function() {
-			location.assign("tambah_karyawan.php");
-		});
-
-		// Pagination Tabel Karyawan
-		$.ajax({
-			url 	: "files_backend_ajax/backend_daftar_karyawan.php",
-			type 	: "POST",
-			data 	: { paginationTabelKaryawan : true },
-			success : function(responseText) {
-				$("#page-list").html(responseText);
-			}
-		});
-
-		// Page Next
-		$("#page-next").click(function() {
-			let dataPage 						= $(".page-actived").data("page") + 1;
-			let pageListChildrenLength 			= $("#page-list").children().length;
-			$.ajax({
-				url 	: "files_backend_ajax/backend_daftar_karyawan.php",
-				type 	: "POST",
-				data 	: { pageNext : dataPage },
-				success : function(responseText) {
-					$("#tabelKaryawan").html(responseText);
-					for (let i = 1; i <= pageListChildrenLength; i++) {
-						if (dataPage == i) {
-							$(".page-circle").removeClass("page-actived");
-							$(`#page-${i}.page-circle`).addClass("page-actived");
-						}
-					}
-				}
-			});
-		});
-	});
-</script>
+	<script src="src_moduls/daftar_pegawai.js"></script>
 </body>
 </html>

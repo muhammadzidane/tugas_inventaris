@@ -122,7 +122,7 @@ if (isset($_POST["tambahBarangYangSama"])) {
 
 	$query 			 = mysqli_multi_query($conn, $result);
 	if ($query) {
-		echo "$val_nama_barang berhasil di tambah";
+		echo "$nama_barang berhasil di tambah";
 	}
 	else {
 		echo mysqli_error($conn);
