@@ -14,7 +14,7 @@ function buttonEditKaryawan(event, button) {
 function buttonHapusKaryawan(event, button) {
 	event.stopPropagation();
 	let confirmHapusKaryawan 	= confirm("Apakah Anda Yakin Ingin Menghapus Karyawan?");
-	let kodeKaryawan 		= $(button).data("kode");
+	let kodeKaryawan 				= $(button).data("kode");
 	if (confirmHapusKaryawan) {
 		// Query hapus karyawan
 		$.post("files_backend_ajax/backend_daftar_karyawan.php",{ hapusKaryawan : kodeKaryawan }, function(responseText, success) {
@@ -45,28 +45,29 @@ function pageLink(button) {
 // Load Event =========================================>>
 $(document).ready(function() {
 	$("#pesan").hide();
-	$("#pesanLoad").hide();
+
+	let valPesanLoad 	= $("#pesanLoad").text().trim();
+	
+	if (valPesanLoad == "") {
+		$("#pesanLoad").hide();
+	}
+	else {
+		$("#pesanLoad").show();
+	}
 
 	// Muncul Tabel Saat Load Pertama Kali
 	$.post("files_backend_ajax/backend_daftar_karyawan.php",{
 		tabelKaryawan 	: true
 	},function(responseText) {
-		$("#tabelKaryawan").html(responseText);	
-
-
-		function tampilkanPesanLoad(substrGetUrl,substrGetValUrl , getUrl) {
-			let varGetUrl 		= location.search.substr(1, substrGetUrl);
-			let valGetUrl 	= decodeURIComponent(location.search.substr(substrGetValUrl));
-
-			if (varGetUrl == getUrl) {
-				$("#pesanLoad").show();
-				$("#pesanLoad").html(valGetUrl);
-			}
-		}
-
-		tampilkanPesanLoad(13, 15, "berhasil_edit");
-		tampilkanPesanLoad(17, 19, "berhasil_ditambah");
-		tampilkanPesanLoad(16, 18, "berhasil_dihapus");
+		$("#tabelKaryawan").html(responseText);
+		$(".TRKaryawan").click(function() {
+			let dataKodeKaryawan = $(this).data("kode");
+			let dataNamaKaryawan = $(this).data("nama")
+			location.assign(
+				"barang_inventaris_karyawan.php?kode_karyawan=" + encodeURIComponent(dataKodeKaryawan) + 
+				"&nama_karyawan=" + encodeURIComponent(dataNamaKaryawan)
+			);
+		})
 	});
 	
 	// Total Karyawan
@@ -126,4 +127,5 @@ $(document).ready(function() {
 			}
 		});
 	});
+
 });

@@ -1,10 +1,8 @@
 <?php 
 session_start();
-$conn 					= mysqli_connect("localhost","root","","tugas_inventaris");
 require_once 'files_backend_ajax/php_functions.php';
 cek_session();
 
-$sess_role 				= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 $url_kode_karyawan 	= (isset($_GET["kode_karyawan"])) ? $_GET["kode_karyawan"] : "";
 $url_nama_karyawan 	= (isset($_GET["nama_karyawan"])) ? $_GET["nama_karyawan"] : "";
 ?>
@@ -54,16 +52,16 @@ $url_nama_karyawan 	= (isset($_GET["nama_karyawan"])) ? $_GET["nama_karyawan"] :
 		<h1 class="judul font-neue">Barang Inventaris Karyawan</h1>
 		<div id="pesanLoad" class="my-5">
 			<?php 
-			if (isset($_GET['berhasil-ubah-password'])) {
-				echo $_GET['berhasil-ubah-password'];
-			}
+			tampilkan_pesan_load("berhasil-tambah-barang");
+			tampilkan_pesan_load("berhasil_dihapus");
+			tampilkan_pesan_load("berhasil_ditambah");
 			?>
 		</div>
 		<div class="d-flex columns mx-auto">
 			<div class="column-pink-1"><i class="fas fa-id-card fa-5x pt-2"></i></div>
 			<div class="column-pink-2 text-center">
-				<h4 class="font-neue h-user pt-5"><?= $url_nama_karyawan; ?></h4>
-				<h5 class="font-neue"><?= $url_kode_karyawan; ?></h5>
+				<h4 id="namaKaryawan" class="font-neue h-user pt-5"><?= $url_nama_karyawan; ?></h4>
+				<h5 id="kodeKaryawan" class="font-neue"><?= $url_kode_karyawan; ?></h5>
 			</div>
 		</div>
 		<div class="d-flex justify-content-between">
@@ -127,273 +125,7 @@ $url_nama_karyawan 	= (isset($_GET["nama_karyawan"])) ? $_GET["nama_karyawan"] :
 	<footer>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
 	</footer>
-	<script>
-		"use strict";
-
-
-	function pageLink(button) {
-		let dataPage 					= $(button).data("page");
-		let pageListChildrenLength = $("#page-list").children().length;
-		$.ajax({
-			url 	: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-			type 	: "POST",
-			data 	: { 
-				pageListTabelBarang 		: dataPage,
-				kodeKaryawan				: "<?= $url_kode_karyawan ?>", 
-				pageListChildrenLength 	: pageListChildrenLength 
-			},
-			success : function(responseText) {
-				$("#tabelBarangInvKaryawan").html(responseText);
-			}
-		});
-
-		for (let i = 1; i <= pageListChildrenLength; i++) {
-			if (dataPage == i) {
-				$(".page-circle").removeClass("page-actived");	
-				$(button).addClass("page-actived");
-			}
-		}
-	}
-
-	// Batal tambah barang
-	function buttonBatal(event, button){
-		$("#tambahBarangInv").click();
-	}
-
-	// Tambah barang
-	function buttonTambahBarang(event, button) {
-		let jumlahBarang 		 = $(button).parent().prev().prev().prev().prev();
-		let dataKodeBarang 	 = $(button).data("kode");
-		let valJumlahBarang 	 = $(button).parent().prev().prev().prev().prev().text();
-		let removeTRNextAll   = $(button).parent().parent().nextAll();
-		let removeTRPrevUntil = $(button).parent().parent().prevUntil(".tableFirstChild");
-		let tableAppend 		 = "";
-		tableAppend 			+= "<tr>";
-		tableAppend				+= "<td></td>";
-		tableAppend				+= "<td></td>";
-		tableAppend				+=	"<td></td>";
-		tableAppend				+=	"<td></td>";
-		tableAppend				+=	"<td>";
-		tableAppend				+=	"<input id='jumlahTambahBarang' placeholder='Jumlah'";
-		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'>";
-		tableAppend				+=	"</td>";
-		tableAppend				+=	"<td><input id='tanggal_masuk' class='form-control form-control-sm' type='date'></td>";
-		tableAppend				+=	"<td></td>";
-		tableAppend				+=	"<td><button onclick='buttonQueryTambah(event, this);'";
-		tableAppend				+=	`class='btn btn-primary' data-kode='${dataKodeBarang}' data-jumlah-awal='${valJumlahBarang}'>Tambah</button></td>`;
-		tableAppend				+=	"<td><button onclick='buttonBatal(event, this);' class='btn btn-warning text-white'>Batal</button></td>";
-		tableAppend 			+= "</tr>";
-		removeTRNextAll.remove();
-		removeTRPrevUntil.remove();
-		$("table").append(tableAppend);
-		$("#jumlahTambahBarang").keyup(function() {
-			let valKUJumlahTambahBarang = $(this).val();
-
-			for (let i = 1; i <= valJumlahBarang; i++) {
-				if (valKUJumlahTambahBarang == i) {
-					jumlahBarang.html(valJumlahBarang - i);
-				}
-			}
-			for (let i = valJumlahBarang; i <= 0; i--) {	
-				if (valKUJumlahTambahBarang == i) {
-					jumlahBarang.html(valJumlahBarang + i);
-				}
-			}
-			
-			if (valKUJumlahTambahBarang == 0) {
-				jumlahBarang.html(valJumlahBarang);
-			}
-			$(this).attr("max", valJumlahBarang);
-		});
-
-		$("#jumlahTambahBarang").click(function() {
-			$(this).keyup();
-		});
-	}
-	
-	// Ajax tambah barang
-	function buttonQueryTambah(event, button) {
-		let jumlahAwalBarang 	= $(button).data("jumlah-awal");
-		let valJumlahBarang  	= $("#jumlahTambahBarang").val();
-		let valTanggalMasuk  	= $("#tanggal_masuk").val();
-		let dataKodeBarang 		= $(button).data("kode");
-		let confirmTambah 		= confirm("Apakah anda yakin ingin menambahkan barang?");
-		if (confirmTambah) {
-			if (valJumlahBarang == 0 || "" || valTanggalMasuk == "") {
-				event.preventDefault();	
-			}
-			else {
-				$.ajax({
-					url 		: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-					type 		: "POST",
-					data 		: {
-						queryTambahBarang	: dataKodeBarang,
-						valJumlahBarang 	: valJumlahBarang,
-						valTanggalMasuk 	: valTanggalMasuk,
-						jumlahAwalBarang 	: jumlahAwalBarang,
-						kodeKaryawan 		: "<?= $url_kode_karyawan; ?>",
-						namaKaryawan 		: "<?= $url_nama_karyawan; ?>"
-					},
-					success 	: function(responseText) {
-						let nama_karyawan = "&nama_karyawan=<?= $url_nama_karyawan ?>";
-						let kode_karyawan = "&kode_karyawan=<?= $url_kode_karyawan ?>";
-						location.assign("barang_inventaris_karyawan.php?berhasil-tambah-barang=" + encodeURIComponent(responseText) + nama_karyawan + kode_karyawan);
-					}
-				});
-			}
-		}
-	}
-
-	// Hapus barang
-	function buttonHapusBarang(event, button) {
-		let confirmHapusBarang = confirm("Apakah anda yakin ingin menghapus data barang?");
-		if (confirmHapusBarang) {
-			let dataKodeBarang = $(button).data("kode");
-			$.ajax({
-				url 		: "files_backend_ajax/backend_data_barang.php",
-				type 		: "POST",
-				data 		: { hapusBarangInvKaryawan : dataKodeBarang },
-				success	: function(responseText) {
-					$("#pesan").show();
-					$("#pesan").html(responseText);
-					// Tampilkan tabel saat berhasil menghapus barang
-					$.post('files_backend_ajax/backend_daftar_karyawan.php',{ tabelBarangInvKaryawan : "<?= $url_kode_karyawan; ?>" },
-						function(responseText){
-							$("#tabelBarangInvKaryawan").html(responseText);
-						}
-						);
-				}
-			});
-		}
-	}		
-
-	// Load Event =========================================>>
-	$(document).ready(function() {
-		$("#pesan").hide();
-		$("#pesanLoad").hide();
-
-		// Muncul tabel saat pertama load
-		$.ajax({
-			url 		: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-			type 		: "POST",
-			data 		: { tabelBarangInvKaryawan : "<?= $url_kode_karyawan; ?>" },
-			success		:function(responseText) {	
-				$("#tabelBarangInvKaryawan").html(responseText);
-				$(".buttonTambah").hide();
-			}	
-		});
-
-		<?php 
-		if (isset($_GET['berhasil-tambah-barang'])) {
-			$berhasilTambahBarang = $_GET['berhasil-tambah-barang']; ?> // End PHP
-			$("#pesanLoad").show();
-			$("#pesanLoad").html("<?php echo $berhasilTambahBarang; ?>");
-		<?php } ?>// End IF
-
-
-		// Search nama barang
-		$("#searchBarang").keyup(function() {
-			let inputVal = $("#searchBarang").val().trim()
-			$.post("files_backend_ajax/backend_barang_inventaris_karyawan.php",{
-				searchBarang 	: inputVal, kodeKaryawan : "<?= $url_kode_karyawan; ?>"
-			},function(responseText) {
-				if (responseText == "Barang Tidak Ditemukan") {
-					$("#pesan").html(responseText);
-					$("#pesan").show();
-				}
-				else {
-					$("#pesan").hide();
-					$("#tabelBarangInvKaryawan").html(responseText);
-					$(".buttonTambah").hide();
-				}
-			});
-		});
-
-		// Pagination Tabel Barang
-		$.ajax({
-			url 	: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-			type 	: "POST",
-			data 	: { paginationTabelBarang : "<?= $url_kode_karyawan; ?>" },
-			success : function(responseText) {
-				$("#page-list").html(responseText);
-			}
-		});
-
-		// Page Next
-		$("#page-next").click(function() {
-			let dataPage 						= $(".page-actived").data("page") + 1;
-			let pageListChildrenLength 	= $("#page-list").children().length;
-			$.ajax({
-				url 	: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-				type 	: "POST",
-				data 	: { pageNext : dataPage },
-				success : function(responseText) {
-					$("#tabelKaryawan").html(responseText);
-					for (let i = 1; i <= pageListChildrenLength; i++) {
-						if (dataPage == i) {
-							$(".page-circle").removeClass("page-actived");
-							$(`#page-${i}.page-circle`).addClass("page-actived");
-						}
-					}
-				}
-			});
-		});
-
-		// Jumlah Semua Barang
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{ totalSemuaBarang : "<?= $url_kode_karyawan; ?>" },function(responseText) {	
-			$("#totalSemuaBarang").html(responseText);
-		});
-		
-		// Jumlah Barang Elektronik
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{ totalBarangElektronik : "<?= $url_kode_karyawan; ?>" },function(responseText) {	
-			$("#totalBarangElektronik").html(responseText);
-		});
-		
-		// Jumlah Barang Alat Tulis
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{	totalBarangAlatTulis : "<?= $url_kode_karyawan; ?>" },function(responseText) {	
-			$("#totalBarangAlatTulis").html(responseText);
-		});
-		
-		// Jumlah Barang Kendaraan
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{ totalBarangKendaraan : "<?= $url_kode_karyawan; ?>" },function(responseText) {
-			$("#totalBarangKendaraan").html(responseText);
-		});
-		
-		// Jumlah Barang Lainnya
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{	totalBarangLainnya 	: "<?= $url_kode_karyawan; ?>" },function(responseText) {
-			$("#totalBarangLainnya").html(responseText);
-		});
-
-		// Tambah barang inventaris untuk karyawan
-		$("#tambahBarangInv").click(function(e) {
-			$("#dataBarang").html("Data Barang").addClass("judul font-neue w-25").css("font-size", "30px");
-			$("#batalTambahBarangInv").html("<button class='btn btn-warning text-white ml-1'>Batal</button>");
-			$.ajax({
-				url 		: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-				type 		: "POST",
-				data 		: { showTabelDataBarang : true },
-				success		:function(responseText) {	
-					$("#tabelBarangInvKaryawan").html(responseText);
-					$(".buttonEdit").remove();
-					$(".buttonHapus").remove();
-				}
-			});
-		});
-
-		$("#batalTambahBarangInv").click(function() {
-			$(this).html("");
-			$("#dataBarang").html("");
-			$.ajax({
-				url 		: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-				type 		: "POST",
-				data 		: { tabelBarangInvKaryawan : "<?= $url_kode_karyawan; ?>" },
-				success		:function(responseText) {	
-					$("#tabelBarangInvKaryawan").html(responseText);
-					$(".buttonTambah").remove();
-				}	
-			});
-		});
-	});
-</script>
+	<script src="src_moduls/barang_inventaris_karyawan.js"></script>
+	<script src="src_moduls/js_functions.js"></script>
 </body>
 </html>

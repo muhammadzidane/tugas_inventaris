@@ -47,7 +47,13 @@ cek_session();
 	</nav>
 	<div class="container">
 		<div class="judul font-neue">Daftar Pegawai</div>
-		<div id="pesanLoad"></div>
+		<div id="pesanLoad">
+			<?php 
+			tampilkan_pesan_load("berhasil_edit");
+			tampilkan_pesan_load("berhasil_dihapus");
+			tampilkan_pesan_load("berhasil_ditambah");
+			?>
+		</div>
 		<div class="cards">
 			<div class="d-flex columns">
 				<div class="column-orange-1"><i class="fas fa-users fa-5x pt-2"></i></div>
@@ -57,10 +63,8 @@ cek_session();
 				</div>
 			</div>
 		</div>
-		<?php 
-			if ($sess_role == "superuser") {
-				echo "<button id='tambahKaryawan' class='btn btn-primary'><i class='fas fa-user-plus'></i>Tambahkan Karyawan</button>";
-			}
+		<?php
+			hapusModuls("<button id='tambahKaryawan' class='btn btn-primary'><i class='fas fa-user-plus'></i>Tambahkan Karyawan</button>");
 		?>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
@@ -81,6 +85,7 @@ cek_session();
 		<div id="test"></div>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
 	</footer>
+	<script src="src_moduls/js_functions.js"></script>
 	<script src="src_moduls/daftar_pegawai.js"></script>
 </body>
 </html>

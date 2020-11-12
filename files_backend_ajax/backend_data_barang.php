@@ -93,7 +93,7 @@ if (isset($_POST["tambahBarangYangSama"])) {
 	$harga_satuan 				 	 = $data["harga_satuan"];
 	$total_harga 				 	 = $data["total_harga"];
 	$foto_barang 					 = $data["foto_barang"];
-	$val_jumlah_tambah_barang 	 = $_POST['valJumlahTambahBarang'];
+	$val_jumlah_tambah_barang 	 = $_POST['valJumlah'];
 	$val_tanggal_masuk 			 = $_POST['valTanggalMasuk'];
 
 	$total_harga_baru 			 = $harga_satuan * $val_jumlah_tambah_barang;

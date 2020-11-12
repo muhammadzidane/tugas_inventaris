@@ -1,6 +1,10 @@
 <?php  
+ini_set("max_execution_time", 36000000000000);
+ini_set("memory_limit", -1);
+
 $conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
 require_once 'php_functions.php';
+
 
 
 if (isset($_POST['showTabelDataBarang'])) {
@@ -120,5 +124,20 @@ if (isset($_POST["queryTambahBarang"])) {
 			echo mysqli_error($conn);
 		}
 	}
+}
+
+// Query hapus barang
+echo query_hapus("hapusBarangInvKaryawan", "tb_barang_inventaris_karyawan", "kode_barang", "nama_barang");
+
+// Jumlah barang barang
+echo jumlah_barang("totalSemuaBarang" ,"tb_barang_inventaris_karyawan", "semua");
+echo jumlah_barang("totalBarangElektronik" ,"tb_barang_inventaris_karyawan", "Elektronik");
+echo jumlah_barang("totalBarangAlatTulis" ,"tb_barang_inventaris_karyawan", "Alat Tulis");
+echo jumlah_barang("totalBarangKendaraan" ,"tb_barang_inventaris_karyawan", "Kendaraan");
+echo jumlah_barang("totalBarangLainnya" ,"tb_barang_inventaris_karyawan", "Lainnya");
+
+
+if (isset($_POST["test"])) {
+	echo "wkwk";
 }
 ?>

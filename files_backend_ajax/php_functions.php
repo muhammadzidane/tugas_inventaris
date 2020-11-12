@@ -259,12 +259,18 @@ function validasi_duplikat_key_get($post, $get_url, $nama_tabel, $kondisi){
 function query_hapus($post, $nama_tabel, $kondisi, $nama){
 	global $conn;
 	if (isset($_POST[$post])) {
-		$kode 		 = $_POST[$post];
-		$result 		 = "SELECT * FROM $nama_tabel WHERE $kondisi ='$kode';";
-		$query 		 = mysqli_query($conn, $result);
-		$data 		 = mysqli_fetch_assoc($query);
-		$nama 		 = $data[$nama];
-		$result 	 	 = "";
+		$kode 			 = $_POST[$post];
+		$result 			 = "SELECT * FROM $nama_tabel WHERE $kondisi ='$kode';";
+		$query 			 = mysqli_query($conn, $result);
+		$data 			 = mysqli_fetch_assoc($query);
+		$nama 			 = $data[$nama];
+		$harga_satuan 	 = $data["harga_satuan"];
+		$jumlah_awal 	 = (isset($_POST["valJumlahAwalBarang"])) ? (int) $_POST["valJumlahAwalBarang"] : "";
+		$jumlah_barang	 = (isset($_POST["valJumlah"])) ? (int) $_POST["valJumlah"] : "";
+		$hasil 			 = $jumlah_awal - $jumlah_barang;
+		$total_harga 	 = $hasil * $harga_satuan;
+		
+		$result 	 		 = "";
 
 		if ($nama_tabel == "tb_karyawan") {
 			$result 		.= "DELETE FROM tb_karyawan WHERE $kondisi = '$kode';";
@@ -273,15 +279,27 @@ function query_hapus($post, $nama_tabel, $kondisi, $nama){
 		}
 		
 		if ($nama_tabel == "tb_barang") {
-			$jumlah_awal 	 = (isset($_POST["valJumlahAwalBarang"])) ? (int) $_POST["valJumlahAwalBarang"] : "";
-			$jumlah_barang	 = (isset($_POST["valJumlahHapusBarang"])) ? (int) $_POST["valJumlahHapusBarang"] : "";
-			$hasil 			 = $jumlah_awal - $jumlah_barang;
 
 			if ($hasil == 0) {
 				$result 			.= "DELETE FROM tb_barang WHERE $kondisi = '$kode';";
 			}
 			else {
-				$result 			.= "UPDATE tb_barang SET jumlah_barang = '$hasil' WHERE $kondisi = '$kode';";
+				$result 			.= "UPDATE tb_barang SET jumlah_barang = '$hasil',";
+				$result 			.= "total_harga = '$total_harga'";
+				$result 			.= "WHERE $kondisi = '$kode';";
+			}
+
+			$query 		 	 = mysqli_query($conn, $result);
+		}
+
+		if ($nama_tabel == "tb_barang_inventaris_karyawan") {
+			if ($hasil == 0) {
+				$result 			.= "DELETE FROM tb_barang_inventaris_karyawan WHERE $kondisi = '$kode';";
+			}
+			else {
+				$result 			.= "UPDATE tb_barang_inventaris_karyawan SET jumlah_barang = '$hasil',";
+				$result 			.= "total_harga = '$total_harga'";
+				$result 			.= "WHERE $kondisi = '$kode';";
 			}
 
 			$query 		 	 = mysqli_query($conn, $result);
@@ -291,7 +309,7 @@ function query_hapus($post, $nama_tabel, $kondisi, $nama){
 			return "$nama berhasil di hapus";
 		}
 		else {
-			echo mysqli_error($conn);
+			return mysqli_error($conn);
 		}
 	}
 }
@@ -400,7 +418,19 @@ function cek_session() {
 	}
 }
 
-// Cek role session
-$sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
+// Tampilkan Pesan Load
+function tampilkan_pesan_load($getVal){
+	if (isset($_GET[$getVal])) {
+		echo $_GET[$getVal];
+	}
+}
+
+
+function hapusModuls($innerHTML) {
+	$sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
+	if ($sess_role == "superuser") {
+		echo $innerHTML;
+	}
+} 
 
 ?>

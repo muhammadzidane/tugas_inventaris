@@ -43,3 +43,14 @@ function validasiEmailEventClick(variabel, selector) {
 		$(selector).next().html("");
 	});
 }
+
+// Menampilkan pesan load
+function tampilkanPesanLoad(substrGetUrl,substrGetValUrl , getUrl) {
+	let varGetUrl 		= location.search.substr(1, substrGetUrl);
+	let valGetUrl 	= decodeURIComponent(location.search.substr(substrGetValUrl));
+
+	if (varGetUrl == getUrl) {
+		$("#pesanLoad").show();
+		$("#pesanLoad").html(valGetUrl);
+	}
+}

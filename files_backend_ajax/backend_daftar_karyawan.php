@@ -127,12 +127,4 @@ echo page_next("pageNext", "tb_karyawan", "nama_karyawan", "tabel_karyawan");
 // barang_inventaris_karyawan.php
 // Validasi duplikat key tambah barang inventaris untuk karyawan
 echo validasi_duplikat_key("validasiDuplikatKeyTambahInv", "tb_barang", "kode_barang");
-
-// Jumlah barang barang
-echo jumlah_barang("totalSemuaBarang" ,"tb_barang_inventaris_karyawan", "semua");
-echo jumlah_barang("totalBarangElektronik" ,"tb_barang_inventaris_karyawan", "Elektronik");
-echo jumlah_barang("totalBarangAlatTulis" ,"tb_barang_inventaris_karyawan", "Alat Tulis");
-echo jumlah_barang("totalBarangKendaraan" ,"tb_barang_inventaris_karyawan", "Kendaraan");
-echo jumlah_barang("totalBarangLainnya" ,"tb_barang_inventaris_karyawan", "Lainnya");
-
 ?>

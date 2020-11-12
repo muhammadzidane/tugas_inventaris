@@ -86,6 +86,7 @@ table tr:hover {
 	margin: 60px 0 50px 0;
 }
 .pesanValidasi {
+	position: absolute;
 	font-size: 13px;
 	color: tomato;
 }
