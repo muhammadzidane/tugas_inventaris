@@ -21,6 +21,7 @@ $(document).ready(function() {
 			validasiKosong(valPendidikanTerakhir, "#pendidikan_terakhir");
 			validasiKosong(valAlamat, "#alamat");
 			validasiKosong(valFoto, "#foto");
+			
 			if ($(".pesanValidasi").text() == "") {
 				$.ajax({
 					url 	: "files_backend_ajax/backend_daftar_karyawan.php",
