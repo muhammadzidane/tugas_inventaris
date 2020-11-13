@@ -169,6 +169,30 @@ table tr:hover {
 	margin-left: 528px;
 	cursor: pointer;
 }
+#checkAndTimesUsername {
+	font-size: 23px;
+	position: absolute;
+	top: 210px;
+	margin-left: 440px;
+}
+#checkAndTimesEmail {
+	font-size: 23px;
+	position: absolute;
+	top: 305px;
+	margin-left: 440px;
+}
+#checkAndTimesPassword {
+	font-size: 23px;
+	position: absolute;
+	top: 400px;
+	margin-left: 440px;
+}
+#checkAndTimesUlangiPassword {
+	font-size: 23px;
+	position: absolute;
+	top: 495px;
+	margin-left: 440px;
+}
 .font-neue { font-family: 'Bebas Neue'; }
 footer {
 	background-color: #24305E;

@@ -1,13 +1,13 @@
 <?php 
 session_start();
-
-$conn 			= mysqli_connect("localhost","root","","tugas_inventaris");
+require_once 'files_backend_ajax/php_functions.php';
+cek_session();
 
 // Mengambil value dari database untuk mengisi tag <input> value 
 $kode_karyawan 	= (isset($_GET['kode_karyawan'])) ? $_GET['kode_karyawan'] : "";
-$username 		= (isset($_GET['username'])) ? $_GET['username'] : "";
-$result 		= "SELECT * FROM tb_karyawan WHERE kode_karyawan='$kode_karyawan';";
-$query 			= mysqli_query($conn, $result);
+$username 			= (isset($_GET['username'])) ? $_GET['username'] : "";
+$result 				= "SELECT * FROM tb_karyawan WHERE kode_karyawan='$kode_karyawan';";
+$query 				= mysqli_query($conn, $result);
 
 
 ?>

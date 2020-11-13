@@ -156,4 +156,11 @@ function hidePesanLoad() {
 	else {
 		$("#pesanLoad").show();
 	}
-} 
+}
+
+function hapusPesanDanCheckAndTimes(namaID) {
+	if ($(namaID).val() == "") {
+		$(namaID).next().html("");
+		$(namaID).next().next().html("");
+	}
+}
