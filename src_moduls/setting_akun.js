@@ -66,6 +66,7 @@ function buttonUpdateJenisRole(event, button) {
 function buttonHapusUser(event, button) {
 	let dataUsername  		= $(button).data("username");
 	let confirmHapusUser 	= confirm("Apakah anda yakin ingin menghapus user ?");
+	
 	if (confirmHapusUser) {
 		$.ajax({
 			url 		:"files_backend_ajax/backend_setting_akun.php",
@@ -82,6 +83,7 @@ function buttonHapusUser(event, button) {
 $(document).ready(function() {
 	$("#pesan").hide();
 	hidePesanLoad();
+
 	// Muncul tabel saat pertama load
 	$.ajax({
 		url 		:"files_backend_ajax/backend_setting_akun.php",

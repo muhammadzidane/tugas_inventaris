@@ -82,15 +82,15 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 			$tambah_akun .= "<h4 class='font-neue pt-5'>Tambahkan Akun</h4>";
 			$tambah_akun .= "</div>";
 			$tambah_akun .= "</div>";
+			$tambah_akun .= "<div id='ubahPassword' class='d-flex columns '>";
+			$tambah_akun .= "<div class='column-orange-1'><i class='fas fa-user-edit fa-5x'></i></div>";
+			$tambah_akun .= "<div class='column-orange-2 text-center pt-3'>";
+			$tambah_akun .= "<h4 class='font-neue pt-5'>Ubah Password</h4>";
+			$tambah_akun .= "</div>";
+			$tambah_akun .= "</div>";
 
 			hapusModuls($tambah_akun);
 			?>
-			<div id="ubahPassword" class="d-flex columns ">
-				<div class="column-orange-1"><i class="fas fa-user-edit fa-5x"></i></div>
-				<div class="column-orange-2 text-center pt-3">
-					<h4 class="font-neue pt-5">Ubah Password</h4>
-				</div>
-			</div>
 			<div class="d-flex columns ">
 				<div class="column-orange-1"><i class="fas fa-user-lock fa-5x"></i></div>
 				<div class="column-orange-2 text-center pt-3">
@@ -100,21 +100,25 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 		</div>
 
 	</div>
-	<div class="d-flex justify-content-between filsearch">
-		<div class="search-icon">
-			<input id="searchUsername" type="text" name="searchBarang" autocomplete="off"
-			placeholder="Cari Username">
-			<i class="fas fa-search"></i>
-		</div>
-		<div id="pesan"></div>
-		<ul class="pagination float-right">
-			<div id="page-list"></div>
-			<li id="page-next" class="page-item">
-				<span class="page-circle"><i class="fas fa-caret-right"></i></span>
-			</li>
-		</ul>
-	</div>
-	<div id="tabelUsers"></div>
+	<?php 
+	$tabel_users  		 = "";
+	$tabel_users 		.= "<div class='d-flex justify-content-between filsearch'>";
+	$tabel_users 		.= "<div class='search-icon'>";
+	$tabel_users 		.= "<input id='searchUsername' type='text' name='searchBarang' autocomplete='off'";
+	$tabel_users 		.= "placeholder='Cari Username'>";
+	$tabel_users 		.= "<i class='fas fa-search'></i>";
+	$tabel_users 		.= "</div>";
+	$tabel_users 		.= "<div id='pesan'></div>";
+	$tabel_users 		.= "<ul class='pagination float-right'>";
+	$tabel_users 		.= "<div id='page-list'></div>";
+	$tabel_users 		.= "<li id='page-next' class='page-item'>";
+	$tabel_users 		.= "<span class='page-circle'><i class='fas fa-caret-right'></i></span>";
+	$tabel_users 		.= "</li>";
+	$tabel_users 		.= "</ul>";
+	$tabel_users 		.= "</div>";
+	$tabel_users 		.= "<div id='tabelUsers'></div>";
+	hapusModuls($tabel_users);
+	?>
 </div>
 <footer>
 	<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>

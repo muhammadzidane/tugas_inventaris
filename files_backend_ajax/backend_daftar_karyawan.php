@@ -7,13 +7,13 @@ require_once 'php_functions.php';
 // Mengambil value-value dari <input>
 $url_kode_karyawan	 	= (isset($_POST['urlKodeKaryawan'])) ? $_POST['urlKodeKaryawan'] : ""; 
 $url_nama_karyawan		= (isset($_POST['urlNamaKaryawan'])) ? $_POST['urlNamaKaryawan'] : ""; 
-$kode_karyawan 		 	= (isset($_POST['valKodeKaryawan'])) ? $_POST['valKodeKaryawan'] : ""; 
-$nama_karyawan 		 	= (isset($_POST['valNamaKaryawan'])) ? $_POST['valNamaKaryawan'] : ""; 
-$posisi_jabatan 			= (isset($_POST['valPosisiJabatan'])) ? $_POST['valPosisiJabatan'] : ""; 
-$email 	 					= (isset($_POST['valEmail'])) ? $_POST['valEmail'] : ""; 
-$pendidikan_terakhir 	= (isset($_POST['valPendidikanTerakhir'])) ? $_POST['valPendidikanTerakhir'] : ""; 
-$alamat 		 				= (isset($_POST['valAlamat'])) ? $_POST['valAlamat'] : ""; 
-$foto 				 		= (isset($_POST['valFoto'])) ? $_POST['valFoto'] : "";
+$kode_karyawan 		 	= (isset($_POST['kodeKaryawan'])) ? $_POST['kodeKaryawan'] : ""; 
+$nama_karyawan 		 	= (isset($_POST['namaKaryawan'])) ? $_POST['namaKaryawan'] : ""; 
+$posisi_jabatan 			= (isset($_POST['posisiJabatan'])) ? $_POST['posisiJabatan'] : ""; 
+$email 	 					= (isset($_POST['email'])) ? $_POST['email'] : ""; 
+$pendidikan_terakhir 	= (isset($_POST['pendidikanTerakhir'])) ? $_POST['pendidikanTerakhir'] : ""; 
+$alamat 		 				= (isset($_POST['alamat'])) ? $_POST['alamat'] : ""; 
+$foto 				 		= (isset($_POST['foto'])) ? $_POST['foto'] : "";
 
 $kode_karyawan 		 	= htmlentities(strip_tags(trim($kode_karyawan))); 
 $nama_karyawan 		 	= htmlentities(strip_tags(trim(ucwords($nama_karyawan))));
@@ -97,7 +97,8 @@ if (isset($_POST['hapusKaryawan'])) {
 }
 
 // Tambah Karyawan 
-if (isset($_POST['tambahKaryawan'])) {
+if (isset($_POST['submitTambahKaryawan'])) {
+
 	$result 	 = "";
 	$result 	.= "INSERT INTO tb_karyawan VALUES(";
 	$result 	.= "'$kode_karyawan',";
@@ -111,7 +112,7 @@ if (isset($_POST['tambahKaryawan'])) {
 
 	$query 	 	 = mysqli_query($conn, $result);
 	if ($query) {
-		echo "$nama_karyawan berhasil ditambahkan";
+		header("Location: ../daftar_pegawai.php?berhasil_ditambah=$nama_karyawan berhasil ditambahkan");
 	}
 }
 

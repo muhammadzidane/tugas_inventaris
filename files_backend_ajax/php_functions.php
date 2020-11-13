@@ -1,5 +1,6 @@
 <?php 
-$conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
+$conn 		= mysqli_connect("localhost","root","","tugas_inventaris");	
+$sess_role 	= (isset($_POST["role"])) ? $_POST["role"] : ""; 
 
 function tabel_barang($result, $tabelDB) {
 	global $conn;
@@ -142,7 +143,7 @@ function tabel_users($result) {
 		echo "<td>{$data['username']}</td>";
 		echo "<td>{$data['email']}</td>";
 		echo "<td>{$data['role']}</td>";
-		echo "<td><button id='ubah_role' onclick='buttonUbahRole(event, this);' 
+		echo "<td><button id='ubahRole' onclick='buttonUbahRole(event, this);' 
 		data-username='{$data['username']}'  class='btn btn-success'>Ubah Role</td>";
 		echo "<td><button id='hapus' onclick='buttonHapusUser(event, this);' 
 		data-username='{$data['username']}' class='hapusUser btn btn-danger'>Hapus</td>";
@@ -264,11 +265,12 @@ function query_hapus($post, $nama_tabel, $kondisi, $nama){
 		$query 			 = mysqli_query($conn, $result);
 		$data 			 = mysqli_fetch_assoc($query);
 		$nama 			 = $data[$nama];
-		$harga_satuan 	 = $data["harga_satuan"];
+		$harga_satuan 	 = (isset($data["harga_satuan"])) ? (int) $data["harga_satuan"] : "";
 		$jumlah_awal 	 = (isset($_POST["valJumlahAwalBarang"])) ? (int) $_POST["valJumlahAwalBarang"] : "";
 		$jumlah_barang	 = (isset($_POST["valJumlah"])) ? (int) $_POST["valJumlah"] : "";
-		$hasil 			 = $jumlah_awal - $jumlah_barang;
-		$total_harga 	 = $hasil * $harga_satuan;
+		$hasil 			 = (int) $jumlah_awal - (int) $jumlah_barang;
+		$hasil 			 = (int) $hasil;
+		$total_harga 	 = (int) $hasil * (int) $harga_satuan;
 		
 		$result 	 		 = "";
 
@@ -302,6 +304,11 @@ function query_hapus($post, $nama_tabel, $kondisi, $nama){
 				$result 			.= "WHERE $kondisi = '$kode';";
 			}
 
+			$query 		 	 = mysqli_query($conn, $result);
+		}
+
+		if ($nama_tabel == "tb_users") {
+			$result 			.= "DELETE FROM tb_users WHERE $kondisi = '$kode';";
 			$query 		 	 = mysqli_query($conn, $result);
 		}
 

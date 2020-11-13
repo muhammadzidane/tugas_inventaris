@@ -81,25 +81,29 @@ $(document).ready(function() {
 
 	// Button tambah akun
 	$("#buttonTambahAkun").click(function(e) {
-		let valUsername 			= $("#username").val();
-		let valEmail 				= $("#email").val();
-		let valPassword 			= $("#password").val();
-		let valUlangiPassword 	= $("#ulangiPassword").val();
-		let valJenisRole 			= $("#jenisRole").val();
-		
-		validasiKosong(valUsername,"#username");
-		validasiKosong(valEmail,"#email");
-		validasiKosong(valPassword, "#password");
-		validasiKosong(valUlangiPassword,"#ulangiPassword");
+		let confirmTambahAkun 	= confirm("Apakah anda yakin ingin menambah akun?");
 
-		if ($(".pesanValidasi").text() == "") {
-			$(form).submit();
-		}
-		else {
-			e.preventDefault();
+		if (confirmTambahAkun) {
+			let valUsername 			= $("#username").val();
+			let valEmail 				= $("#email").val();
+			let valPassword 			= $("#password").val();
+			let valUlangiPassword 	= $("#ulangiPassword").val();
+			let valJenisRole 			= $("#jenisRole").val();
+
+
+			validasiKosong(valUsername,"#username");
+			validasiKosong(valEmail,"#email");
+			validasiKosong(valPassword, "#password");
+			validasiKosong(valUlangiPassword,"#ulangiPassword");
+
+			if ($(".pesanValidasi").text() == "") {
+				$(form).submit();
+			}
+			else {
+				e.preventDefault();
+			}
 		}
 	});
-
 
 	// Button Batalkan Tambah Barang
 	$("#buttonBatal").click(function(e) {

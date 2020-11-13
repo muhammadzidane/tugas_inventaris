@@ -12,7 +12,7 @@ if (isset($_POST["tabelUsers"])) {
 // Validasi Username
 if (isset($_POST['validasiUsername'])) {
 	$val_username 	= $_POST['validasiUsername'];
-	$result 		= "SELECT * FROM tb_users WHERE username='$val_username';";
+	$result 			= "SELECT * FROM tb_users WHERE username='$val_username';";
 	$query 			= mysqli_query($conn, $result);
 
 	if (mysqli_affected_rows($conn) == 1) {

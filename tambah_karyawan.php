@@ -14,68 +14,24 @@ cek_session();
 	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<style>
-		/* Form Tambah Barang */
-		#form-tambah-barang {			
-			box-shadow: 0 0 4px black;
-			width: 550px;
-			height: 890px;
-			margin: 55px auto;
-		}
-		.header-form {
-			text-align: center;
-			color: #FFFFFF;
-			background-color: #24305E;
-			padding: 28px;
-		}
-		#pesanEditBarang {
-			position: absolute;
-		}
-		.form-group{
-			margin: 10px;
-		}
-		#tambahBarang {<?php 
-							$_SESSION['kode_karyawan'] = $kode_karyawan;
-						?>
-			color: #FFFF12px;
-			box-shadow: 0px 0px 4px black;
-		}
-		#form-tambah-barang .form-group {
-			margin: 25px 40px;
-		}
-		#closeForm {
-			position: absolute;
-			top: 49px;
-			color: white;
-			font-size: 25px;
-			margin-left: 528px;
-			cursor: pointer;
-		}
-		.font-neue { font-family: 'Bebas Neue'; }
-		.pesanValidasi {
-			position: absolute;
-			font-size: 13px;
-			color: tomato;
-		}
-	</style>
 </head>
 <body>
-	<div id='form-tambah-barang'>
+	<form id='form' action="files_backend_ajax/backend_daftar_karyawan.php" method="POST">
 		<div class='header-form font-neue'><h3>Tambahkan Karyawan Baru</h3></div>
 		<div id="closeForm">&times;</div>
 		<div class='form-group'>
-			<label for='kode_karyawan'>Kode Karyawan</label>
-			<input id='kode_karyawan' class='form-control' type='text'>
+			<label for='kodeKaryawan'>Kode Karyawan</label>
+			<input id='kodeKaryawan' name='kodeKaryawan' class='form-control' type='text'>
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='nama_karyawan'>Nama Karyawan</label>
-			<input id='nama_karyawan' class='form-control' type='text'>
+			<label for='namaKaryawan'>Nama Karyawan</label>
+			<input id='namaKaryawan' name='namaKaryawan' class='form-control' type='text'>
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='posisi_jabatan'>Posisi Jabatan</label>
-			<select id='posisi_jabatan' class='form-control'>
+			<label for='posisiJabatan'>Posisi Jabatan</label>
+			<select id='posisiJabatan' name='posisiJabatan' class='form-control'>
 				<option disabled>-Posisi Jabatan-</option>
 				<option>Programmer</option>
 				<option>UI/UX Designer</option>
@@ -89,92 +45,30 @@ cek_session();
 		</div>
 		<div class='form-group'>
 			<label for='email'>Email</label>
-			<input id='email' class='form-control' type='text'>
+			<input id='email' name='email' class='form-control' type='text'>
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='pendidikan_terakhir'>Pendidikan Terakhir</label>
-			<input id='pendidikan_terakhir' class='form-control' type='text'>
+			<label for='pendidikanTerakhir'>Pendidikan Terakhir</label>
+			<input id='pendidikanTerakhir' name='pendidikanTerakhir' class='form-control' type='text'>
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='alamat'>Alamat</label>
-			<input id='alamat' class='form-control' type='text'>
+			<input id='alamat' name='alamat' class='form-control' type='text'>
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='foto'>Foto</label>
-			<input id='foto' class='form-control' type='text'>
+			<input id='foto' name='foto' class='form-control' type='text'>
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group float-right'>
-			<button id='acceptTambah' class='btn btn-primary'>Tambah</button>
+			<button type="submit" name="submitTambahKaryawan" id='acceptTambah' class='btn btn-primary'>Tambah</button>
 			<button id='buttonBatalEdit' class='btn btn-danger'>Batal</button>
 		</div>
-	</div>
-	<script>
-		$(document).ready(function() {
-			$("#acceptTambah").click(function(e) {
-				let confirmEdit = confirm("Apakah Anda Yakin Ingin Menambahkan Karyawan Baru?");
-				if (confirmEdit) {
-					let valKodeKaryawan 			= $("#kode_karyawan").val();
-					let valNamaKaryawan 			= $("#nama_karyawan").val();
-					let valPosisiJabatan 		= $("#posisi_jabatan").val();
-					let valEmail 					= $("#email").val();
-					let valPendidikanTerakhir	= $("#pendidikan_terakhir").val();
-					let valAlamat 					= $("#alamat").val();
-					let valFoto 					= $("#foto").val();
-					
-					validasiNomer(valKodeKaryawan, "#kode_karyawan", 8)
-					validasiEmailEventClick(valEmail, "#email");
-
-					validasiKosong(valKodeKaryawan,"#kode_karyawan");
-					validasiKosong(valNamaKaryawan, "#nama_karyawan");
-					validasiKosong(valEmail, "#email");
-					validasiKosong(valPendidikanTerakhir, "#pendidikan_terakhir");
-					validasiKosong(valAlamat, "#alamat");
-					validasiKosong(valFoto, "#foto");
-
-					if ($(".pesanValidasi").text() == "") {
-						$.ajax({
-							url 	: "files_backend_ajax/backend_daftar_karyawan.php",
-							type 	: "POST",
-							data 	: { validasiDuplikatKeyTambahKaryawan : valKodeKaryawan },
-							success : function(responseText) {
-								if (responseText == "berhasil") {
-									$.post('files_backend_ajax/backend_daftar_karyawan.php',{
-										tambahKaryawan 			: true,
-										valKodeKaryawan 		: valKodeKaryawan,
-										valNamaKaryawan 		: valNamaKaryawan,
-										valPosisiJabatan 		: valPosisiJabatan,
-										valEmail 				: valEmail,
-										valPendidikanTerakhir	: valPendidikanTerakhir,
-										valAlamat 				: valAlamat,
-										valFoto 				: valFoto }, 
-										function(responseText) {
-											location.assign(`daftar_pegawai.php?berhasil_ditambah=${encodeURIComponent(responseText)}`);
-										}
-									);
-								}
-								else {
-									e.preventDefault();
-									$("#kode_karyawan").next().html(`<small>${ responseText }</small>`).addClass('pesanValidasi');
-								}
-							}					
-						});
-					}
-				}
-			});
-			// Button Batalkan Tambah Barang
-			$("#buttonBatalEdit").click(function() {
-				location.replace("daftar_pegawai.php");
-			});
-			// Button Batalkan Tambah Barang (Simbol Close)
-			$("#closeForm").click(function() {
-				$("#buttonBatalEdit").click();
-			});
-		});
-	</script>
-	<script src="jquery_functions/js_functions.js"></script>
+	</form>
+	<script src="src_moduls/tambah_karyawan.js"></script>
+	<script src="src_moduls/js_functions.js"></script>
 </body>
 </html>
