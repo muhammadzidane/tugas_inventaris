@@ -18,82 +18,11 @@ $jenis_role 	= $data['role'];
 	<meta charset="utf-8">
 	<title>Ubah Akun Setting</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="fontawesome-5.13.1/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
-	<script type="text/javascript" src="bootstrap/js/popper.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript src=jquery-com-3.5.1.js"></script>
-	<style>
-		/* Form Tambah Barang */
-		#form-tambah-barang {
-			background-color: #FFFFFF;
-			box-shadow: 0 0 4px black;
-			width: 550px;
-			height: 700px;
-			margin: 55px auto;
-		}
-		.header-form {
-			text-align: center;
-			color: #FFFFFF;
-			background-color: #24305E;
-			padding: 28px;
-		}
-		.pesan {
-			position: absolute;
-			font-size: 12px;
-			color: tomato;
-		}
-		.pesanPeringatan {
-			font-size: 10px;
-			color: #79d70f;
-		}
-
-		.form-group{
-			margin: 10px;
-		}
-		#tambahBarang {
-			color: #FFFFFF;
-			padding: 6px 12px;
-			box-shadow: 0px 0px 4px black;
-		}
-		#form-tambah-barang .form-group {
-			margin: 25px 40px;
-		}
-		#closeForm {
-			position: absolute;
-			top: 49px;
-			color: white;
-			font-size: 25px;
-			margin-left: 528px;
-			cursor: pointer;
-		}
-		#checkAndTimesUsername {
-			font-size: 21px;
-			position: absolute;
-			margin-left: 439px;
-			top: 212px;
-		}
-		#checkAndTimesEmail {
-			font-size: 21px;
-			position: absolute;
-			margin-left: 439px;
-			top: 307px;	
-		}
-		#checkAndTimesPassword {
-			font-size: 21px;
-			position: absolute;
-			margin-left: 439px;
-			top: 401px;	
-		}
-		#checkAndTimesUlangiPassword {
-			font-size: 21px;
-			position: absolute;
-			margin-left: 439px;
-			top: 496px;	
-		}
-		.font-neue { font-family: 'Bebas Neue'; }
-	</style>
 </head>
 <body>
 	<form id='form-tambah-barang' action="setting_akun.php" method="post">

@@ -50,18 +50,7 @@ $(document).ready(function() {
 		validasiKosong(valUlangiPassword, "#ulangiPassword");
 		
 		if ($(".pesanValidasi").text() == "") {
-			$.ajax({
-				url 		: "files_backend_ajax/backend_setting_akun.php",
-				type 		: "POST",
-				data 		: { 
-					updatePassword 	: true, 
-					valPasswordBaru 	: valPasswordBaru,
-					valUsername 		: valUsername
-				},
-				success 	: function(responseText) {	
-					location.assign("setting_akun.php?berhasil-ubah-password=" + encodeURIComponent(responseText));
-				}
-			});
+			$("form").submit();
 		}
 		else {
 			e.preventDefault();

@@ -31,11 +31,6 @@ $(document).ready(function() {
 		
 		hapusPesanDanCheckAndTimes("#username");
 	});
-
-	// $("#username").focus(function() {
-		// let checkAndTimes 	= $(this).next().next(); 
-
-		
 	// });
 
 	// Validasi email
@@ -97,26 +92,14 @@ $(document).ready(function() {
 		validasiKosong(valPassword, "#password");
 		validasiKosong(valUlangiPassword,"#ulangiPassword");
 
-		if ($(".pesan").text() == "") {
-			$.ajax({
-				url 		: "files_backend_ajax/backend_setting_akun.php",
-				type 		: "POST",
-				data 		: {
-					insertTBUsers 	: true,
-					valUsername 	: valUsername,
-					valPassword 	: valPassword,
-					valEmail 		: valEmail,
-					valJenisRole 	: valJenisRole
-				},
-				success  : function(responseText) {
-					location.assign("setting_akun.php?berhasil-tambah-akun=" + encodeURIComponent(responseText));
-				}
-			});
+		if ($(".pesanValidasi").text() == "") {
+			$(form).submit();
 		}
 		else {
 			e.preventDefault();
 		}
 	});
+
 
 	// Button Batalkan Tambah Barang
 	$("#buttonBatal").click(function(e) {

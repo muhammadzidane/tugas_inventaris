@@ -24,11 +24,11 @@ if (isset($_POST['validasiUsername'])) {
 } 
 
 // Tambahkan akun
-if (isset($_POST["insertTBUsers"])) {
-	$val_username 	 = $_POST["valUsername"];
-	$val_password 	 = sha1($_POST["valPassword"]);
-	$val_email 		 = $_POST["valEmail"];
-	$val_jenis_role  = $_POST["valJenisRole"];
+if (isset($_POST["submitTambahAkun"])) {
+	$val_username 		= $_POST["username"];
+	$val_password 	 	= sha1($_POST["password"]);
+	$val_email 		 	= $_POST["email"];
+	$val_jenis_role  	= $_POST["jenisRole"];
 
 	$result 	 	 = "";
 	$result 		.= "INSERT INTO tb_users VALUES(";
@@ -40,7 +40,7 @@ if (isset($_POST["insertTBUsers"])) {
 
 	$query 			 = mysqli_query($conn, $result);
 	if ($query) {
-		echo "User $val_username berhasil ditambahkan";
+		header("Location: ../setting_akun.php?berhasil-tambah-akun=User $val_username berhasil ditambahkan");
 	}
 }
 
@@ -118,9 +118,9 @@ if (isset($_POST["validasiPassword"])) {
 	}
 }
 
-if (isset($_POST["updatePassword"])) {
-	$val_password_baru 	 = sha1($_POST["valPasswordBaru"]);
-	$val_username 			 = $_POST["valUsername"];
+if (isset($_POST["submitUbahPassword"])) {
+	$val_password_baru 	 = sha1($_POST["passwordBaru"]);
+	$val_username 			 = $_POST["username"];
 	
 	$result 					 = "";
 	$result 					.= "UPDATE tb_users SET ";
@@ -128,7 +128,7 @@ if (isset($_POST["updatePassword"])) {
 	$result 					.= "WHERE username = '$val_username';";
 	$query 					 = mysqli_query($conn, $result);
 	if ($query) {
-		echo "$val_username berhasil di ubah password";
+		header("Location: ../setting_akun.php?berhasil-ubah-password=$val_username berhasil di ubah password");
 	}
 }
 

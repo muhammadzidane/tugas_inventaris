@@ -24,31 +24,31 @@ $query 				= mysqli_query($conn, $result);
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<form action='setting_akun.php' method="GET" id='form'>
+	<form action='files_backend_ajax/backend_setting_akun.php' method="POST" id='form'>
 		<div class='header-form font-neue'><h3>Ubah Password</h3></div>
 		<div id="closeForm">&times;</div>
 		<div class='form-group'>
 			<label for='username'>Username</label>
-			<input id='username' class='form-control' type='text' autocomplete="off" value="<?php echo $username; ?>" readonly>
+			<input id='username' name='username' class='form-control' type='text' autocomplete="off" value="<?php echo $username; ?>" readonly>
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='masukanPasswordLama'>Masukan Password Lama</label>
-			<input id='masukanPasswordLama' class='form-control' type='password' autocomplete="off">
+			<input id='masukanPasswordLama' name='masukanPasswordLama' class='form-control' type='password' autocomplete="off">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='passwordBaru'>Password Baru</label>
-			<input id='passwordBaru' class='form-control' type='password' autocomplete="off" >
+			<input id='passwordBaru' name="passwordBaru" class='form-control' type='password' autocomplete="off" >
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='ulangiPassword'>Ulangi Password</label>
-			<input id='ulangiPassword' class='form-control' type='password' autocomplete="off">
+			<input id='ulangiPassword' name='ulangiPassword' class='form-control' type='password' autocomplete="off">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group float-right'>
-			<button id='buttonUbah' class='btn btn-primary'>Ubah</button>
+			<button id='buttonUbah' type="submit" name="submitUbahPassword" class='btn btn-primary'>Ubah</button>
 			<button id='buttonBatal' class='btn btn-danger'>Batal</button>
 		</div>
 	</form>

@@ -23,38 +23,38 @@ cek_session();
 		<div id="closeForm">&times;</div>
 		<div class='form-group'>
 			<label>Username</label>
-			<input id='username' class='form-control' type='text'>
+			<input id="username" name='username' class='form-control' type='text'>
 			<div class='pesanValidasi' class="pesanPeringatan"></div>
 			<div id="checkAndTimesUsername"></div>
 		</div>
 		<div class='form-group'>
 			<label for='email'>Email</label>
-			<input id='email' class='form-control' type='email'>
+			<input id="email" name='email' class='form-control' type='email'>
 			<div class='pesanValidasi'></div>
 			<div id="checkAndTimesEmail"></div>
 		</div>
 		<div class='form-group'>
 			<label for='password'>Password</label>
-			<input id='password' class='form-control' type='password' autocomplete="off">
+			<input id="password" name='password' class='form-control' type='password' autocomplete="off">
 			<div class='pesanValidasi'></div>
 			<div id="checkAndTimesPassword"></div>
 		</div>
 		<div class='form-group'>
 			<label for='ulangiPassword'>Ulangi Password</label>
-			<input id='ulangiPassword' class='form-control' type='password' autocomplete="off">
+			<input id="ulangiPassword" name='ulangiPassword' class='form-control' type='password' autocomplete="off">
 			<div class='pesanValidasi'></div>
 			<div id="checkAndTimesUlangiPassword"></div>
 		</div>
 		<div class='form-group'>
 			<label for='jenisRole'>Jenis Role</label>
-			<select id='jenisRole' class='form-control'>
+			<select id="jenisRole" name='jenisRole' class='form-control'>
 				<option disabled>-Role-</option>
 				<option value="superuser">Superuser</option>
 				<option value="moderator">Moderator</option>
 			</select>
 		</div>
 		<div class='form-group float-right'>
-			<button id='buttonTambahAkun' class='btn btn-primary'>Tambah Akun</button>
+			<button type="submit" name="submitTambahAkun" id='buttonTambahAkun' class='btn btn-primary'>Tambah Akun</button>
 			<button id='buttonBatal' class='btn btn-danger'>Batal</button>
 		</div>
 	</form>
