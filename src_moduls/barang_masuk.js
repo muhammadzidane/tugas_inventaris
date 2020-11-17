@@ -8,7 +8,7 @@ function pageLink(button) {
 		type 		: "POST",
 		data 		: { pageListTabelBarangMasuk : dataPage, pageListChildrenLength : pageListChildrenLength },
 		success	: function(responseText) {
-			$("#tabelBarang").html(responseText);
+			$("#tabelBarangMasuk").html(responseText);
 		}
 	});
 	for (let i = 1; i <= pageListChildrenLength; i++) {
@@ -28,17 +28,9 @@ $(document).ready(function() {
 		data 		: { tabelBarangMasuk : true },
 		success		:function(responseText) {	
 			$("#pesan").hide();
-			$("#tabelBarang").html(responseText);
+			$("#tabelBarangMasuk").html(responseText);
 		}
 	});
-
-	function totalBarang(post, selector) {
-		$.post("files_backend_ajax/backend_barang_masuk.php",{
-			post 	: true
-		},function(responseText) {	
-			$(selector).html(responseText);
-		});	
-	}
 
 	// Filter Jenis Barang
 	$("#filterJenisBarang").change(function() {
@@ -46,52 +38,34 @@ $(document).ready(function() {
 		switch(valFilterJenisBarang) {
 			case "Filter Semua" : 
 			$.post("files_backend_ajax/backend_barang_masuk.php",{ filterSemua : true }, function(responseText) {
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangMasuk").html(responseText);
 			});
 			break;
 			case "Elektronik" : 
 			$.post("files_backend_ajax/backend_barang_masuk.php",{ filterElektronik : true }, function(responseText) {
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangMasuk").html(responseText);
 			});
 			break;
 			case "Alat Tulis" : 
 			$.post("files_backend_ajax/backend_barang_masuk.php",{ filterAlatTulis : true }, function(responseText) {
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangMasuk").html(responseText);
 			});
 			break;
 			case "Kendaraan" : 
 			$.post("files_backend_ajax/backend_barang_masuk.php",{ filterKendaraan : true }, function(responseText) {
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangMasuk").html(responseText);
 			});
 			break;
 			case "Lainnya" : 
 			$.post("files_backend_ajax/backend_barang_masuk.php",{ filterLainnya : true }, function(responseText) {
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangMasuk").html(responseText);
 			});
 			break;			
 		}
 	});
 
 	// Search nama barang
-	$("#searchBarang").keyup(function() {
-		let inputVal = $("#searchBarang").val().trim()
-		$.post("files_backend_ajax/backend_barang_masuk.php",{
-			searchBarang 	: inputVal
-		},function(responseText) {
-			if (responseText === "Nama Barang Tidak Ditemukan") {
-				$("#pesan").html(responseText);
-				$("#pesan").show();
-			}
-			else {
-				$("#pesan").hide();
-				$("#tabelBarang").html(responseText);
-			}
-		});
-	});
-
-	$("#tambahBarang").click(function() {
-		location.assign("tambah_barang.php");
-	});
+	searchTabelAJAX("#searchBarang", "files_backend_ajax/backend_barang_masuk.php", "#tabelBarangMasuk", "Nama barang tidak ditemukan");
 
 	// Pagination Tabel Barang
 	$.ajax({
@@ -111,7 +85,7 @@ $(document).ready(function() {
 			type 	: "POST",
 			data 	: { pageNext : dataPage },
 			success : function(responseText) {
-				$("#tabelBarang").html(responseText);
+				$("#tabelBarangMasuk").html(responseText);
 				for (let i = 1; i <= pageListChildrenLength; i++) {
 					if (dataPage == i) {
 						$(".page-circle").removeClass("page-actived");

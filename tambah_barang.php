@@ -11,17 +11,17 @@
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<div id='form'>
+	<form id='form' action="files_backend_ajax/backend_data_barang.php" method="POST">
 		<div class='header-form font-neue'><h3>Tambahkan Barang Baru</h3></div>
-		<div id="closeForm">&times;</div>
+		<a href="data_barang.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
-			<label for='kode_barang'>Kode Barang</label>
-			<input id='kode_barang' class='form-control' type='text'>
-			<div class='pesanTambahBarang'></div>
+			<label for='kodeBarang'>Kode Barang</label>
+			<input id='kodeBarang' name='kodeBarang' class='form-control' type='text'>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='jenis_barang'>Jenis Barang</label>
-			<select id='jenis_barang' class='form-control'>
+			<label for='jenisBarang'>Jenis Barang</label>
+			<select id='jenisBarang' name='jenisBarang' class='form-control'>
 				<option disabled>-Jenis Barang-</option>
 				<option>Elektronik</option>
 				<option>Alat Tulis</option>
@@ -30,43 +30,44 @@
 			</select>
 		</div>
 		<div class='form-group'>
-			<label for='nama_barang'>Nama Barang</label>
-			<input id='nama_barang' class='form-control' type='text'>
-			<div class='pesanTambahBarang'></div>
+			<label for='namaBarang'>Nama Barang</label>
+			<input id='namaBarang' name='namaBarang' class='form-control' type='text'>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='kondisi_barang'>Kondisi Barang</label>
-			<select id='kondisi_barang' class='form-control'>
+			<label for='kondisiBarang'>Kondisi Barang</label>
+			<select id='kondisiBarang' name='kondisiBarang' class='form-control'>
 				<option disabled>-Kondisi Barang-</option>
 				<option>Baru</option>
 				<option>Bekas</option>
 			</select>
 		</div>
 		<div class='form-group'>
-			<label for='jumlah_barang'>Jumlah Barang</label>
-			<input id='jumlah_barang' class='form-control' type='text'>
-			<div class='pesanTambahBarang'></div>
+			<label for='jumlahBarang'>Jumlah Barang</label>
+			<input id='jumlahBarang' name='jumlahBarang' class='form-control' type='text'>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='harga_satuan'>Harga Satuan</label>
-			<input id='harga_satuan' class='form-control' type='text'>
-			<div class='pesanTambahBarang'></div>
+			<label for='hargaSatuan'>Harga Satuan</label>
+			<input id='hargaSatuan' name='hargaSatuan' class='form-control' type='text'>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='foto_barang'>Foto Barang</label>
-			<input id='foto_barang' class='form-control' type='text'>
-			<div class='pesanTambahBarang'></div>
+			<label for='fotoBarang'>Foto Barang</label>
+			<input id='fotoBarang' name='fotoBarang' class='form-control' type='text'>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='tanggal_masuk'>Tanggal Masuk</label>
-			<input id='tanggal_masuk' class='form-control' type='date'>
-			<div class='pesanTambahBarang'></div>
+			<label for='tanggalMasuk'>Tanggal Masuk</label>
+			<input id='tanggalMasuk' name='tanggalMasuk' class='form-control' type='date'>
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group float-right'>
 			<button id='acceptTambahBarang' class='btn btn-primary'>Tambah</button>
-			<button id='batalTambahBarang' class='btn btn-danger'>Batal</button>
+			<input type="hidden" name="submitTambahBarang">
+			<button id='buttonBatal' class='btn btn-danger'>Batal</button>
 		</div>
-	</div>
+	</form>
 	<script src="src_moduls/tambah_barang.js"></script>
 	<script src="src_moduls/js_functions.js"></script>
 </body>

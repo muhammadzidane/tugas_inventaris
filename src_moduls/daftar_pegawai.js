@@ -1,6 +1,3 @@
-
-"use strict";
-
 // Button Edit Karyawan
 function buttonEditKaryawan(event, button) {
 	event.stopPropagation();
@@ -44,16 +41,13 @@ function pageLink(button) {
 
 // Load Event =========================================>>
 $(document).ready(function() {
+	"use strict";
+
 	$("#pesan").hide();
+	hidePesanLoad();
 
 	let valPesanLoad 	= $("#pesanLoad").text().trim();
 	
-	if (valPesanLoad == "") {
-		$("#pesanLoad").hide();
-	}
-	else {
-		$("#pesanLoad").show();
-	}
 
 	// Muncul Tabel Saat Load Pertama Kali
 	$.post("files_backend_ajax/backend_daftar_karyawan.php",{
@@ -66,7 +60,7 @@ $(document).ready(function() {
 			location.assign(
 				"barang_inventaris_karyawan.php?kode_karyawan=" + encodeURIComponent(dataKodeKaryawan) + 
 				"&nama_karyawan=" + encodeURIComponent(dataNamaKaryawan)
-			);
+				);
 		})
 	});
 	
@@ -77,26 +71,7 @@ $(document).ready(function() {
 	
 	// Search Tabel
 	// $("#pesan").hide(); // Hide Saat Load Pertama Kali
-	$("#search").keyup(function() {
-		let valSearch = $("#search").val().trim()
-		$.post("files_backend_ajax/backend_daftar_karyawan.php",{
-			searchKaryawan 	: valSearch
-		},function(responseText) {
-			if (responseText == "User Tidak Ditemukan") {
-				$("#pesan").html(responseText);
-				$("#pesan").show();
-			}
-			else {
-				$("#pesan").hide();
-				$("#tabelKaryawan").html(responseText);
-			}
-		});
-	});
-
-	// Tambah Karyawan Baru
-	$("#tambahKaryawan").click(function() {
-		location.assign("tambah_karyawan.php");
-	});
+	searchTabelAJAX("#search", "files_backend_ajax/backend_daftar_karyawan.php", "#tabelKaryawan", "Nama karyawan tidak ditemukan");
 
 	// Pagination Tabel Karyawan
 	$.ajax({

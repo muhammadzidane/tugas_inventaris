@@ -69,10 +69,8 @@ function tabel_barang($result, $tabelDB) {
 		}
 
 		if ($tabelDB == "tb_barang_inventaris_karyawan") {
-			echo "<td class='buttonTambah'><button class='btn btn-success' onclick='buttonTambahBarang(event, this);'
-			data-kode='{$data['kode_barang']}' data-jumlah='{$data['jumlah_barang']}' data-total='{$data['total_harga']}'>Tambah</button</td>";
 			echo "<td class='hapus'><button onclick='buttonHapusBarang(event, this);' 
-			data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
+				data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
 			echo "</tr>";
 
 		}
@@ -325,7 +323,7 @@ function query_hapus($post, $nama_tabel, $kondisi, $nama){
 function filter_barang($post, $nama_tabel, $jenis_barang) {
 	if (isset($_POST[$post])) {
 		if ($jenis_barang == "Semua") {
-			$result 	= "SELECT * FROM $nama_tabel LIMIT 5";
+			$result 	= "SELECT * FROM $nama_tabel LIMIT 10";
 		}
 		else {
 			$result 	= "SELECT * FROM $nama_tabel WHERE jenis_barang ='$jenis_barang';";
@@ -357,7 +355,7 @@ function pagination_links($post, $nama_tabel){
 		}
 
 		$counter = 2;
-		for ($i=5; $i <= mysqli_affected_rows($conn); $i+=5) { 
+		for ($i=10; $i <= mysqli_affected_rows($conn); $i+=10) { 
 			if (mysqli_affected_rows($conn) > $i) {
 				$hasil .= "<li class='page-item'><span id='page-$counter' class='page-circle' onclick='pageLink(this);' data-page='$counter'>$counter</span></li>";
 				$counter++;
@@ -378,17 +376,17 @@ function page_click($post, $nama_tabel, $order_by, $nama_function) {
 		$query 					= mysqli_query($conn, $result);
 		$counter 			   = 0;
 
-		for ($i=0; $i <= mysqli_affected_rows($conn); $i+=5) { 
+		for ($i=0; $i <= mysqli_affected_rows($conn); $i+=10) { 
 			$counter++;
 			if ($data_page == $counter) {
 				if ($nama_tabel == "tb_barang_inventaris_karyawan") {
 					$result 		 = "";
 					$result 		.= "SELECT * FROM $nama_tabel WHERE kode_karyawan LIKE '$kode_karyawan'";
-					$result 		.= "ORDER BY $order_by ASC LIMIT $i, 5;";
+					$result 		.= "ORDER BY $order_by ASC LIMIT $i, 10;";
 					$query 		 = mysqli_query($conn, $result);
 				}
 				else {
-					$result 		 = "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i, 5;";
+					$result 		 = "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i, 10;";
 				}
 
 				$nama_function 	= $nama_function($result, $nama_tabel);
@@ -406,9 +404,9 @@ function page_next($post, $nama_tabel, $order_by, $nama_function) {
 		$result 	= "SELECT * FROM $nama_tabel;";
 		$query 		= mysqli_query($conn, $result);
 		$counter 	= 2;
-		for ($i=5; $i <= mysqli_affected_rows($conn) ; $i+=5) { 
+		for ($i=10; $i <= mysqli_affected_rows($conn) ; $i+=10) { 
 			if ($data_page == $counter) {
-				$result 	= "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i,5;";
+				$result 	= "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i,10;";
 			}
 			$counter++;
 		}
@@ -432,12 +430,10 @@ function tampilkan_pesan_load($getVal){
 	}
 }
 
-
 function hapusModuls($innerHTML) {
 	$sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	if ($sess_role == "superuser") {
 		echo $innerHTML;
 	}
-} 
-
+}
 ?>

@@ -4,14 +4,18 @@
 // Tambah barang
 function buttonTambahBarang(event, button) {
 	let dataKodeBarang 	 = $(button).data("kode");
+
 	tableAppend("tb_barang_modul_tambah", $(button));
+
 	$("#buttonQueryTambah").click(function(e) {
 		let valJumlah 					= $("#jumlah").val();
 		let valTanggalMasuk 			= $("#tanggalMasuk").val();
 		let confirmTambahBarang 	= confirm("Apakah anda yakin ingin menambahkan barang ?");
+		
 		if (confirmTambahBarang) {
 			validasiKosong(valJumlah, "#jumlah");
 			validasiKosong(valTanggalMasuk, "#tanggalMasuk");
+			
 			if ($(".pesanValidasi").text() == "") {
 				$.ajax({
 					url 		: "files_backend_ajax/backend_data_barang.php",
@@ -46,17 +50,19 @@ function buttonTambahBarang(event, button) {
 
 // Edit Barang
 function buttonEditBarang(event, button) {
-	let dataKodeBarang  = $(button).data('kode');
+	let dataKodeBarang  	= $(button).data('kode');
 	let dataNamaBarang 	= $(button).data('nama');
 	location.assign(`edit_barang.php?kode-barang=${dataKodeBarang}&nama-barang=${dataNamaBarang}`);
 }
 
 // Hapus barang
 function buttonHapusBarang(event, button) {
-	let dataKodeBarang 		  = $(button).data("kode");
-	let jumlahAwalBarang   = $(button).parent().prev().prev().prev().prev().prev().prev();
-	let valJumlahAwalBarang   = $(button).parent().prev().prev().prev().prev().prev().prev().text();
+	let dataKodeBarang 		  	= $(button).data("kode");
+	let jumlahAwalBarang   		= $(button).parent().prev().prev().prev().prev().prev().prev();
+	let valJumlahAwalBarang   	= $(button).parent().prev().prev().prev().prev().prev().prev().text();
+
 	tableAppend("tb_barang_modul_hapus", $(button));
+	
 	eventsTableAppend(jumlahAwalBarang, valJumlahAwalBarang);
 	
 	// Batal 
@@ -75,6 +81,7 @@ function buttonHapusBarang(event, button) {
 		let dataKodeBarang 	 		= $(button).data("kode");
 		let valJumlah 					= $("#jumlah").val();
 		let confirmHapusBarang 		= confirm("Apakah anda yakin ingin menghapus barang tersebut?");
+		
 		if (confirmHapusBarang) {
 			if ($("#checkSemua").is(":checked") || valJumlah != 0) {
 				$.ajax({
@@ -161,6 +168,7 @@ $(document).ready(function() {
 	$.post("files_backend_ajax/backend_data_barang.php",{	totalPengeluaran : true },function(responseText) {
 		$("#totalPengeluaran").html(responseText);
 	});
+
 	// Filter Jenis Barang
 	$("#filterJenisBarang").change(function() {
 		let valFilterJenisBarang = $("#filterJenisBarang").val();
@@ -192,25 +200,13 @@ $(document).ready(function() {
 			break;			
 		}
 	});
-	// Search nama barang
-	$("#searchBarang").keyup(function() {
-		let inputVal = $("#searchBarang").val().trim()
-		$.post("files_backend_ajax/backend_data_barang.php",{
-			searchBarang 	: inputVal
-		},function(responseText) {
-			if (responseText === "Nama Barang Tidak Ditemukan") {
-				$("#pesan").html(responseText);
-				$("#pesan").show();
-			}
-			else {
-				$("#pesan").hide();
-				$("#tabelBarang").html(responseText);
-			}
-		});
-	});
+
+	searchTabelAJAX("#searchBarang", "files_backend_ajax/backend_data_barang.php", "#tabelBarang", "Nama barang tidak ditemukan");
+
 	$("#tambahBarang").click(function() {
 		location.assign("tambah_barang.php");
 	});
+
 	// Pagination Tabel Barang
 	$.ajax({
 		url 	: "files_backend_ajax/backend_data_barang.php",
@@ -220,6 +216,7 @@ $(document).ready(function() {
 			$("#page-list").html(responseText);
 		}
 	});
+	
 	$("#page-next").click(function() {
 		let dataPage 						= $(".page-actived").data("page") + 1;
 		let pageListChildrenLength 	= $("#page-list").children().length;

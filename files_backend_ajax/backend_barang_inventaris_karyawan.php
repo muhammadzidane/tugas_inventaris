@@ -1,26 +1,21 @@
 <?php  
-ini_set("max_execution_time", 36000000000000);
-ini_set("memory_limit", -1);
-
-$conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
 require_once 'php_functions.php';
 
-
-
 if (isset($_POST['showTabelDataBarang'])) {
-	$result 	= "SELECT * FROM tb_barang ORDER BY nama_barang ASC LIMIT 5;"; 
+	$result 	= "SELECT * FROM tb_barang ORDER BY nama_barang ASC LIMIT 10;"; 
 	tabel_barang($result, "tb_barang");	
 }
 
 if (isset($_POST["tabelBarangInvKaryawan"])) {
 	$kode_karyawan 	=  $_POST["tabelBarangInvKaryawan"];
-	$result 				= "SELECT * FROM tb_barang_inventaris_karyawan WHERE kode_karyawan='$kode_karyawan' ORDER BY nama_barang ASC LIMIT 5;";
+	$result 				= "SELECT * FROM tb_barang_inventaris_karyawan WHERE kode_karyawan='$kode_karyawan' ORDER BY nama_barang ASC LIMIT 10;";
 	tabel_barang($result, "tb_barang_inventaris_karyawan");
 }
 
 // Search barang
 $kode_karyawan 	= (isset($_POST["kodeKaryawan"])) ? $_POST["kodeKaryawan"] : ""; 	
-echo searchTabel("searchBarang", "tb_barang_inventaris_karyawan", "nama_barang", "tabel_barang", "Barang Tidak Ditemukan", $kode_karyawan);
+echo searchTabel("searchTabelBarangInvKaryawan", "tb_barang_inventaris_karyawan", "nama_barang", 
+	"tabel_barang", "Nama barang tidak ditemukan", $kode_karyawan);
 
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarang", "tb_barang_inventaris_karyawan");

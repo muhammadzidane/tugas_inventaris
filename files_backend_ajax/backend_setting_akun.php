@@ -5,7 +5,7 @@ require_once 'php_functions.php';
 
 // Tabel users
 if (isset($_POST["tabelUsers"])) {
-	$result 	= "SELECT * FROM tb_users;";
+	$result 	= "SELECT * FROM tb_users LIMIT 10;";
 	tabel_users($result);
 }
 
@@ -133,7 +133,7 @@ if (isset($_POST["submitUbahPassword"])) {
 }
 
 // Search username
-echo searchTabel("searchUsername", "tb_users", "username", "tabel_users", "Username tidak ditemukan", null);
+echo searchTabel("searchTabelSettingAkun", "tb_users", "username", "tabel_users", "Username tidak ditemukan", null);
 
 // Pagination username
 echo pagination_links("paginationTabelUsername","tb_users");

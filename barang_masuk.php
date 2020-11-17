@@ -19,7 +19,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
+	<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="nav-link text-white" href="home.php">Home</a>
@@ -74,12 +74,13 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				<option>Kendaraan</option>
 				<option>Lainnya</option>
 			</select>
-			<div id="tabelBarang"></div>
+			<div id="tabelBarangMasuk"></div>
 		</div>
 	</div>
 	<footer>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
 	</footer>
+	<script src="src_moduls/js_functions.js"></script>
 	<script src="src_moduls/barang_masuk.js"></script>
 </body>
 </html>

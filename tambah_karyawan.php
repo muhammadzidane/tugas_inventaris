@@ -18,7 +18,7 @@ cek_session();
 <body>
 	<form id='form' action="files_backend_ajax/backend_daftar_karyawan.php" method="POST">
 		<div class='header-form font-neue'><h3>Tambahkan Karyawan Baru</h3></div>
-		<div id="closeForm">&times;</div>
+		<a href="daftar_pegawai.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
 			<label for='kodeKaryawan'>Kode Karyawan</label>
 			<input id='kodeKaryawan' name='kodeKaryawan' class='form-control' type='text'>
@@ -64,8 +64,9 @@ cek_session();
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group float-right'>
-			<button type="submit" name="submitTambahKaryawan" id='acceptTambah' class='btn btn-primary'>Tambah</button>
-			<button id='buttonBatalEdit' class='btn btn-danger'>Batal</button>
+			<button type="submit" id='acceptTambah' class='btn btn-primary'>Tambah</button>
+			<input type="hidden" name="submitTambahKaryawan" value="kontol">
+			<button id='buttonBatal' class='btn btn-danger'>Batal</button>
 		</div>
 	</form>
 	<script src="src_moduls/tambah_karyawan.js"></script>

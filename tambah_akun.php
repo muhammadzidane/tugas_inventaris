@@ -20,7 +20,7 @@ cek_session();
 <body>
 	<form action="files_backend_ajax/backend_setting_akun.php" method="POST" id='form'>
 		<div class='header-form font-neue'><h3>Tambahkan Akun Baru</h3></div>
-		<div id="closeForm">&times;</div>
+		<a href="setting_akun.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
 			<label>Username</label>
 			<input id="username" name='username' class='form-control' type='text'>

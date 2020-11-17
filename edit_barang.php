@@ -23,6 +23,8 @@ $query 				= mysqli_query($conn, $result);
 $data 				= mysqli_fetch_assoc($query);
 $tanggal_masuk 	= $data['tanggal_masuk'];
 
+$arr_url_barang = array($url_kode_barang, $url_nama_barang);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,175 +37,94 @@ $tanggal_masuk 	= $data['tanggal_masuk'];
 	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<style>
-		/* Form Tambah Barang */
-		#form-tambah-barang {
-			background-color: #FFFFFF;
-			box-shadow: 0 0 4px black;
-			width: 550px;
-			height: 980px;
-			margin: 55px auto;
-		}
-		.header-form {
-			text-align: center;
-			color: #FFFFFF;
-			background-color: #24305E;
-			padding: 28px;
-		}
-		.pesanEditBarang {
-			position: absolute;
-		}
-		.form-group{
-			margin: 10px;
-		}
-		#tambahBarang {
-			color: #FFFFFF;
-			padding: 6px 12px;
-			box-shadow: 0px 0px 4px black;
-		}
-		#form-tambah-barang .form-group {
-			margin: 25px 40px;
-		}
-		#closeForm {
-			position: absolute;
-			top: 49px;
-			color: white;
-			font-size: 25px;
-			margin-left: 528px;
-			cursor: pointer;
-		}
-		.font-neue { font-family: 'Bebas Neue'; }
-		.pesanValidasi {
-			font-size: 13px;
-			color: tomato;
-		}
-	</style>
 </head>
 <body>
-	<div id='form-tambah-barang'>
+	<form id='form' action="files_backend_ajax/backend_data_barang.php" method="POST">
 		<div class='header-form font-neue'><h3>Edit Barang</h3></div>
 		<a href="data_barang.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
-			<label for='kode_barang'>Kode Barang</label>
-			<input id='kode_barang' class='form-control' type='text' value="<?php echo $url_kode_barang; ?>">
-			<div class='pesanEditBarang'></div>
+			<label for='kodeBarang'>Kode Barang</label>
+			<input id='kodeBarang' name='kodeBarang' class='form-control' type='text' value="<?php echo $url_kode_barang; ?>">
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='jenis_barang'>Jenis Barang</label>
-			<select id='jenis_barang' class='form-control'>
-				<option disabled>-Jenis Barang-</option>
-				<option>Elektronik</option>
-				<option>Alat Tulis</option>
-				<option>Kendaraan</option>
-				<option>Lainnya</option>
+			<label for='jenisBarang'>Jenis Barang</label>
+			<select  id='jenisBarang' name='jenisBarang' class='form-control'>
+				<option disabled>-Jenis Barang-</option>				
+				<?php 
+				$arr_jenis_barang = array("Elektronik", "Alat Tulis", "Kendaraan", "Lainnya");
+
+				$result 				= "SELECT * FROM tb_barang WHERE kode_barang='$url_kode_barang';";
+				$query 				= mysqli_query($conn, $result);
+
+				$data 				= mysqli_fetch_assoc($query);
+				$jenis_barang 		= $data["jenis_barang"];
+				$kode_barang 		= $data["kode_barang"];
+
+				foreach ($arr_jenis_barang as $key => $value) {
+					if ($jenis_barang == $value) {
+						echo "<option selected>";
+					}
+					else {
+						echo "<option>";
+					}
+					echo "$value</option>";
+				}
+				?>
 			</select>
 		</div>
 		<div class='form-group'>
-			<label for='nama_barang'>Nama Barang</label>
-			<input id='nama_barang' class='form-control' type='text' value="<?php echo $nama_barang; ?>">
-			<div class='pesanEditBarang'></div>
+			<label for='namaBarang'>Nama Barang</label>
+			<input id='namaBarang' name='namaBarang' class='form-control' type='text' value="<?php echo $nama_barang; ?>">
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='kondisi_barang'>Kondisi Barang</label>
-			<select id='kondisi_barang' class='form-control' value="<?php echo $kondisi_barang; ?>">
-				<option disabled>-Kondisi Barang-</option>
-				<option>Baru</option>
-				<option>Bekas</option>
+			<label for='kondisiBarang'>Kondisi Barang</label>
+			<select id='kondisiBarang' name='kondisiBarang' class='form-control'>
+				<option disabled>-Kondisi Barang-</option>	
+				<?php 
+					$arr_kondisi_barang 	= array("Baru", "Bekas");
+
+					foreach ($arr_kondisi_barang as $key => $value) {
+						if ($kondisi_barang == $value) {
+							echo "<option selected>";
+						}
+						else {
+							echo "<option>";
+						}
+						echo "$value</option>";
+					}
+
+				?>			
 			</select>
 		</div>
 		<div class='form-group'>
-			<label for='harga_satuan'>Harga Satuan</label>
-			<input id='harga_satuan' class='form-control' type='text' value="<?php echo $harga_satuan; ?>">
-			<div class='pesanEditBarang'></div>
+			<label for='hargaSatuan'>Harga Satuan</label>
+			<input id='hargaSatuan' name='hargaSatuan' class='form-control' type='text' value="<?php echo $harga_satuan; ?>">
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='jumlah_barang'>Jumlah Barang</label>
-			<input id='jumlah_barang' class='form-control' type='text' value="<?php echo $jumlah_barang; ?>">
-			<div class='pesanEditBarang'></div>
+			<label for='jumlahBarang'>Jumlah Barang</label>
+			<input id='jumlahBarang' name='jumlahBarang' class='form-control' type='text' value="<?php echo $jumlah_barang; ?>">
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='foto_barang'>Foto Barang</label>
-			<input id='foto_barang' class='form-control' type='text' value="<?php echo $foto_barang; ?>">
-			<div class='pesanEditBarang'></div>
+			<label for='fotoBarang'>Foto Barang</label>
+			<input id='fotoBarang' name='fotoBarang' class='form-control' type='text' value="<?php echo $foto_barang; ?>">
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='tanggal_masuk'>Tanggal Masuk</label>
-			<input id='tanggal_masuk' class='form-control' type='date' value="<?php echo $tanggal_masuk; ?>">
-			<div class='pesanEditBarang'></div>
+			<label for='tanggalMasuk'>Tanggal Masuk</label>
+			<input id='tanggalMasuk' name='tanggalMasuk' class='form-control' type='date' value="<?php echo $tanggal_masuk; ?>">
+			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group float-right'>
-			<button id='acceptEditBarang' class='btn btn-primary'>Edit</button>
-			<a href="data_barang.php"><button id='buttonBatalEdit' class='btn btn-danger'>Batal</button></a>
+			<input type="submit" id='submitEditBarang' class='btn btn-primary' value="Edit">
+			<input type="hidden" name="submitEditBarang" value="<?= implode('-', $arr_url_barang) ?>">
+			<button id='buttonBatal' class='btn btn-danger'>Batal</button>
 		</div>
-	</div>
-	<script>
-		$(document).ready(function() {
-
-			$("#jenis_barang").val("<?php echo $jenis_barang; ?>");
-			$("#kondisi_barang").val("<?php echo $kondisi_barang; ?>");
-
-			$("#acceptEditBarang").click(function(e) {
-				let confirmTambahBarang = confirm("Apakah Anda Yakin Ingin Menambahkan Data Barang?");
-				let valKodeBarang 		= $("#kode_barang").val();
-				let valJenisBarang 		= $("#jenis_barang").val();
-				let valNamaBarang 		= $("#nama_barang").val();
-				let valMerkBarang			= $("#merk_barang").val();
-				let valKondisiBarang 	= $("#kondisi_barang").val();
-				let valHargaSatuan 		= $("#harga_satuan").val();
-				let valJumlahBarang 		= $("#jumlah_barang").val();
-				let valFotoBarang 		= $("#foto_barang").val();
-				let valTanggalMasuk	 	= $("#tanggal_masuk").val();
-				
-				if (confirmTambahBarang) {
-					validasiNomer(valKodeBarang, "#kode_barang", 8);
-					validasiNomer(valHargaSatuan, "#harga_satuan", undefined);
-					validasiNomer(valJumlahBarang, "#jumlah_barang", undefined);
-					validasiKosong(valKodeBarang,"#kode_barang");
-					validasiKosong(valJenisBarang, "#jenis_barang");
-					validasiKosong(valNamaBarang, "#nama_barang");
-					validasiKosong(valMerkBarang, "#merk_barang");
-					validasiKosong(valKondisiBarang, "#kondisi_barang");
-					validasiKosong(valHargaSatuan, "#harga_satuan");
-					validasiKosong(valJumlahBarang, "#jumlah_barang");
-					validasiKosong(valFotoBarang, "#foto_barang");
-					validasiKosong(valTanggalMasuk, "#tanggal_masuk");
-
-					if ($(".pesanEditBarang").text() == "") {
-						$.ajax({
-							url 	: "files_backend_ajax/backend_data_barang.php",
-							type 	: "POST",
-							data 	: { validasiDuplikatKeyGet : valKodeBarang, getKodeBarang : "<?php echo $url_kode_barang; ?>"},
-							success : function(responseText) {
-								if (responseText == "berhasil") {
-									$.post('files_backend_ajax/backend_data_barang.php',{
-										updateBarang 			: true, 
-										valUrlKodeBarang 		: "<?php echo $url_kode_barang; ?>",
-										valUrlNamaBarang 		: "<?php echo $url_nama_barang; ?>",
-										valKodeBarang 			: valKodeBarang,
-										valJenisBarang 		: valJenisBarang,
-										valNamaBarang 			: valNamaBarang,
-										valMerkBarang 			: valMerkBarang,
-										valKondisiBarang 		: valKondisiBarang,
-										valHargaSatuan 		: valHargaSatuan,
-										valJumlahBarang 		: valJumlahBarang,
-										valFotoBarang 			: valFotoBarang,
-										valTanggalMasuk 		: valTanggalMasuk }, 
-										function(responseText) {
-											location.assign(`data_barang.php?berhasil-edit=${encodeURIComponent(responseText)}`);
-										}
-									);
-								}
-								else {
-									e.preventDefault();
-									$("#kode_barang").next().html(`<small>${ responseText }</small>`).addClass('pesanValidasi');
-								}
-							}					
-						});
-					}
-				}
-			});
-	});
-</script>
-<script src="jquery_functions/js_functions.js"></script>
+	</form>
+	<script src="src_moduls/edit_barang.js"></script>
+	<script src="src_moduls/js_functions.js"></script>
 </body>
 </html>

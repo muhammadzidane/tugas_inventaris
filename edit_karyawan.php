@@ -4,10 +4,10 @@ require_once 'files_backend_ajax/php_functions.php';
 cek_session();
 
 // Mengambil value dari database untuk mengisi tag <input> value 
-$kode_karyawan 	= (isset($_GET['kode_karyawan'])) ? $_GET['kode_karyawan'] : "";
-$nama_karyawan 	= (isset($_GET['nama_karyawan'])) ? $_GET['nama_karyawan'] : "";
+$val_url_kode_karyawan 	= (isset($_GET['kode_karyawan'])) ? $_GET['kode_karyawan'] : "";
+$val_url_nama_karyawan 	= (isset($_GET['nama_karyawan'])) ? $_GET['nama_karyawan'] : "";
 
-$result 				= "SELECT * FROM tb_karyawan WHERE kode_karyawan='$kode_karyawan';";
+$result 				= "SELECT * FROM tb_karyawan WHERE kode_karyawan='$val_url_kode_karyawan';";
 $query 				= mysqli_query($conn, $result);
 
 while ($data = mysqli_fetch_assoc($query)) {
@@ -20,6 +20,13 @@ while ($data = mysqli_fetch_assoc($query)) {
 	$foto 						= $data['foto'];
 }
 
+$arr_posisi_jabatan = array(
+	"Programmer", "UI/UX Designer", "Software Engineer", 
+	"Akutansi", "Customer Service", "Direktur", "Seketaris", "HRD"
+);
+
+$arr_url_karyawan = array($val_url_kode_karyawan, $val_url_nama_karyawan);
+$arr_url_karyawan = implode("-", $arr_url_karyawan);
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,59 +41,63 @@ while ($data = mysqli_fetch_assoc($query)) {
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<div id='form'>
+	<form id='form' action="files_backend_ajax/backend_daftar_karyawan.php" method="POST">
 		<div class='header-form font-neue'><h3>Edit Karyawan</h3></div>
 		<a href="daftar_pegawai.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
-			<label for='kode_karyawan'>Kode Karyawan</label>
-			<input id='kode_karyawan' class='form-control' type='text' value="<?php echo $kode_karyawan; ?>">
+			<label for='kodeKaryawan'>Kode Karyawan</label>
+			<input id='kodeKaryawan' name='kodeKaryawan' class='form-control' type='text' value="<?php echo $kode_karyawan; ?>">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='nama_karyawan'>Nama Karyawan</label>
-			<input id='nama_karyawan' class='form-control' type='text' value="<?php echo $nama_karyawan; ?>">
+			<label for='namaKaryawan'>Nama Karyawan</label>
+			<input id='namaKaryawan' name='namaKaryawan' class='form-control' type='text' value="<?php echo $nama_karyawan; ?>">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='posisi_jabatan'>Posisi Jabatan</label>
-			<select id='posisi_jabatan' class='form-control'>
+			<label for='posisiJabatan'>Posisi Jabatan</label>
+			<select id='posisiJabatan' name='posisiJabatan' class='form-control'>
 				<option disabled>-Posisi Jabatan-</option>
-				<option>Programmer</option>
-				<option>UI/UX Designer</option>
-				<option>Software Engineer</option>
-				<option>Akutansi</option>
-				<option>Customer Service</option>
-				<option>Direktur</option>
-				<option>Seketaris</option>
-				<option>HRD</option>
+				<?php 
+
+				foreach ($arr_posisi_jabatan as $key => $value) {
+					if ($posisi_jabatan == $value) {
+						echo "<option selected>";
+					}
+					else {
+						echo "<option>";	
+					}
+					echo "$value</option>";
+				}
+				?>
 			</select>
 		</div>
 		<div class='form-group'>
 			<label for='email'>Email</label>
-			<input id='email' class='form-control' type='text' value="<?php echo $email; ?>">
+			<input id='email' name='email' class='form-control' type='text' value="<?php echo $email; ?>">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
-			<label for='pendidikan_terakhir'>Pendidikan Terakhir</label>
-			<input id='pendidikan_terakhir' class='form-control' type='text' value="<?php echo $pendidikan_terakhir; ?>">
+			<label for='pendidikanTerakhir'>Pendidikan Terakhir</label>
+			<input id='pendidikanTerakhir' name="pendidikanTerakhir" class='form-control' type='text' value="<?php echo $pendidikan_terakhir; ?>">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='alamat'>Alamat</label>
-			<input id='alamat' class='form-control' type='text' value="<?php echo $alamat; ?>">
+			<input id='alamat' name='alamat' class='form-control' type='text' value="<?php echo $alamat; ?>">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group'>
 			<label for='foto'>Foto</label>
-			<input id='foto' class='form-control' type='text' value="<?php echo $foto; ?>">
+			<input id='foto' name='foto' class='form-control' type='text' value="<?php echo $foto; ?>">
 			<div class='pesanValidasi'></div>
 		</div>
 		<div class='form-group float-right'>
-			<button id='acceptEdit' class='btn btn-primary'>Edit</button>
-
-			<a href="daftar_pegawai.php"><button id='buttonBatalEdit' class='btn btn-danger'>Batal</button></a>
+			<button type="submit" id='buttonEdit' class='btn btn-primary'>Edit</button>
+			<input type="hidden" name="submitEditKaryawan" value="<?= $arr_url_karyawan; ?>">
+			<button id='buttonBatal' class='btn btn-danger'>Batal</button>
 		</div>
-	</div>
+	</form>
 	<script src=src_moduls/edit_karyawan.js></script>
 	<script src="src_moduls/js_functions.js"></script>
 </body>

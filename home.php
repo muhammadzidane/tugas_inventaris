@@ -8,113 +8,16 @@ cek_session();
 <head>
 	<title>Home</title>
 	<link href='https://fonts.googleapis.com/css?family=Bebas Neue' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="global_css.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/fontawesome-5.13.1/css/all.min.css">
 	<script type="text/javascript" src="bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<style>
-		body {
-			background-color: #F8F8F8;
-		}
-		nav {
-			height: 44px;
-		}
-		.judul {
-			margin: 28px auto;
-			text-align: center;
-			border-bottom: 3px solid black;
-			width: 50%;
-			font-size: 32px;
-		}
-		.cards {
-			margin-top: 60px;
-		}
-		.header-modul-location, .header-modul-location:hover{
-			text-decoration: none;
-			color: black;
-		}
-		.actived {
-			background-color: #ff3333;
-			border-top: 3px solid #FCB913; 
-		}
-		.page-circle {
-			text-align: center;
-			color: black;
-			padding: 8px 16px;
-			margin: 0 1px;
-			border-radius: 100%;
-		}
-		.page-circle:hover {
-			background-color: tomato;
-			color: #FFFFFF;
-			text-decoration: none; 
-		}
-		.bg-tomato {
-			background-color: tomato;
-		}
-		.form-group{
-			margin: 10px;
-		}
-		.home-header {
-			margin: 55px auto;
-			text-align: center;
-			border-bottom: 3px solid black;
-			width: 300px;
-		}
-		.columns {
-			width: 320px;
-			margin: 20px 0px;
-			box-shadow: 1px 1px 6px black;
-			cursor: pointer;
-		}
-		.columns:hover {
-			box-shadow: 0px 0px 10px 2px black;
-		}
-		.column-orange-1 {
-			padding-top: 32px;
-			text-align: center;
-			color: #ffffff;
-			width: 150px;
-			height: 160px;
-			background-color: #ff9f43;
-		}
-		.column-orange-2 {
-			width: 200px;
-			height: 160px;
-			background-color: #ffffff;
-			border-bottom: 3px solid #ff9f43;
-		}
-		.link-nav {
-			margin: 60px 0px;
-		}
-		.column-yellow-1 {
-			padding-top: 32px;
-			text-align: center;
-			color: #ffffff;
-			width: 150px;
-			height: 160px;
-			background-color: #FFBB00;
-		}
-		.column-yellow-2 {
-			width: 200px;
-			height: 160px;
-			background-color: #ffffff;
-			border-top: 3px solid #FFBB00;
-		}
-		.filsearch { margin: 11px 0px; }
-		.c-pointer { cursor: pointer; }
-		.font-neue { font-family: 'Bebas Neue'; }
-		footer {
-			background-color: #24305E;
-			width: 100%;
-			height: 50px;
-			margin-top: 100px; 
-		}
-	</style>
+</head>
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
+		<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
 			<ul class="navbar-nav">
 				<li class="nav-item">
 					<a class="nav-link text-white actived" href="home.php">Home</a>
@@ -144,30 +47,30 @@ cek_session();
 		</nav>
 	</header>
 	<div class="container">
-		<div class="judul font-neue">Daftar Inventaris Karyawan IT+<br><small>Tahun 2020</small></div>
+		<div class="judul font-neue w-25">Daftar Inventaris Karyawan IT+</div>
 		<div class="cards">
 			<div class="justify-content-between d-flex">
 				<a class="header-modul-location" href="daftar_pegawai.php">
 					<div id="daftarPegawai" class="d-flex columns">
-						<div class="column-yellow-1"><i class="fas fa-users fa-5x"></i></div>
-						<div class="column-yellow-2 text-center">
-							<h4 class="font-neue link-nav">Daftar Pegawai</h4>
+						<div class="column-pink-1 "><i class="fas fa-users fa-5x"></i></div>
+						<div class="column-pink-2 text-center pt-3">
+							<h4 class="font-neue link-nav pt-5">Daftar Pegawai</h4>
 						</div>
 					</div>
 				</a>
 				<a class="header-modul-location" href="data_barang.php">
 					<div id="dataBarang" class="d-flex columns">
 						<div class="column-orange-1"><i class="fas fa-boxes fa-5x"></i></div>
-						<div class="column-orange-2 text-center">
-							<h4 class="font-neue link-nav">Data Barang</h4>
+						<div class="column-orange-2 text-center pt-3">
+							<h4 class="font-neue link-nav pt-5">Data Barang</h4>
 						</div>
 					</div>
 				</a>
 				<a class="header-modul-location" href="barang_masuk.php">
 					<div id="barangMasuk" class="d-flex columns">
-						<div class="column-yellow-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-plus"></i></div>
-						<div class="column-yellow-2 text-center">
-							<h4 class="font-neue link-nav">Barang Masuk</h4>
+						<div class="column-pink-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-plus"></i></div>
+						<div class="column-pink-2 text-center pt-3">
+							<h4 class="font-neue link-nav pt-5">Barang Masuk</h4>
 						</div>
 					</div>
 				</a>
@@ -176,16 +79,16 @@ cek_session();
 				<a class="header-modul-location" href="barang_keluar.php">
 					<div id="barangKeluar" class="d-flex columns">
 						<div class="column-orange-1"><i class="fas fa-box-open fa-5x"></i><i class="fas fa-minus"></i></div>
-						<div class="column-orange-2 text-center">
-							<h4 class="font-neue link-nav">Barang Keluar</h4>
+						<div class="column-orange-2 text-center pt-3">
+							<h4 class="font-neue link-nav pt-5">Barang Keluar</h4>
 						</div>
 					</div>
 				</a>
 				<a class="header-modul-location" href="setting_akun.php">
 					<div id="settingAkun" class="d-flex columns">
 						<div class="column-orange-1"><i class="fas fa-user-cog fa-5x"></i></div>
-						<div class="column-orange-2 text-center">
-							<h4 class="font-neue link-nav">Setting Akun</h4>
+						<div class="column-orange-2 text-center pt-3">
+							<h4 class="font-neue link-nav pt-5">Setting Akun</h4>
 						</div>
 					</div>
 				</a>

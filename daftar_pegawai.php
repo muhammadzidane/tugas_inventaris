@@ -49,7 +49,7 @@ cek_session();
 		<div class="judul font-neue">Daftar Pegawai</div>
 		<div id="pesanLoad">
 			<?php 
-			tampilkan_pesan_load("berhasil_edit");
+			tampilkan_pesan_load("berhasil_diedit");
 			tampilkan_pesan_load("berhasil_dihapus");
 			tampilkan_pesan_load("berhasil_ditambah");
 			?>
@@ -64,7 +64,9 @@ cek_session();
 			</div>
 		</div>
 		<?php
-			hapusModuls("<button id='tambahKaryawan' class='btn btn-primary'><i class='fas fa-user-plus'></i>Tambahkan Karyawan</button>");
+			$button_tambah_karyawan 	 = "<a href='tambah_karyawan.php'><button id='tambahKaryawan'";
+			$button_tambah_karyawan 	.= "class='btn btn-primary'><i class='fas fa-user-plus'></i>Tambahkan Karyawan</button></a>'";
+			hapusModuls($button_tambah_karyawan);
 		?>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">

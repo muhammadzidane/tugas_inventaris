@@ -26,7 +26,7 @@ $query 				= mysqli_query($conn, $result);
 <body>
 	<form action='files_backend_ajax/backend_setting_akun.php' method="POST" id='form'>
 		<div class='header-form font-neue'><h3>Ubah Password</h3></div>
-		<div id="closeForm">&times;</div>
+		<a href="setting_akun.php"><div id="closeForm">&times;</div></a>
 		<div class='form-group'>
 			<label for='username'>Username</label>
 			<input id='username' name='username' class='form-control' type='text' autocomplete="off" value="<?php echo $username; ?>" readonly>

@@ -161,6 +161,15 @@ table tr:hover {
 #form .form-group {
 	margin: 25px 40px;
 }
+.header-modul-location {
+	text-decoration: none;
+	color: black;
+}
+.header-modul-location:hover {
+	text-decoration: none;
+	color: black;
+}
+
 #closeForm {
 	position: absolute;
 	top: 49px;

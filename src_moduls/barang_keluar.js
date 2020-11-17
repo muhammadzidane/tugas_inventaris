@@ -1,5 +1,7 @@
 "use strict";
 
+
+
 // Non Load Event ====================================================================== >>
 function pageLink(button) {
 	let dataPage 				= $(button).data("page");
@@ -58,6 +60,7 @@ $(document).ready(function() {
 	$.post("files_backend_ajax/backend_barang_keluar.php",{	totalBarangLainnya 	: true },function(responseText) {
 		$("#totalBarangLainnya").html(responseText);
 	});
+
 	// Filter Jenis Barang
 	$("#filterJenisBarang").change(function() {
 		let valFilterJenisBarang = $("#filterJenisBarang").val();
@@ -90,22 +93,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	// Search nama barang
-	$("#searchBarang").keyup(function() {
-		let inputVal = $("#searchBarang").val().trim()
-		$.post("files_backend_ajax/backend_barang_keluar.php",{
-			searchBarang 	: inputVal
-		},function(responseText) {
-			if (responseText === "Nama Barang Tidak Ditemukan") {
-				$("#pesan").html(responseText);
-				$("#pesan").show();
-			}
-			else {
-				$("#pesan").hide();
-				$("#tabelBarangKeluar").html(responseText);
-			}
-		});
-	});
+	searchTabelAJAX("#searchBarang", "files_backend_ajax/backend_barang_keluar.php", "#tabelBarangKeluar", "Nama barang tidak ditemukan");
 	
 	// Pagination Tabel Barang
 	$.ajax({

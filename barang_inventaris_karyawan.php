@@ -125,7 +125,7 @@ $url_nama_karyawan 	= (isset($_GET["nama_karyawan"])) ? $_GET["nama_karyawan"] :
 	<footer>
 		<p class="text-white pt-2 ml-3">Tugas Inventaris 2020</p>
 	</footer>
-	<script src="src_moduls/barang_inventaris_karyawan.js"></script>
 	<script src="src_moduls/js_functions.js"></script>
+	<script src="src_moduls/barang_inventaris_karyawan.js"></script>
 </body>
 </html>

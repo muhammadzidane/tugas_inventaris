@@ -52,8 +52,8 @@ function buttonUpdateJenisRole(event, button) {
 			url 	: "files_backend_ajax/backend_setting_akun.php",
 			type 	: "POST",
 			data 	: { 
-				updateJenisRole 	: true,
-				valUsername 		: dataUsername,
+				updateJenisRole 		: true,
+				valUsername 			: dataUsername,
 				valSelectJenisRole 	: valSelectJenisRole
 			},
 			success : function(responseText) {
@@ -104,22 +104,7 @@ $(document).ready(function() {
 	});
 
 	// Search nama barang
-	$("#searchUsername").keyup(function() {
-		let inputVal = $("#searchUsername").val().trim()
-		$.post("files_backend_ajax/backend_setting_akun.php",{
-			searchUsername 	: inputVal
-		},function(responseText) {
-			if (responseText == "Username tidak ditemukan") {
-				$("#pesan").html(responseText);
-				$("#pesan").show();
-			}
-			else {
-				$("#pesan").hide();
-				$("#tabelUsers").html(responseText);
-			}
-			console.log(responseText);
-		});
-	});
+	searchTabelAJAX("#searchUsername", "files_backend_ajax/backend_setting_akun.php", "#tabelUsers", "Username tidak ditemukan");
 
 	// Pagination username
 	$.ajax({

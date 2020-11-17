@@ -19,12 +19,12 @@ $val_total_harga 			= (int) $val_harga_satuan * (int) $val_jumlah_barang;
 
 // Muncul tabel saat Load pertama kali  
 if (isset($_POST['tabelBarangKeluar'])) {
-	$result 	= "SELECT * FROM tb_barang_keluar ORDER BY tanggal_keluar DESC LIMIT 5;"; 
+	$result 	= "SELECT * FROM tb_barang_keluar ORDER BY tanggal_keluar DESC LIMIT 10;"; 
 	tabel_barang($result,"tb_barang_keluar");	
 }
 
 // Search tabel barang
-echo searchTabel("searchBarang", "tb_barang_keluar", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
+echo searchTabel("searchTabelBarangKeluar", "tb_barang_keluar", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
 
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarangKeluar","tb_barang_keluar");

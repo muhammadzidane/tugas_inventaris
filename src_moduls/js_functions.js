@@ -43,28 +43,33 @@ function validasiEmailEventClick(variabel, selector) {
 	});
 }
 
-// Hide pesan load
-function hidePesanLoad(valPola) {
-	let polaRegex = valPola;
-	if (location.search == polaRegex.test()) {
-		$("#pesanLoad").hide();
-	}
-}
-
 function tableAppend(nama_tb_database, refThis) {
-	let button 		 		 = refThis;
+	let button 		 			 = refThis;
 	let removeTRNextAll   	 = $(button).parent().parent().nextAll();
 	let removeTRPrevUntil 	 = $(button).parent().parent().prevUntil(".tableFirstChild");
 
-	let tableAppend 		 = "";
+	let tableAppend 		 	 = "";
 
-	tableAppend 			+= "<tr>";
-	tableAppend				+= "<td></td>";
-	tableAppend				+= "<td></td>";
-	tableAppend				+=	"<td></td>";
-	tableAppend				+=	"<td></td>";
+	tableAppend 				+= "<tr>";
+	tableAppend					+= "<td></td>";
+	tableAppend					+= "<td></td>";
+	tableAppend					+=	"<td></td>";
+	tableAppend					+=	"<td></td>";
 
-	if (nama_tb_database == "tb_barang_inventaris_karyawan") {
+	if (nama_tb_database == "tb_barang_inventaris_karyawan_modul_tambah") {		
+		tableAppend				+=	"<td>";
+		tableAppend				+=	"<input id='jumlah' placeholder='Jumlah'";
+		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'>";
+		tableAppend				+=	"</td>";
+		tableAppend				+=	"<td><input id='tanggal_masuk' class='form-control form-control-sm' type='date'></td>";
+		tableAppend				+=	"<td></td>";
+		tableAppend				+=	"<td><button id='buttonQueryTambah'";
+		tableAppend				+=	`class='btn btn-primary'>Tambah</button></td>`;
+		tableAppend				+=	"<td><button id='buttonBatal' class='btn btn-warning text-white'>Batal</button></td>";
+		tableAppend 			+= "</tr>";
+	}
+
+	if (nama_tb_database == "tb_barang_inventaris_karyawan_modul_hapus") {
 		tableAppend				+=	"<td>";
 		tableAppend				+=	"<input id='jumlah' placeholder='Jumlah'";
 		tableAppend				+=	"class='form-control form-control-sm' type='number' min='0'>";
@@ -114,7 +119,7 @@ function eventsTableAppend(jumlahAwalNode, jumlahAwal) {
 	let jumlahAwalBarang 	= jumlahAwalNode;
 
 	// Keyup tag input 
-	$("#jumlah").keyup(function() {
+	$("#jumlah").keyup(function() { // Nama id wajib = "jumlah"
 		let valKUjumlah = $(this).val();
 		for (let i = 1; i <= valJumlahAwalBarang; i++) {
 			if (valKUjumlah == i) {
@@ -134,7 +139,7 @@ function eventsTableAppend(jumlahAwalNode, jumlahAwal) {
 	});
 
 	// Checkbox ambil semua nilai
-	$("#checkSemua").click(function() {
+	$("#checkedSemua").click(function() {
 		if ($(this).is(":checked")) {
 			$("#jumlah").val(valJumlahAwalBarang);
 			jumlahAwalBarang.html(0);
@@ -159,8 +164,93 @@ function hidePesanLoad() {
 }
 
 function hapusPesanDanCheckAndTimes(namaID) {
-	if ($(namaID).val() == "") {
+	if( $(namaID).val() == "") {
 		$(namaID).next().html("");
 		$(namaID).next().next().html("");
 	}
+}
+
+function validasiAJAXDK(modul, valKode, namaIdKode, urlAJAX, valAwalKode) {
+	if (modul == "tambah") {
+		if (valKode == "") {
+			$(namaIdKode).next().html("<small>Tidak boleh kosong</small>");
+		}
+		else {
+			$.ajax({
+				url 	: urlAJAX,
+				type 	: "POST",
+				data 	: { validasiDuplikatKey : valKode },
+				success : function(responseText) {
+					if (responseText != "berhasil") {
+						$(namaIdKode).next().html("<small>" + responseText + "</small>");
+					}
+					else {
+						$(namaIdKode).next().html("");	
+					}
+					validasiNomer(valKode, namaIdKode, 8);
+
+					if ($(".pesanValidasi").text() == "") {
+						$("form").submit();
+					}
+				}
+			});
+		}
+	}
+	else if (modul == "edit") {
+		if (valKode == "") {
+			$(namaIdKode).next().html("<small>Tidak boleh kosong</small>");
+		}
+		else {
+			$.ajax({
+				url 	: urlAJAX,
+				type 	: "POST",
+				data 	: { validasiDuplikatKeyEdit : valKode, valAwalKode : valAwalKode },
+				success : function(responseText) {
+					if (responseText != "berhasil") {
+						$(namaIdKode).next().html("<small>" + responseText + "</small>");
+					}
+					else {
+						$(namaIdKode).next().html("");	
+					}
+					validasiNomer(valKode, namaIdKode, 8);
+
+					if ($(".pesanValidasi").text() == "") {
+						$("form").submit();
+					}
+				}
+			});
+		}
+	}
+}
+
+// Button untuk header location  
+function buttonBatalHeaderLocation(buttonBatalNode, locationAssign) {
+	$(buttonBatalNode).click(function(e) {
+		e.preventDefault()
+		location.assign(locationAssign);
+	});
+}
+
+function searchTabelAJAX(inputNode, fileBackend, tabelNode, pesan) {
+	$(inputNode).keyup(function() {
+		let valSearch = $(inputNode).val().trim();
+
+		$.post(fileBackend,{
+			searchTabelKaryawan 				: valSearch,
+			searchTabelDataBarang 			: valSearch,
+			searchTabelBarangMasuk 			: valSearch,
+			searchTabelBarangKeluar 		: valSearch,
+			searchTabelSettingAkun 			: valSearch,
+			searchTabelBarangInvKaryawan 	: valSearch
+		},function(responseText) {
+			if (responseText == pesan) {
+				$("#pesan").html(responseText);  // Nama ID untuk AJAX wajib "pesan" 
+				$("#pesan").show();
+			}
+			else {
+				$("#pesan").hide();
+				$(tabelNode).html(responseText);
+			}
+		});
+	});
 }

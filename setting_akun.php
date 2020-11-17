@@ -20,7 +20,7 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
+	<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="nav-link text-white" href="home.php">Home</a>

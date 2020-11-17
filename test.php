@@ -1,15 +1,9 @@
 <?php 
+require_once 'files_backend_ajax/php_functions.php';
 
-$conn 	 			 = mysqli_connect("localhost","root","","tugas_inventaris");
+$a =  sql_protect("kontol    kontol ad<Dadw@@!#");
+
+echo $a;
 
 
-$a 	= (int) "";
-$b 	= 1;
-
-if ($a AND $b == "" or 1) {
-	echo "kosong";
-}
-else {
-	echo "ada";
-}
 ?>

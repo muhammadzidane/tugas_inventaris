@@ -19,7 +19,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
+	<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="nav-link text-white" href="home.php">Home</a>
@@ -53,6 +53,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 			<?php 
 			tampilkan_pesan_load("berhasil_dihapus");
 			tampilkan_pesan_load("berhasil_ditambah");
+			tampilkan_pesan_load("berhasil_diedit");
 			?> 
 		</div>
 		<div class="cards">

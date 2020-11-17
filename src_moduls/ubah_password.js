@@ -49,22 +49,13 @@ $(document).ready(function() {
 		validasiKosong(valPasswordBaru, "#passwordBaru");
 		validasiKosong(valUlangiPassword, "#ulangiPassword");
 		
-		if ($(".pesanValidasi").text() == "") {
-			$("form").submit();
-		}
-		else {
+		if ($(".pesanValidasi").text() != "") {
 			e.preventDefault();
 		}
+		else {
+			$("form").submit();
+		}
 	});
 	
-	// Button Batalkan Tambah Barang
-	$("#buttonBatal").click(function(e) {
-		e.preventDefault();
-		location.assign("setting_akun.php");
-	});
-	
-	// Button Batalkan Tambah Barang (Simbol Close)
-	$("#closeForm").click(function(e) {
-		$("#buttonBatal").click();
-	});
+	buttonBatalHeaderLocation("#buttonBatal", "setting_akun.php");
 });

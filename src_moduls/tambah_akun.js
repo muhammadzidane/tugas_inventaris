@@ -31,7 +31,6 @@ $(document).ready(function() {
 		
 		hapusPesanDanCheckAndTimes("#username");
 	});
-	// });
 
 	// Validasi email
 	$("#email").keyup(function() {
@@ -105,11 +104,7 @@ $(document).ready(function() {
 		}
 	});
 
-	// Button Batalkan Tambah Barang
-	$("#buttonBatal").click(function(e) {
-		e.preventDefault();
-		location.assign("setting_akun.php");
-	});
+	buttonBatalHeaderLocation("#buttonBatal", "setting_akun.php");
 
 	// Button Batalkan Tambah Barang (Simbol Close)
 	$("#closeForm").click(function(e) {
