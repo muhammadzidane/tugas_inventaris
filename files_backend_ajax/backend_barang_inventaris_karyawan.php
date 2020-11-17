@@ -12,13 +12,15 @@ if (isset($_POST["tabelBarangInvKaryawan"])) {
 	tabel_barang($result, "tb_barang_inventaris_karyawan");
 }
 
+hidePageNext("tb_barang_inventaris_karyawan", "kode_karyawan");
+
 // Search barang
 $kode_karyawan 	= (isset($_POST["kodeKaryawan"])) ? $_POST["kodeKaryawan"] : ""; 	
 echo searchTabel("searchTabelBarangInvKaryawan", "tb_barang_inventaris_karyawan", "nama_barang", 
 	"tabel_barang", "Nama barang tidak ditemukan", $kode_karyawan);
 
 // Pagination tabel barang
-echo pagination_links("paginationTabelBarang", "tb_barang_inventaris_karyawan");
+echo pagination_links("paginationTabelBarangInvKaryawan", "tb_barang_inventaris_karyawan");
 echo page_click("pageListTabelBarang", "tb_barang_inventaris_karyawan", "nama_barang", "tabel_barang");
 echo page_next("pageNext", "tb_barang_inventaris_karyawan", "nama_barang", "tabel_barang");
 

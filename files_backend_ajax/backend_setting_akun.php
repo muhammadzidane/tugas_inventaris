@@ -9,6 +9,8 @@ if (isset($_POST["tabelUsers"])) {
 	tabel_users($result);
 }
 
+hidePageNext("tb_barang_inventaris_karyawan", null);
+
 // Validasi Username
 if (isset($_POST['validasiUsername'])) {
 	$val_username 	= $_POST['validasiUsername'];

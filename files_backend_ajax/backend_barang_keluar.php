@@ -23,12 +23,14 @@ if (isset($_POST['tabelBarangKeluar'])) {
 	tabel_barang($result,"tb_barang_keluar");	
 }
 
+hidePageNext("tb_barang_keluar", null);
+
 // Search tabel barang
-echo searchTabel("searchTabelBarangKeluar", "tb_barang_keluar", "nama_barang", "tabel_barang", "Nama Barang Tidak Ditemukan", null);
+echo searchTabel("searchTabelBarangKeluar", "tb_barang_keluar", "nama_barang", "tabel_barang", "Nama barang tidak ditemukan", null);
 
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarangKeluar","tb_barang_keluar");
-echo page_click("pageListTabelBarangKeluar", "tb_barang_keluar", "nama_barang", "tabel_barang");
+echo page_click("pageListTabelBarangKeluar", "tb_barang_keluar", "tanggal_keluar", "tabel_barang");
 echo page_next("pageNext", "tb_barang_keluar", "nama_barang", "tabel_barang");
 
 // Filter barang barang

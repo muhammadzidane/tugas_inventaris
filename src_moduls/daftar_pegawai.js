@@ -54,15 +54,18 @@ $(document).ready(function() {
 		tabelKaryawan 	: true
 	},function(responseText) {
 		$("#tabelKaryawan").html(responseText);
+		
 		$(".TRKaryawan").click(function() {
 			let dataKodeKaryawan = $(this).data("kode");
 			let dataNamaKaryawan = $(this).data("nama")
 			location.assign(
 				"barang_inventaris_karyawan.php?kode_karyawan=" + encodeURIComponent(dataKodeKaryawan) + 
 				"&nama_karyawan=" + encodeURIComponent(dataNamaKaryawan)
-				);
+			);
 		})
 	});
+
+	ajaxHidePageNext("files_backend_ajax/backend_daftar_karyawan.php", null);
 	
 	// Total Karyawan
 	$.post("files_backend_ajax/backend_daftar_karyawan.php",{totalKaryawan : true},function(responseText) {	
@@ -74,33 +77,6 @@ $(document).ready(function() {
 	searchTabelAJAX("#search", "files_backend_ajax/backend_daftar_karyawan.php", "#tabelKaryawan", "Nama karyawan tidak ditemukan");
 
 	// Pagination Tabel Karyawan
-	$.ajax({
-		url 	: "files_backend_ajax/backend_daftar_karyawan.php",
-		type 	: "POST",
-		data 	: { paginationTabelKaryawan : true },
-		success : function(responseText) {
-			$("#page-list").html(responseText);
-		}
-	});
-
-	// Page Next
-	$("#page-next").click(function() {
-		let dataPage 			= $(".page-actived").data("page") + 1;
-		let pageListChildrenLength 	= $("#page-list").children().length;
-		$.ajax({
-			url 	: "files_backend_ajax/backend_daftar_karyawan.php",
-			type 	: "POST",
-			data 	: { pageNext : dataPage },
-			success : function(responseText) {
-				$("#tabelKaryawan").html(responseText);
-				for (let i = 1; i <= pageListChildrenLength; i++) {
-					if (dataPage == i) {
-						$(".page-circle").removeClass("page-actived");
-						$(`#page-${i}.page-circle`).addClass("page-actived");
-					}
-				}
-			}
-		});
-	});
+	paginationTabel("files_backend_ajax/backend_daftar_karyawan.php", "#tabelKaryawan");
 
 });

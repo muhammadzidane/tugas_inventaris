@@ -81,16 +81,15 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 			$tambah_akun .= "<div class='column-orange-2 text-center pt-3'>";
 			$tambah_akun .= "<h4 class='font-neue pt-5'>Tambahkan Akun</h4>";
 			$tambah_akun .= "</div>";
-			$tambah_akun .= "</div>";
-			$tambah_akun .= "<div id='ubahPassword' class='d-flex columns '>";
-			$tambah_akun .= "<div class='column-orange-1'><i class='fas fa-user-edit fa-5x'></i></div>";
-			$tambah_akun .= "<div class='column-orange-2 text-center pt-3'>";
-			$tambah_akun .= "<h4 class='font-neue pt-5'>Ubah Password</h4>";
-			$tambah_akun .= "</div>";
-			$tambah_akun .= "</div>";
 
 			hapusModuls($tambah_akun);
 			?>
+			<div id='ubahPassword' class='d-flex columns '>
+				<div class='column-orange-1'><i class='fas fa-user-edit fa-5x'></i></div>
+				<div class='column-orange-2 text-center pt-3'>
+					<h4 class='font-neue pt-5'>Ubah Password</h4>
+				</div>
+			</div>
 			<div class="d-flex columns ">
 				<div class="column-orange-1"><i class="fas fa-user-lock fa-5x"></i></div>
 				<div class="column-orange-2 text-center pt-3">

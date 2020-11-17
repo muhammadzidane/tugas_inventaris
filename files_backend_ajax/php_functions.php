@@ -70,7 +70,7 @@ function tabel_barang($result, $tabelDB) {
 
 		if ($tabelDB == "tb_barang_inventaris_karyawan") {
 			echo "<td class='hapus'><button onclick='buttonHapusBarang(event, this);' 
-				data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
+			data-kode='{$data['kode_barang']}' class='hapusBarang btn btn-danger'>Hapus</td>";
 			echo "</tr>";
 
 		}
@@ -385,7 +385,12 @@ function page_click($post, $nama_tabel, $order_by, $nama_function) {
 					$result 		.= "ORDER BY $order_by ASC LIMIT $i, 10;";
 					$query 		 = mysqli_query($conn, $result);
 				}
-				else {
+
+				if ($nama_tabel == "tb_barang_keluar" || $nama_tabel == "tb_barang_masuk") {
+					$result 		 = "SELECT * FROM $nama_tabel ORDER BY $order_by DESC LIMIT $i, 10;";
+				}
+
+				else if ($nama_tabel != "tb_barang_inventaris_karyawan" || $nama_tabel != "tb_barang_masuk" || $nama_tabel != "tb_barang_keluar") {
 					$result 		 = "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i, 10;";
 				}
 
@@ -404,14 +409,49 @@ function page_next($post, $nama_tabel, $order_by, $nama_function) {
 		$result 	= "SELECT * FROM $nama_tabel;";
 		$query 		= mysqli_query($conn, $result);
 		$counter 	= 2;
-		for ($i=10; $i <= mysqli_affected_rows($conn) ; $i+=10) { 
+		for ($i=10; $i <= mysqli_affected_rows($conn) ; $i+=10) {
+
 			if ($data_page == $counter) {
-				$result 	= "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i,10;";
-			}
+				if ($nama_tabel == "tb_barang_masuk") {
+					$result 	= "SELECT * FROM $nama_tabel ORDER BY tanggal_masuk DESC LIMIT $i,10;";
+				}
+
+				if ($nama_tabel == "tb_barang_keluar") {
+					$result 	= "SELECT * FROM $nama_tabel ORDER BY tanggal_keluar DESC LIMIT $i,10;";
+				}
+				
+				if ($nama_tabel != "tb_barang_keluar" || $nama_tabel != "tb_barang_masuk") {
+					$result 	= "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i,10;";
+				}
+			} 
 			$counter++;
 		}
 		$nama_function = $nama_function($result, $nama_tabel);
 		return $nama_function;
+	}
+}
+
+function hidePageNext($nama_tabel_d_b, $kondisi) {
+	global $conn;
+
+	if (isset($_POST["hidePageNext"])) {
+		$kode 		=  $_POST["hidePageNext"];
+
+		if ($nama_tabel_d_b == "tb_barang_inventaris_karyawan") {
+			$result 	= "SELECT * FROM $nama_tabel_d_b WHERE $kondisi='$kode';";
+		}
+		else {
+			$result 	= "SELECT * FROM $nama_tabel_d_b;";
+		}
+
+		$query 		= mysqli_query($conn, $result);
+
+		if (mysqli_affected_rows($conn) <= 10  ) {
+			echo "<= 10";
+		}
+		else {
+			echo ">= 10";
+		}
 	}
 }
 

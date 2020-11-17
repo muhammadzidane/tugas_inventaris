@@ -104,9 +104,9 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 				</div>
 			</div>
 		</div>
-		<?php
-			hapusModuls("<button id='tambahBarang' class='btn btn-primary'><i class='fas fa-box-open'></i>+</i> Tambahkan Barang</button>");
-		?>
+		<a href='tambah_barang.php'>
+			<button id='tambahBarang' class='btn btn-primary'><i class='fas fa-box-open'></i>+</i> Tambahkan Barang</button>
+		</a>
 		<div id="formTambahBarang"></div>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">

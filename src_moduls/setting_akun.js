@@ -94,6 +94,8 @@ $(document).ready(function() {
 		}	
 	});
 
+	ajaxHidePageNext("files_backend_ajax/backend_setting_akun.php", null);
+
 	$("#tambahAkun").click(function() {
 		location.assign("tambah_akun.php");
 	});
@@ -107,32 +109,5 @@ $(document).ready(function() {
 	searchTabelAJAX("#searchUsername", "files_backend_ajax/backend_setting_akun.php", "#tabelUsers", "Username tidak ditemukan");
 
 	// Pagination username
-	$.ajax({
-		url 	: "files_backend_ajax/backend_setting_akun.php",
-		type 	: "POST",
-		data 	: { paginationTabelUsername : true },
-		success : function(responseText) {
-			$("#page-list").html(responseText);
-		}
-	});
-
-	// Page Next
-	$("#page-next").click(function() {
-		let dataPage 						= $(".page-actived").data("page") + 1;
-		let pageListChildrenLength 	= $("#page-list").children().length;
-		$.ajax({
-			url 	: "files_backend_ajax/backend_setting_akun.php",
-			type 	: "POST",
-			data 	: { pageNext : dataPage },
-			success : function(responseText) {
-				$("#tabelUsers").html(responseText);
-				for (let i = 1; i <= pageListChildrenLength; i++) {
-					if (dataPage == i) {
-						$(".page-circle").removeClass("page-actived");
-						$(`#page-${i}.page-circle`).addClass("page-actived");
-					}
-				}
-			}
-		});
-	});
+	paginationTabel("files_backend_ajax/backend_setting_akun.php", "#tabelUsers");
 });

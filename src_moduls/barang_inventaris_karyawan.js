@@ -26,13 +26,14 @@ function pageLink(button) {
 		type 	: "POST",
 		data 	: { 
 			pageListTabelBarang 		: dataPage,
-			kodeKaryawan				: "<?= $url_kode_karyawan ?>", 
+			kodeKaryawan				: kodeKaryawan, 
 			pageListChildrenLength 	: pageListChildrenLength 
 		},
 		success : function(responseText) {
 			$("#tabelBarangInvKaryawan").html(responseText);
 		}
 	});
+
 	for (let i = 1; i <= pageListChildrenLength; i++) {
 		if (dataPage == i) {
 			$(".page-circle").removeClass("page-actived");	
@@ -142,11 +143,15 @@ $(document).ready(function() {
 	$.ajax({
 		url 		: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
 		type 		: "POST",
-		data 		: { tabelBarangInvKaryawan : kodeKaryawan },
+		data 		: { 
+			tabelBarangInvKaryawan 	: kodeKaryawan 
+		},
 		success		:function(responseText) {	
 			$("#tabelBarangInvKaryawan").html(responseText);
 		}	
 	});
+
+	ajaxHidePageNext("files_backend_ajax/backend_barang_inventaris_karyawan.php", $("#kodeKaryawan").text());
 
 	searchTabelAJAX(
 		"#searchBarang", "files_backend_ajax/backend_barang_inventaris_karyawan.php", 
@@ -154,34 +159,8 @@ $(document).ready(function() {
 	);
 	
 	// Pagination Tabel Barang
-	$.ajax({
-		url 	: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-		type 	: "POST",
-		data 	: { paginationTabelBarang : kodeKaryawan },
-		success : function(responseText) {
-			$("#page-list").html(responseText);
-		}
-	});
-	
-	// Page Next
-	$("#page-next").click(function() {
-		let dataPage 						= $(".page-actived").data("page") + 1;
-		let pageListChildrenLength 	= $("#page-list").children().length;
-		$.ajax({
-			url 	: "files_backend_ajax/backend_barang_inventaris_karyawan.php",
-			type 	: "POST",
-			data 	: { pageNext : dataPage },
-			success : function(responseText) {
-				$("#tabelKaryawan").html(responseText);
-				for (let i = 1; i <= pageListChildrenLength; i++) {
-					if (dataPage == i) {
-						$(".page-circle").removeClass("page-actived");
-						$(`#page-${i}.page-circle`).addClass("page-actived");
-					}
-				}
-			}
-		});
-	});
+	paginationTabel("files_backend_ajax/backend_barang_inventaris_karyawan.php", "#tabelBarangInvKaryawan");
+
 
 	// Jumlah Semua Barang
 	$.post("files_backend_ajax/backend_barang_inventaris_karyawan.php",{ totalSemuaBarang : kodeKaryawan },function(responseText) {	
@@ -257,8 +236,31 @@ $(document).ready(function() {
 				});
 			}
 		});
+
+
+		let pageListChildrenLength 	= $("#page-list").children().length;
+		for (let i = 1; i <= pageListChildrenLength; i++) {
+			$("#page-" + i).removeAttr("onclick");
+			$("#page-" + i).click(function() {
+				let dataPage 						= $(this).data("page");
+				$.ajax({
+					url 		: "files_backend_ajax/backend_data_barang.php",
+					type 		: "POST",
+					data 		: { pageListTabelBarang : dataPage, pageListChildrenLength : pageListChildrenLength },
+					success	: function(responseText) {
+						$("#tabelBarangInvKaryawan").html(responseText);
+						$(".buttonHapus").remove();
+						$(".buttonEdit").remove();
+						console.log(responseText);
+					}
+				});
+				for (let i = 1; i <= pageListChildrenLength; i++) {
+					if (dataPage == i) {
+						$(".page-circle").removeClass("page-actived");	
+						$(this).addClass("page-actived");
+					}
+				}
+			});
+		}
 	});
-
-
-
 });

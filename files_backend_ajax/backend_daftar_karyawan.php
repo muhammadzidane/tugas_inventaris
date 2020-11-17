@@ -17,6 +17,8 @@ if (isset($_POST['tabelKaryawan'])) {
 	tabel_karyawan($result);
 }
 
+hidePageNext("tb_karyawan", null);
+
 // Total Karyawan
 if (isset($_POST['totalKaryawan'])) {
 	$result 	= "SELECT * FROM tb_karyawan;";

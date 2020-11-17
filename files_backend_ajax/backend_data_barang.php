@@ -20,6 +20,8 @@ if (isset($_POST['tabelBarang'])) {
 	tabel_barang($result, "tb_barang");	
 }
 
+hidePageNext("tb_barang", null);
+
 // Total barang barang 
 echo jumlah_barang("totalSemuaBarang" ,"tb_barang", "semua");
 echo jumlah_barang("totalBarangElektronik" ,"tb_barang", "Elektronik");

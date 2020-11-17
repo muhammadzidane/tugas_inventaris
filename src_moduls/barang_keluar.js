@@ -36,6 +36,8 @@ $(document).ready(function() {
 		}
 	});
 	
+	ajaxHidePageNext("files_backend_ajax/backend_barang_keluar.php", null);
+
 	// Jumlah Semua Barang
 	$.post("files_backend_ajax/backend_barang_keluar.php",{ totalSemuaBarang : true },function(responseText) {	
 		$("#totalSemuaBarang").html(responseText);
@@ -96,31 +98,5 @@ $(document).ready(function() {
 	searchTabelAJAX("#searchBarang", "files_backend_ajax/backend_barang_keluar.php", "#tabelBarangKeluar", "Nama barang tidak ditemukan");
 	
 	// Pagination Tabel Barang
-	$.ajax({
-		url 	: "files_backend_ajax/backend_barang_keluar.php",
-		type 	: "POST",
-		data 	: { paginationTabelBarangKeluar : true },
-		success : function(responseText) {
-			$("#page-list").html(responseText);
-		}
-	});
-	
-	$("#page-next").click(function() {
-		$.ajax({
-			url 	: "files_backend_ajax/backend_barang_keluar.php",
-			type 	: "POST",
-			data 	: { pageNext : true },
-			success : function(responseText) {
-				let pageListChildrenLength 	= $("#page-list").children().length;
-				let dataPage 				= $(".page-actived").data("page") + 1;
-				$("#tabelBarangKeluar").html(responseText);
-				for (let i = 1; i <= pageListChildrenLength; i++) {
-					if (dataPage == i) {
-						$(".page-circle").removeClass("page-actived");
-						$(`#page-${i}.page-circle`).addClass("page-actived");
-					}
-				}
-			}
-		});
-	});
-}); // END EVENT LOAD
+	paginationTabel("files_backend_ajax/backend_barang_keluar.php", "#tabelBarangKeluar");
+}); // END EVENT loa

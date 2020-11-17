@@ -32,6 +32,8 @@ $(document).ready(function() {
 		}
 	});
 
+	ajaxHidePageNext("files_backend_ajax/backend_barang_masuk.php", null);
+
 	// Filter Jenis Barang
 	$("#filterJenisBarang").change(function() {
 		let valFilterJenisBarang = $("#filterJenisBarang").val();
@@ -66,35 +68,7 @@ $(document).ready(function() {
 
 	// Search nama barang
 	searchTabelAJAX("#searchBarang", "files_backend_ajax/backend_barang_masuk.php", "#tabelBarangMasuk", "Nama barang tidak ditemukan");
-
-	// Pagination Tabel Barang
-	$.ajax({
-		url 	: "files_backend_ajax/backend_barang_masuk.php",
-		type 	: "POST",
-		data 	: { paginationTabelBarangMasuk : true },
-		success : function(responseText) {
-			$("#page-list").html(responseText);
-		}
-	});
-
-	$("#page-next").click(function() {
-		let dataPage 						= $(".page-actived").data("page") + 1;
-		let pageListChildrenLength 	= $("#page-list").children().length;
-		$.ajax({
-			url 	: "files_backend_ajax/backend_barang_masuk.php",
-			type 	: "POST",
-			data 	: { pageNext : dataPage },
-			success : function(responseText) {
-				$("#tabelBarangMasuk").html(responseText);
-				for (let i = 1; i <= pageListChildrenLength; i++) {
-					if (dataPage == i) {
-						$(".page-circle").removeClass("page-actived");
-						$(`#page-${i}.page-circle`).addClass("page-actived");
-					}
-				}
-			}
-		});
-	});
+	paginationTabel("files_backend_ajax/backend_barang_masuk.php", "#tabelBarangMasuk");
 
 	// Logout
 	$("#logout").click(function() {

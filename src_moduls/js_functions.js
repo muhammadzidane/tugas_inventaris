@@ -244,13 +244,75 @@ function searchTabelAJAX(inputNode, fileBackend, tabelNode, pesan) {
 			searchTabelBarangInvKaryawan 	: valSearch
 		},function(responseText) {
 			if (responseText == pesan) {
-				$("#pesan").html(responseText);  // Nama ID untuk AJAX wajib "pesan" 
 				$("#pesan").show();
+				$("#pesan").html(responseText);  // Nama ID untuk AJAX wajib "pesan" 
 			}
 			else {
 				$("#pesan").hide();
 				$(tabelNode).html(responseText);
 			}
 		});
+	});
+}
+
+function paginationTabel(backendFile, tabelNode) {
+	// Saat load, muncul tombol pagination di web browsernya
+	let kodeKaryawan = $("#kodeKaryawan").text();
+
+	$.ajax({
+		url 	: backendFile,
+		type 	: "POST",
+		data 	: { 
+			paginationTabelKaryawan 			: true,
+			paginationTabelBarang 				: true,
+			paginationTabelBarangMasuk 		: true,
+			paginationTabelBarangKeluar 		: true,
+			paginationTabelUsername 			: true,
+			paginationTabelBarangInvKaryawan : kodeKaryawan 
+		},
+		success : function(responseText) {
+			$("#page-list").html(responseText);
+		}
+	});
+
+	// Event click, untuk next tabel
+	$("#page-next").click(function() {
+		let dataPage 						= $(".page-actived").data("page") + 1;
+		let pageListChildrenLength 	= $("#page-list").children().length;
+		$.ajax({
+			url 	: backendFile,
+			type 	: "POST",
+			data 	: { pageNext : dataPage },
+			success : function(responseText) {
+				$(tabelNode).html(responseText);
+				
+				for (let i = 1; i <= pageListChildrenLength; i++) {
+					if (dataPage == i) {
+						$(".page-circle").removeClass("page-actived");
+						$(`#page-${i}.page-circle`).addClass("page-actived");
+					}
+				}
+			}
+		});
+	});
+}
+
+function ajaxHidePageNext(backendFile, valKondisiQueryNode) {
+	let kodeKondisi 	= valKondisiQueryNode;
+
+	$.ajax({
+		url 					: backendFile,
+		type 					: "POST",
+		data 					: { 
+			hidePageNext	: kodeKondisi 
+		},
+		success				: function(responseText) {	
+			if (responseText == "<= 10") {
+				$("#page-next").hide();
+			}
+			else {
+				$("#page-next").show();	
+			}
+		}	
 	});
 }

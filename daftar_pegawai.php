@@ -63,11 +63,9 @@ cek_session();
 				</div>
 			</div>
 		</div>
-		<?php
-			$button_tambah_karyawan 	 = "<a href='tambah_karyawan.php'><button id='tambahKaryawan'";
-			$button_tambah_karyawan 	.= "class='btn btn-primary'><i class='fas fa-user-plus'></i>Tambahkan Karyawan</button></a>'";
-			hapusModuls($button_tambah_karyawan);
-		?>
+		<a href='tambah_karyawan.php'>
+			<button id='tambahKaryawan' class='btn btn-primary'><i class='fas fa-user-plus'></i>Tambahkan Karyawan</button>
+		</a>
 		<div class="d-flex justify-content-between filsearch">
 			<div class="search-icon">
 				<input id="search" type="text" name="search" autocomplete="off" placeholder="Cari Nama Karyawan">
