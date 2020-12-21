@@ -285,7 +285,7 @@ function paginationTabel(backendFile, tabelNode) {
 			data 	: { pageNext : dataPage },
 			success : function(responseText) {
 				$(tabelNode).html(responseText);
-				
+				console.log(dataPage);
 				for (let i = 1; i <= pageListChildrenLength; i++) {
 					if (dataPage == i) {
 						$(".page-circle").removeClass("page-actived");

@@ -413,14 +413,14 @@ function page_next($post, $nama_tabel, $order_by, $nama_function) {
 
 			if ($data_page == $counter) {
 				if ($nama_tabel == "tb_barang_masuk") {
-					$result 	= "SELECT * FROM $nama_tabel ORDER BY tanggal_masuk DESC LIMIT $i,10;";
+					$result 	= "SELECT * FROM $nama_tabel ORDER BY $order_by DESC LIMIT $i,10;";
 				}
 
 				if ($nama_tabel == "tb_barang_keluar") {
-					$result 	= "SELECT * FROM $nama_tabel ORDER BY tanggal_keluar DESC LIMIT $i,10;";
+					$result 	= "SELECT * FROM $nama_tabel ORDER BY $order_by DESC LIMIT $i,10;";
 				}
 				
-				if ($nama_tabel != "tb_barang_keluar" || $nama_tabel != "tb_barang_masuk") {
+				if ($nama_tabel != "tb_barang_keluar" && $nama_tabel != "tb_barang_masuk") {
 					$result 	= "SELECT * FROM $nama_tabel ORDER BY $order_by ASC LIMIT $i,10;";
 				}
 			} 

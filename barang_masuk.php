@@ -19,7 +19,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
+	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="nav-link text-white" href="home.php">Home</a>
@@ -49,22 +49,20 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	</nav>
 	<div class="container">
 		<h1 class="judul font-neue">Barang Masuk</h1>
-		<div class="cards">
-			<div class="d-flex justify-content-between filsearch">
-				<div class="search-icon">
-					<input id="searchBarang" type="text" name="searchBarang" autocomplete="off"
-					placeholder="Cari Nama Barang">
-					<i class="fas fa-search"></i>
-				</div>
-
-				<div id="pesan"></div>
-				<ul class="pagination float-right">
-					<div id="page-list"></div>
-					<li id="page-next" class="page-item">
-						<span class="page-circle"><i class="fas fa-caret-right"></i></span>
-					</li>
-				</ul>
+		<div class="d-flex justify-content-between filsearch">
+			<div class="search-icon">
+				<input id="searchBarang" type="text" name="searchBarang" autocomplete="off"
+				placeholder="Cari Nama Barang">
+				<i class="fas fa-search"></i>
 			</div>
+
+			<div id="pesan"></div>
+			<ul class="pagination float-right">
+				<div id="page-list"></div>
+				<li id="page-next" class="page-item">
+					<span class="page-circle"><i class="fas fa-caret-right"></i></span>
+				</li>
+			</ul>
 		</div>
 		<div>
 			<select id="filterJenisBarang">

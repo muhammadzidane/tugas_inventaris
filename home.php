@@ -16,36 +16,34 @@ cek_session();
 </head>
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link text-white actived" href="home.php">Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="daftar_pegawai.php">Daftar Pegawai</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="data_barang.php">Data Barang</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="barang_masuk.php">Barang Masuk</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="barang_keluar.php">Barang Keluar</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="setting_akun.php">Setting Akun</a>
-				</li>
-			</ul>
-			<a href="index.php" class="ml-auto">
-				<button id="logout" class="btn btn-warning btn-sm">
-					Logout
-					<i class="fas fa-sign-out-alt"></i>
-				</button>
-			</a>
-		</nav>
-	</header>
+	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link text-white actived" href="home.php">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="daftar_pegawai.php">Daftar Pegawai</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="data_barang.php">Data Barang</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="barang_masuk.php">Barang Masuk</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="barang_keluar.php">Barang Keluar</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="setting_akun.php">Setting Akun</a>
+			</li>
+		</ul>
+		<a href="index.php" class="ml-auto">
+			<button id="logout" class="btn btn-warning btn-sm">
+				Logout
+				<i class="fas fa-sign-out-alt"></i>
+			</button>
+		</a>
+	</nav>
 	<div class="container">
 		<div class="judul font-neue w-25">Daftar Inventaris Karyawan IT+</div>
 		<div class="cards">

@@ -1,7 +1,4 @@
 <?php 
-
-$conn 	= mysqli_connect("localhost","root","","tugas_inventaris");
-
 require_once 'php_functions.php';
 
 // Ambil values dari <input>
@@ -31,7 +28,7 @@ echo searchTabel("searchTabelBarangKeluar", "tb_barang_keluar", "nama_barang", "
 // Pagination tabel barang
 echo pagination_links("paginationTabelBarangKeluar","tb_barang_keluar");
 echo page_click("pageListTabelBarangKeluar", "tb_barang_keluar", "tanggal_keluar", "tabel_barang");
-echo page_next("pageNext", "tb_barang_keluar", "nama_barang", "tabel_barang");
+echo page_next("pageNext", "tb_barang_keluar", "tanggal_keluar", "tabel_barang");
 
 // Filter barang barang
 echo filter_barang('filterSemua',"tb_barang_keluar" ,"Semua");

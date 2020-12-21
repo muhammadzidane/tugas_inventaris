@@ -20,7 +20,7 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
+	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="nav-link text-white" href="home.php">Home</a>
@@ -48,7 +48,7 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 			</button>
 		</a>
 	</nav>
-	<div id="daftarPegawai" class="container">
+	<div class="container">
 		<h1 class="judul font-neue">Setting Akun</h1>
 		<div id="pesanLoad">
 			<?php 
@@ -81,6 +81,7 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 			$tambah_akun .= "<div class='column-orange-2 text-center pt-3'>";
 			$tambah_akun .= "<h4 class='font-neue pt-5'>Tambahkan Akun</h4>";
 			$tambah_akun .= "</div>";
+			$tambah_akun .= "</div>";
 
 			hapusModuls($tambah_akun);
 			?>
@@ -97,7 +98,6 @@ $sess_username 		= (isset($_SESSION['username'])) ? $_SESSION['username'] : "";
 				</div>
 			</div>
 		</div>
-
 	</div>
 	<?php 
 	$tabel_users  		 = "";

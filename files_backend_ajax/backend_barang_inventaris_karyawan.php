@@ -13,7 +13,6 @@ if (isset($_POST["tabelBarangInvKaryawan"])) {
 }
 
 hidePageNext("tb_barang_inventaris_karyawan", "kode_karyawan");
-
 // Search barang
 $kode_karyawan 	= (isset($_POST["kodeKaryawan"])) ? $_POST["kodeKaryawan"] : ""; 	
 echo searchTabel("searchTabelBarangInvKaryawan", "tb_barang_inventaris_karyawan", "nama_barang", 
@@ -132,9 +131,4 @@ echo jumlah_barang("totalBarangElektronik" ,"tb_barang_inventaris_karyawan", "El
 echo jumlah_barang("totalBarangAlatTulis" ,"tb_barang_inventaris_karyawan", "Alat Tulis");
 echo jumlah_barang("totalBarangKendaraan" ,"tb_barang_inventaris_karyawan", "Kendaraan");
 echo jumlah_barang("totalBarangLainnya" ,"tb_barang_inventaris_karyawan", "Lainnya");
-
-
-if (isset($_POST["test"])) {
-	echo "wkwk";
-}
 ?>

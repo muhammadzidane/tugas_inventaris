@@ -13,9 +13,9 @@ li a:hover {
 	border-top: 3px solid #DEDBC1;
 	opacity: 0.5;
 }
-table tr:hover {
-	background-color: #FFE400;
-	color: #FFFFFF;
+table tr:hover:not(.tableFirstChild) {
+	background-color: #e8ffff;
+	color: black;
 	cursor: pointer;
 }
 .actived {

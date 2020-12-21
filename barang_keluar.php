@@ -19,7 +19,7 @@ $sess_role 		= (isset($_SESSION['role'])) ? $_SESSION['role'] : "";
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-tomato fixed-top">
+	<nav class="navbar navbar-expand-sm bg-tomato sticky-top">
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="nav-link text-white" href="home.php">Home</a>
